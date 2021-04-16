@@ -283,5 +283,17 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- JSR305 annotations for code safety -->
+		<!-- https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305 -->
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>3.0.2</version>
+			<scope>
+				<!-- Source retention only -->
+				provided
+			</scope>
+		</dependency>
+
 	</dependencies>
 </project>
