@@ -56,6 +56,30 @@
 	<build>
 		<plugins>
 
+			<!-- Generate package-info.java files -->
+			<!-- https://github.com/willhains/package-info-maven-plugin -->
+			<plugin>
+				<groupId>io.github.willhains</groupId>
+				<artifactId>package-info-maven-plugin</artifactId>
+				<version>1.2.0</version>
+				<configuration>
+					<packages>
+						<package>
+							<pattern>**</pattern>
+							<template>${project.build.sourceDirectory}/../templates/package-info.java</template>
+						</package>
+					</packages>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-package-info</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- Exclude javax.* from package -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

@@ -8,3 +8,11 @@ UDTopia uses `@Nullable`, `@Nonnull`, and `@NonNullByDefault` strictly to annota
 
 UDTopia reimplements `@Nullable` to allow `TYPE_USE`, which means `@Nullable` should always appear immediately to the left of the type.
 Think of `@Nullable String` as a *supertype* of `@Nonnull String`.
+
+## Everything is Non-Null by Default
+
+The Maven build includes a handy [Package Info Maven Plugin][pkginfo] by [Ryan Bohn][bohnman] to automatically generate `package-info.java` files for every package, declaring `@NonNullByDefault`.
+So every un-annotated type in UDTopia is implicitly `@Nonnull`.
+
+[pkginfo]: https://github.com/willhains/package-info-maven-plugin
+[bohnman]: https://github.com/bohnman
