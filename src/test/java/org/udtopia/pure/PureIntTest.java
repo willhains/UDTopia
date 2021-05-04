@@ -259,4 +259,161 @@ public class PureIntTest
 			}
 		}
 	}
+
+	@Test public void shouldBeGreaterThan()
+	{
+		for (final int n: _VALUES)
+		{
+			final Count x = new Count(n);
+			for (final int o: _VALUES)
+			{
+				final Count y = new Count(o);
+				if (n > o)
+				{
+					assertThat(x.isGreaterThan(y), is(true));
+					assertThat(x.isGreaterThan(o), is(true));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldNotBeGreaterThan()
+	{
+		for (final int n: _VALUES)
+		{
+			final Count x = new Count(n);
+			for (final int o: _VALUES)
+			{
+				final Count y = new Count(o);
+				if (n <= o)
+				{
+					assertThat(x.isGreaterThan(y), is(false));
+					assertThat(x.isGreaterThan(o), is(false));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldBeGreaterThanOrEqualTo()
+	{
+		for (final int n: _VALUES)
+		{
+			final Count x = new Count(n);
+			for (final int o: _VALUES)
+			{
+				final Count y = new Count(o);
+				if (n >= o)
+				{
+					assertThat(x.isGreaterThanOrEqualTo(y), is(true));
+					assertThat(x.isGreaterThanOrEqualTo(o), is(true));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldNotBeGreaterThanOrEqualTo()
+	{
+		for (final int n: _VALUES)
+		{
+			final Count x = new Count(n);
+			for (final int o: _VALUES)
+			{
+				final Count y = new Count(o);
+				if (n < o)
+				{
+					assertThat(x.isGreaterThanOrEqualTo(y), is(false));
+					assertThat(x.isGreaterThanOrEqualTo(o), is(false));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldBeLessThan()
+	{
+		for (final int n: _VALUES)
+		{
+			final Count x = new Count(n);
+			for (final int o: _VALUES)
+			{
+				final Count y = new Count(o);
+				if (n < o)
+				{
+					assertThat(x.isLessThan(y), is(true));
+					assertThat(x.isLessThan(o), is(true));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldNotBeLessThan()
+	{
+		for (final int n: _VALUES)
+		{
+			final Count x = new Count(n);
+			for (final int o: _VALUES)
+			{
+				final Count y = new Count(o);
+				if (n >= o)
+				{
+					assertThat(x.isLessThan(y), is(false));
+					assertThat(x.isLessThan(o), is(false));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldBeLessThanOrEqualTo()
+	{
+		for (final int n: _VALUES)
+		{
+			final Count x = new Count(n);
+			for (final int o: _VALUES)
+			{
+				final Count y = new Count(o);
+				if (n <= o)
+				{
+					assertThat(x.isLessThanOrEqualTo(y), is(true));
+					assertThat(x.isLessThanOrEqualTo(o), is(true));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldNotBeLessThanOrEqualTo()
+	{
+		for (final int n: _VALUES)
+		{
+			final Count x = new Count(n);
+			for (final int o: _VALUES)
+			{
+				final Count y = new Count(o);
+				if (n > o)
+				{
+					assertThat(x.isLessThanOrEqualTo(y), is(false));
+					assertThat(x.isLessThanOrEqualTo(o), is(false));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldCompareToSupplier()
+	{
+		final Count x = new Count(5);
+
+		assertThat(x.isGreaterThan(new Count2(3)), is(true));
+		assertThat(x.isGreaterThan(new Count2(5)), is(false));
+		assertThat(x.isGreaterThan(new Count2(6)), is(false));
+
+		assertThat(x.isGreaterThanOrEqualTo(new Count2(3)), is(true));
+		assertThat(x.isGreaterThanOrEqualTo(new Count2(5)), is(true));
+		assertThat(x.isGreaterThanOrEqualTo(new Count2(6)), is(false));
+
+		assertThat(x.isLessThan(new Count2(3)), is(false));
+		assertThat(x.isLessThan(new Count2(5)), is(false));
+		assertThat(x.isLessThan(new Count2(6)), is(true));
+
+		assertThat(x.isLessThanOrEqualTo(new Count2(3)), is(false));
+		assertThat(x.isLessThanOrEqualTo(new Count2(5)), is(true));
+		assertThat(x.isLessThanOrEqualTo(new Count2(6)), is(true));
+	}
 }

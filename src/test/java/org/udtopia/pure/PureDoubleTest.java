@@ -297,4 +297,161 @@ public class PureDoubleTest
 			}
 		}
 	}
+
+	@Test public void shouldBeGreaterThan()
+	{
+		for (final double d: _VALUES)
+		{
+			final Height x = new Height(d);
+			for (final double e: _VALUES)
+			{
+				final Height y = new Height(e);
+				if (d > e)
+				{
+					assertThat(x.isGreaterThan(y), is(true));
+					assertThat(x.isGreaterThan(e), is(true));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldNotBeGreaterThan()
+	{
+		for (final double d: _VALUES)
+		{
+			final Height x = new Height(d);
+			for (final double e: _VALUES)
+			{
+				final Height y = new Height(e);
+				if (compare(d, e) <= 0) // +ve zero == -ve zero
+				{
+					assertThat(x.isGreaterThan(y), is(false));
+					assertThat(x.isGreaterThan(e), is(false));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldBeGreaterThanOrEqualTo()
+	{
+		for (final double d: _VALUES)
+		{
+			final Height x = new Height(d);
+			for (final double e: _VALUES)
+			{
+				final Height y = new Height(e);
+				if (compare(d, e) >= 0) // +ve zero == -ve zero
+				{
+					assertThat(x.isGreaterThanOrEqualTo(y), is(true));
+					assertThat(x.isGreaterThanOrEqualTo(e), is(true));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldNotBeGreaterThanOrEqualTo()
+	{
+		for (final double d: _VALUES)
+		{
+			final Height x = new Height(d);
+			for (final double e: _VALUES)
+			{
+				final Height y = new Height(e);
+				if (d < e)
+				{
+					assertThat(x.isGreaterThanOrEqualTo(y), is(false));
+					assertThat(x.isGreaterThanOrEqualTo(e), is(false));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldBeLessThan()
+	{
+		for (final double d: _VALUES)
+		{
+			final Height x = new Height(d);
+			for (final double e: _VALUES)
+			{
+				final Height y = new Height(e);
+				if (d < e)
+				{
+					assertThat(x.isLessThan(y), is(true));
+					assertThat(x.isLessThan(e), is(true));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldNotBeLessThan()
+	{
+		for (final double d: _VALUES)
+		{
+			final Height x = new Height(d);
+			for (final double e: _VALUES)
+			{
+				final Height y = new Height(e);
+				if (compare(d, e) >= 0) // +ve zero == -ve zero
+				{
+					assertThat(x.isLessThan(y), is(false));
+					assertThat(x.isLessThan(e), is(false));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldBeLessThanOrEqualTo()
+	{
+		for (final double d: _VALUES)
+		{
+			final Height x = new Height(d);
+			for (final double e: _VALUES)
+			{
+				final Height y = new Height(e);
+				if (compare(d, e) <= 0) // +ve zero == -ve zero
+				{
+					assertThat(x.isLessThanOrEqualTo(y), is(true));
+					assertThat(x.isLessThanOrEqualTo(e), is(true));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldNotBeLessThanOrEqualTo()
+	{
+		for (final double d: _VALUES)
+		{
+			final Height x = new Height(d);
+			for (final double e: _VALUES)
+			{
+				final Height y = new Height(e);
+				if (d > e)
+				{
+					assertThat(x.isLessThanOrEqualTo(y), is(false));
+					assertThat(x.isLessThanOrEqualTo(e), is(false));
+				}
+			}
+		}
+	}
+
+	@Test public void shouldCompareToSupplier()
+	{
+		final Height x = new Height(5.0);
+
+		assertThat(x.isGreaterThan(new Height2(3.0)), is(true));
+		assertThat(x.isGreaterThan(new Height2(5.0)), is(false));
+		assertThat(x.isGreaterThan(new Height2(5.1)), is(false));
+
+		assertThat(x.isGreaterThanOrEqualTo(new Height2(3.0)), is(true));
+		assertThat(x.isGreaterThanOrEqualTo(new Height2(5.0)), is(true));
+		assertThat(x.isGreaterThanOrEqualTo(new Height2(5.1)), is(false));
+
+		assertThat(x.isLessThan(new Height2(3.0)), is(false));
+		assertThat(x.isLessThan(new Height2(5.0)), is(false));
+		assertThat(x.isLessThan(new Height2(5.1)), is(true));
+
+		assertThat(x.isLessThanOrEqualTo(new Height2(3.0)), is(false));
+		assertThat(x.isLessThanOrEqualTo(new Height2(5.0)), is(true));
+		assertThat(x.isLessThanOrEqualTo(new Height2(5.1)), is(true));
+	}
 }

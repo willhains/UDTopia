@@ -116,4 +116,58 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 	 * @return negative if {@code this} is less than {@code that}, positive if greater, or zero if equal.
 	 */
 	public final int compareTo(final DoubleSupplier that) { return compareTo(that.getAsDouble()); }
+
+	/**
+	 * @param that the value to compare against.
+	 * @return {@code true} if the raw value is greater than (but not equal to) {@code that}; {@code false} otherwise.
+	 */
+	public final boolean isGreaterThan(final double that) { return this.getAsDouble() > that; }
+
+	/**
+	 * @param that a supplier of the value to compare against.
+	 * @return {@code true} if the raw value is greater than (but not equal to) the value supplied by {@code that}.
+	 */
+	public final boolean isGreaterThan(final DoubleSupplier that) { return this.getAsDouble() > that.getAsDouble(); }
+
+	/**
+	 * @param that the value to compare against.
+	 * @return {@code true} if the raw value is greater than or equal to {@code that}; {@code false} otherwise.
+	 */
+	public final boolean isGreaterThanOrEqualTo(final double that) { return this.getAsDouble() >= that; }
+
+	/**
+	 * @param that a supplier of the value to compare against.
+	 * @return {@code true} if the raw value is greater than or equal to the value supplied by {@code that}.
+	 */
+	public final boolean isGreaterThanOrEqualTo(final DoubleSupplier that)
+	{
+		return this.getAsDouble() >= that.getAsDouble();
+	}
+
+	/**
+	 * @param that the value to compare against.
+	 * @return {@code true} if the raw value is less than (but not equal to) {@code that}; {@code false} otherwise.
+	 */
+	public final boolean isLessThan(final double that) { return this.getAsDouble() < that; }
+
+	/**
+	 * @param that a supplier of the value to compare against.
+	 * @return {@code true} if the raw value is less than (but not equal to) the value supplied by {@code that}.
+	 */
+	public final boolean isLessThan(final DoubleSupplier that) { return this.getAsDouble() < that.getAsDouble(); }
+
+	/**
+	 * @param that the value to compare against.
+	 * @return {@code true} if the raw value is less than or equal to {@code that}; {@code false} otherwise.
+	 */
+	public final boolean isLessThanOrEqualTo(final double that) { return this.getAsDouble() <= that; }
+
+	/**
+	 * @param that a supplier of the value to compare against.
+	 * @return {@code true} if the raw value is less than or equal to the value supplied by {@code that}.
+	 */
+	public final boolean isLessThanOrEqualTo(final DoubleSupplier that)
+	{
+		return this.getAsDouble() <= that.getAsDouble();
+	}
 }

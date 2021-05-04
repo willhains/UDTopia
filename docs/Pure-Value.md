@@ -208,3 +208,9 @@ We can use `compareTo(This)` to compare with other values of the same class.
   `max(This)`  
   Return the lesser or greater of two values.
   For example, we can easily find the maximum value in a stream, using: `stream.reduce(MyUDT::max)`
+
+- `isGreaterThan(This)`  
+  `isLessThan(This)`  
+  `isGreaterThanOrEqualTo(This)`  
+  `isLessThanOrEqualTo(This)`  
+  Compare two values.

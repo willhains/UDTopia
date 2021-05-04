@@ -26,4 +26,28 @@ public @Value interface UDTComparable<This extends UDTComparable<This>> extends 
 		@SuppressWarnings("unchecked") final This self = (This) this;
 		return compareTo(that) <= 0 ? self : that;
 	}
+
+	/**
+	 * @param that a value to compare with.
+	 * @return {@code true} if {@code this} is greater than (but not equal to) {@code that}.
+	 */
+	default boolean isGreaterThan(final This that) { return compareTo(that) > 0; }
+
+	/**
+	 * @param that a value to compare with.
+	 * @return {@code true} if {@code this} is greater than or equal to {@code that}.
+	 */
+	default boolean isGreaterThanOrEqualTo(final This that) { return compareTo(that) >= 0; }
+
+	/**
+	 * @param that a value to compare with.
+	 * @return {@code true} if {@code this} is less than (but not equal to) {@code that}.
+	 */
+	default boolean isLessThan(final This that) { return compareTo(that) < 0; }
+
+	/**
+	 * @param that a value to compare with.
+	 * @return {@code true} if {@code this} is less than or equal to {@code that}.
+	 */
+	default boolean isLessThanOrEqualTo(final This that) { return compareTo(that) <= 0; }
 }

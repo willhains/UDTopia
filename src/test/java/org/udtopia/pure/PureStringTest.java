@@ -216,4 +216,72 @@ public class PureStringTest
 		assertThat(x.compareTo("t"), is(equalTo(0)));
 		assertThat(x.compareTo(new UserId2("t")), is(equalTo(0)));
 	}
+
+	@Test public void shouldBeGreaterThan()
+	{
+		final UserId x = new UserId("banana");
+		assertThat(x.isGreaterThan("apple"), is(true));
+		assertThat(x.isGreaterThan(new UserId2("apple")), is(true));
+	}
+
+	@Test public void shouldNotBeGreaterThan()
+	{
+		final UserId x = new UserId("apple");
+		final UserId y = new UserId("banana");
+		assertThat(x.isGreaterThan("banana"), is(false));
+		assertThat(x.isGreaterThan(new UserId2("banana")), is(false));
+		assertThat(y.isGreaterThan("banana"), is(false));
+		assertThat(y.isGreaterThan(new UserId2("banana")), is(false));
+	}
+
+	@Test public void shouldBeGreaterThanOrEqualTo()
+	{
+		final UserId x = new UserId("apple");
+		final UserId y = new UserId("banana");
+		assertThat(x.isGreaterThanOrEqualTo("apple"), is(true));
+		assertThat(x.isGreaterThanOrEqualTo(new UserId2("apple")), is(true));
+		assertThat(y.isGreaterThanOrEqualTo("apple"), is(true));
+		assertThat(y.isGreaterThanOrEqualTo(new UserId2("apple")), is(true));
+	}
+
+	@Test public void shouldNotBeGreaterThanOrEqualTo()
+	{
+		final UserId x = new UserId("apple");
+		assertThat(x.isGreaterThanOrEqualTo("banana"), is(false));
+		assertThat(x.isGreaterThanOrEqualTo(new UserId2("banana")), is(false));
+	}
+
+	@Test public void shouldBeLessThan()
+	{
+		final UserId x = new UserId("apple");
+		assertThat(x.isLessThan("banana"), is(true));
+		assertThat(x.isLessThan(new UserId2("banana")), is(true));
+	}
+
+	@Test public void shouldNotBeLessThan()
+	{
+		final UserId x = new UserId("apple");
+		final UserId y = new UserId("banana");
+		assertThat(x.isLessThan("apple"), is(false));
+		assertThat(x.isLessThan(new UserId2("apple")), is(false));
+		assertThat(y.isLessThan("apple"), is(false));
+		assertThat(y.isLessThan(new UserId2("apple")), is(false));
+	}
+
+	@Test public void shouldBeLessThanOrEqualTo()
+	{
+		final UserId x = new UserId("apple");
+		final UserId y = new UserId("banana");
+		assertThat(x.isLessThanOrEqualTo("banana"), is(true));
+		assertThat(x.isLessThanOrEqualTo(new UserId2("banana")), is(true));
+		assertThat(y.isLessThanOrEqualTo("banana"), is(true));
+		assertThat(y.isLessThanOrEqualTo(new UserId2("banana")), is(true));
+	}
+
+	@Test public void shouldNotBeLessThanOrEqualTo()
+	{
+		final UserId x = new UserId("banana");
+		assertThat(x.isLessThanOrEqualTo("apple"), is(false));
+		assertThat(x.isLessThanOrEqualTo(new UserId2("apple")), is(false));
+	}
 }

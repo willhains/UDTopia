@@ -63,4 +63,51 @@ public class UDTComparableTest
 		assertThat(Stream.of(_c1, _c2, _c3).reduce(Counter::min).get(), is(sameInstance(_c1)));
 		assertThat(Stream.of(_c1, _c2, _c3).min(Counter::compareTo).get(), is(sameInstance(_c1)));
 	}
+
+	@Test public void shouldBeGreaterThan()
+	{
+		assertThat(_c2.isGreaterThan(_c1), is(true));
+	}
+
+	@Test public void shouldNotBeGreaterThan()
+	{
+		assertThat(_c1.isGreaterThan(_c2), is(false));
+		assertThat(_c1.isGreaterThan(_c1), is(false));
+	}
+
+	@Test public void shouldBeGreaterThanOrEqualTo()
+	{
+		assertThat(_c2.isGreaterThanOrEqualTo(_c1), is(true));
+		assertThat(_c1.isGreaterThanOrEqualTo(_c3), is(true));
+		assertThat(_c1.isGreaterThanOrEqualTo(_c1), is(true));
+	}
+
+	@Test public void shouldNotBeGreaterThanOrEqualTo()
+	{
+		assertThat(_c1.isGreaterThanOrEqualTo(_c2), is(false));
+	}
+
+	@Test public void shouldBeLessThan()
+	{
+		assertThat(_c1.isLessThan(_c2), is(true));
+	}
+
+	@Test public void shouldNotBeLessThan()
+	{
+		assertThat(_c2.isLessThan(_c1), is(false));
+		assertThat(_c1.isLessThan(_c3), is(false));
+		assertThat(_c1.isLessThan(_c1), is(false));
+	}
+
+	@Test public void shouldBeLessThanOrEqualTo()
+	{
+		assertThat(_c1.isLessThanOrEqualTo(_c2), is(true));
+		assertThat(_c1.isLessThanOrEqualTo(_c3), is(true));
+		assertThat(_c1.isLessThanOrEqualTo(_c1), is(true));
+	}
+
+	@Test public void shouldNotBeLessThanOrEqualTo()
+	{
+		assertThat(_c2.isLessThanOrEqualTo(_c1), is(false));
+	}
 }
