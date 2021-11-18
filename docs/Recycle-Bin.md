@@ -84,12 +84,13 @@ It's always safe to call `discard` from any thread.
 By default, `recycle` is also safe to call from any thread.
 When **exactly one** thread will call `recycle` on a UDT class, consider adding the `@SingleProducer` annotation.
 This will remove thread safety protection from the `recycle` method, improving performance slightly.
-<!-- TODO: Link to benchmark comparing with & without @SingleProducer. -->
 
-| API       | Default Behaviour | With `@SingleProducer`                             |
-|-----------|-------------------|----------------------------------------------------|
-| `discard` | thread-safe       | thread-safe                                        |
-| `recycle` | thread-safe       | :warning: **not** thread-safe, but slightly faster |
+| API       | Default Behaviour | With `@SingleProducer`                                                   |
+|-----------|-------------------|--------------------------------------------------------------------------|
+| `discard` | thread-safe       | thread-safe                                                              |
+| `recycle` | thread-safe       | :warning: **not** thread-safe, but [slightly faster][JavaAllocBenchmark] |
+
+[JavaAllocBenchmark]: https://jmh.morethan.io/?gist=31deb26fe4b80c5afbd24df8e9ed90f0
 
 ## Tuning
 

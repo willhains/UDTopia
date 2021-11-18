@@ -97,8 +97,9 @@ UserId userId = UserId.parse(input);
 userId.discard();
 ```
 
-Recycling is [thread-safe][recycle-threads].
+Recycling is [fast][recycle-perf] and [thread-safe][recycle-threads].
 
+[recycle-perf]: https://jmh.morethan.io/?gist=31deb26fe4b80c5afbd24df8e9ed90f0
 [recycle-threads]: docs/Recycle-Bin.md#thread-safety
 
 ## :wave: Get in Touch
