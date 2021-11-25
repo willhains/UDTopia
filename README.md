@@ -62,6 +62,27 @@ Why do this?
 
 [pure]: docs/Pure-Value.md
 
+### Validate and Normalize Values
+
+We don't allow just *any* old string as a user ID; there are **rules**.
+Let's constrain `UserId` so that invalid user IDs *can't exist*.
+
+UDTopia's [Rule Annotations][rules] make it easy:
+
+[rules]: docs/Constrain-Values.md
+
+```java
+@Trim // trim whitespace from start & end
+@Chars(LETTERS + DIGITS + “_”) // allowed chars
+@Min(2) @Max(18) // allowed length
+@LowerCase // convert to lowercase
+public final @Value class UserId extends PureString<UserId>
+```
+
+UDTopia comes with several [built-in rules][rule-list].
+
+[rule-list]: docs/Constrain-Values.md#built-in-rules
+
 ## :wave: Get in Touch
 
 Have questions?
