@@ -1,4 +1,7 @@
+![Zero Runtime Dependencies][badge-dependencies]
 [![Latest Release][badge-release]][releases]
+
+[badge-dependencies]: https://shields.io/badge/dependencies-none-informational "Zero Runtime Dependencies"
 
 [badge-release]: https://shields.io/github/v/release/willhains/udtopia?display_name=tag&include_prereleases
 [releases]: https://github.com/willhains/equality/releases "UDTopia Release History"
@@ -7,6 +10,22 @@
 
 User-defined types (UDTs) are the best way to control complexity and bring clarity to your code, but UDTs are unwieldy in Java.
 UDTopia makes Java UDTs a delight.
+
+## How to Use
+
+UDTopia has no runtime dependencies.
+You can [download][releases] and use the `.jar` file directly, or [add `org.udtopia:udtopia` as a dependency][dependency] in your project.
+
+[releases]: https://github.com/willhains/udtopia/releases
+[dependency]: https://search.maven.org/artifact/org.udtopia/udtopia
+
+```xml
+<dependency>
+  <groupId>org.udtopia</groupId>
+  <artifactId>udtopia</artifactId>
+  <version>release</version>
+</dependency>
+```
 
 ## :wave: Get in Touch
 

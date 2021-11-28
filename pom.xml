@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.udtopia</groupId>
+	<artifactId>udtopia</artifactId>
+	<version>alpha-SNAPSHOT</version>
+
+	<name>UDTopia</name>
+	<description>
+		User-defined types (UDTs) are the best way to control complexity and bring clarity to your code,
+		but UDTs are unwieldy in Java.
+		UDTopia makes Java UDTs a delight.
+	</description>
+	<url>http://udtopia.org</url>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://opensource.org/licenses/MIT</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>willhains</id>
+			<name>Will Hains</name>
+			<email>willhains@udtopia.org</email>
+			<roles>
+				<role>owner</role>
+				<role>developer</role>
+			</roles>
+			<timezone>-9</timezone>
+			<properties>
+				<picUrl>https://gravatar.com/avatar/b17291c4923439acd2b117a327feb218</picUrl>
+				<twitter>willhains</twitter>
+			</properties>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/willhains/udtopia.git</connection>
+		<developerConnection>scm:git:ssh://github.com:willhains/udtopia.git</developerConnection>
+		<url>https://github.com/willhains/udtopia/tree/alpha</url>
+	</scm>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+</project>
