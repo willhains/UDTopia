@@ -17,6 +17,7 @@ public class RingBufferRecycleBinTest
 	private static final int _SIZE = 4;
 
 	@RecycleBinSize(_SIZE)
+	@SingleProducer
 	static final @Value class Phone implements Recyclable
 	{
 		private String _areaCode;
@@ -88,13 +89,13 @@ public class RingBufferRecycleBinTest
 	{
 		@Override public void discard() { }
 
-		@Override public boolean isDiscarded() { return true; }
+		@Override public boolean isDiscarded() { return false; }
 	}
 
 	@Test public void shouldSizeBinFromAnnotation()
 	{
-		@RecycleBinSize(4) class A extends Dummy { }
-		@RecycleBinSize(8) class B extends Dummy { }
+		@SingleProducer @RecycleBinSize(4) class A extends Dummy { }
+		@SingleProducer @RecycleBinSize(8) class B extends Dummy { }
 		final RecycleBin<A> bin1 = RecycleBin.forClass(A.class);
 		final RecycleBin<B> bin2 = RecycleBin.forClass(B.class);
 		assertThat(bin1.toString(), containsString("4"));
@@ -113,6 +114,20 @@ public class RingBufferRecycleBinTest
 		final RecycleBin<Phone> bin1 = RecycleBin.forClass(Phone.class);
 		final RecycleBin<Dummy> bin2 = RecycleBin.forClass(Dummy.class);
 		assertThat(bin1, is(not(sameInstance(bin2))));
+	}
+
+	@Test public void shouldUseMultiThreadedAllocation()
+	{
+		class A extends Dummy { }
+		final RecycleBin<A> bin1 = RecycleBin.forClass(A.class);
+		assertThat(bin1, is(not(instanceOf(RingBufferRecycleBin.class))));
+	}
+
+	@Test public void shouldUseSingleThreadedAllocation()
+	{
+		@SingleProducer class A extends Dummy { }
+		final RecycleBin<A> bin1 = RecycleBin.forClass(A.class);
+		assertThat(bin1, is(instanceOf(RingBufferRecycleBin.class)));
 	}
 
 	@Test public void dummyShouldNeverAppearDiscarded()

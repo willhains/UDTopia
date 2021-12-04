@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import org.udtopia.Mutable;
 import org.udtopia.ThreadSafe;
 
+import static org.udtopia.recycle.AllocationThreads.*;
 import static org.udtopia.recycle.RecycleBinSize.*;
 
 /**
@@ -43,12 +44,14 @@ public @Mutable interface RecycleBin<R extends Recyclable>
 	{
 		@Override protected RecycleBin<?> computeValue(final Class<?> type)
 		{
-			// Read annotation, or use defaults
+			// Read annotations, or use defaults
 			final Optional<RecycleBinSize> size = Optional.ofNullable(type.getAnnotation(RecycleBinSize.class));
 			final RingBufferSize binSize = new RingBufferSize(size.map(RecycleBinSize::value).orElse(DEFAULT_SIZE));
+			final Optional<SingleProducer> single = Optional.ofNullable(type.getAnnotation(SingleProducer.class));
+			final AllocationThreads allocThreads = single.isPresent() ? SINGLE_THREADED : THREAD_LOCAL;
 
 			// Create recycle bin
-			return new RingBufferRecycleBin<>(binSize);
+			return allocThreads.recycleBin(binSize);
 		}
 	};
 }

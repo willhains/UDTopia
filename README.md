@@ -97,6 +97,10 @@ UserId userId = UserId.parse(input);
 userId.discard();
 ```
 
+Recycling is [thread-safe][recycle-threads].
+
+[recycle-threads]: docs/Recycle-Bin.md#thread-safety
+
 ## :wave: Get in Touch
 
 Have questions?
