@@ -42,7 +42,7 @@ import static java.util.stream.Stream.*;
 
 // Designed for extension, so that subclasses inherit the annotations above
 @SuppressWarnings("UtilityClassCanBeEnum")
-public abstract class BaseBenchmark
+public abstract @Mutable class BaseBenchmark
 {
 	/** Random number generator. */
 	protected static final Random RAND = new Random();

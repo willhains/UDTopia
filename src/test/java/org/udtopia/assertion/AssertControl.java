@@ -2,6 +2,7 @@ package org.udtopia.assertion;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import org.udtopia.Value;
 
 /**
  * Utility to control assertions at runtime, for use in unit tests.
@@ -11,7 +12,7 @@ import java.lang.reflect.Modifier;
  * still reports as a missed branch, so coverage thresholds must be set to allow one missed branch per
  * {@code assert}-containing class.
  */
-public enum AssertControl
+public @Value enum AssertControl
 {
 	/** Enable assertions. */
 	ENABLE,

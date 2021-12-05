@@ -2,6 +2,7 @@ package org.udtopia.assertion;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
+import org.udtopia.Value;
 
 /**
  * Encapsulates the Java {@code assert} statement, to control its behaviour in unit tests.
@@ -9,7 +10,7 @@ import java.util.function.Supplier;
  * In production code, it converts {@code assert} into a method call with similar performance characteristics.
  * In testing, code coverage tools can exclude this class to avoid reporting spurious missed branches.
  */
-public interface Assert
+public @Value interface Assert
 {
 	/**
 	 * @return {@code true} if assertions done via this class will take effect.
