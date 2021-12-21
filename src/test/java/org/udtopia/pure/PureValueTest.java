@@ -151,6 +151,16 @@ public class PureValueTest
 		assertThat(x.toString(), equalTo(x.get().toString()));
 	}
 
+	static final @Value class A extends PureValue<int[], A>
+	{
+		A(final int[] a) { super(a); }
+	}
+
+	@Test(expected = AssertionError.class) public void shouldTrapArrayAsRawValue()
+	{
+		new A(new int[] {1});
+	}
+
 	static final @Value class MutableWrapper extends PureValue<Point, MutableWrapper>
 	{
 		MutableWrapper(final Point rawValue) { super(rawValue, original -> new Point(original.x, original.y)); }

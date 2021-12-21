@@ -8,7 +8,7 @@ import org.udtopia.assertion.Assert;
 /**
  * A value type wrapping an underlying data type.
  *
- * @param <Raw> the underlying type.
+ * @param <Raw> the underlying type. Not an array.
  * @param <This> self-reference to the subclass type itself.
  */
 public abstract @Value class UDTValue<Raw, This extends UDTValue<Raw, This>> implements Supplier<Raw>

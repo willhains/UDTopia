@@ -2,15 +2,19 @@
 
 UDTopia's `Pure*` base classes make it easy to wrap basic values in rich, well-named UDTs.
 
-| To Wrap This                | Extend This  |
-|-----------------------------|--------------|
-| primitive `double`          | `PureDouble` |
-| primitive `long`            | `PureLong`   |
-| primitive `int`             | `PureInt`    |
-| `String`[^not-null]         | `PureString` |
-| any other object[^not-null] | `PureValue`  |
+| To Wrap This                            | Extend This  |
+|-----------------------------------------|--------------|
+| primitive `double`                      | `PureDouble` |
+| primitive `long`                        | `PureLong`   |
+| primitive `int`                         | `PureInt`    |
+| `String`[^not-null]                     | `PureString` |
+| any other object[^not-null][^not-array] | `PureValue`  |
 
 [^not-null]: `null` is not supported.
+
+[^not-array]: `PureValue` doesn't support array objects.
+  Arrays need special handling for `equals`, `hashCode`, and `toString`, which would be slower.
+  Typically, `Pure*` classes are for *single* values, but if you really need a collection, use a `List` or `Set`.
 
 ## How to Wrap a Value
 

@@ -8,7 +8,7 @@ import org.udtopia.assertion.Assert;
 /**
  * A pure, immutable value type wrapping an underlying data type.
  *
- * @param <Raw> the underlying type.
+ * @param <Raw> the underlying type. Not an array.
  * @param <This> self-reference to the subclass type itself.
  */
 public abstract @Value class PureValue<Raw, This extends PureValue<Raw, This>> extends UDTValue<Raw, This>
@@ -28,6 +28,7 @@ public abstract @Value class PureValue<Raw, This extends PureValue<Raw, This>> e
 	{
 		super(defensiveCopier);
 		Assert.notNull(() -> rawValue, "Raw value must not be null");
+		Assert.not(() -> rawValue.getClass().isArray(), "Raw value must not be an array");
 		_raw = defensiveCopier.apply(rawValue);
 	}
 
