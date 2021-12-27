@@ -1,6 +1,7 @@
 package org.udtopia;
 
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
 
@@ -10,7 +11,7 @@ import org.udtopia.assertion.Assert;
  * @param <This> self-reference to the subclass type itself.
  */
 public abstract @Value class UDTString<This extends UDTString<This>>
-	implements UDTComparable<This>, Supplier<String>
+	implements UDTComparable<This>, CharSequence, Supplier<String>
 {
 	/** @return the raw value. */
 	@Override public abstract String get();
@@ -45,6 +46,22 @@ public abstract @Value class UDTString<This extends UDTString<This>>
 	 */
 	@SuppressWarnings("DesignForExtension")
 	@Override public String toString() { return get(); }
+
+	@Override public final IntStream chars() { return get().chars(); }
+
+	@Override public final IntStream codePoints() { return get().codePoints(); }
+
+	@Override public final int length() { return get().length(); }
+
+	/** @return {@code true} if the raw string value is zero-length. */
+	public final boolean isEmpty() { return get().isEmpty(); }
+
+	@Override public final char charAt(final int index) { return get().charAt(index); }
+
+	@Override public final This subSequence(final int start, final int end)
+	{
+		return map(raw -> raw.subSequence(start, end).toString());
+	}
 
 	/** Compare the raw values. */
 	@Override public final int compareTo(final This that)

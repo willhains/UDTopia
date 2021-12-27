@@ -1,5 +1,7 @@
 package org.udtopia.pure;
 
+import java.util.Iterator;
+import java.util.stream.BaseStream;
 import org.junit.Test;
 import org.udtopia.Value;
 
@@ -154,6 +156,35 @@ public class PureStringTest
 	{
 		final UserId x = new UserId("o");
 		assertThat(x.toString(), is(equalTo("o")));
+	}
+
+	static class FlagTest extends PureString<FlagTest>
+	{
+		FlagTest(final String s) { super(s); }
+	}
+
+	@Test public void shouldBeSameCharSequenceAsRaw()
+	{
+		final String string = "This is the Australian flag: \uD83C\uDDE6\uD83C\uDDFA";
+		final FlagTest udtString = new FlagTest(string);
+
+		assertEquals(udtString.chars(), string.chars());
+		assertEquals(udtString.codePoints(), string.codePoints());
+		assertThat(udtString.length(), is(equalTo(string.length())));
+		assertThat(udtString.charAt(29), is(equalTo(string.charAt(29))));
+		assertThat(udtString.subSequence(23, 33).get(), is(equalTo(string.subSequence(23, 33))));
+	}
+
+	@Test public void shouldBeEmpty() { assertThat(new UserId("").isEmpty(), is(true)); }
+
+	@Test public void shouldNotBeEmpty() { assertThat(new UserId("x").isEmpty(), is(false)); }
+
+	static <T, S extends BaseStream<T, S>> void assertEquals(final BaseStream<T, S> s1, final BaseStream<T, S> s2)
+	{
+		final Iterator<T> i1 = s1.iterator(), i2 = s2.iterator();
+		while (i1.hasNext() && i2.hasNext()) { assertThat(i1.next(), is(equalTo(i2.next()))); }
+		assertThat(i1.hasNext(), is(false));
+		assertThat(i2.hasNext(), is(false));
 	}
 
 	@Test public void shouldCompareAsLarger()
