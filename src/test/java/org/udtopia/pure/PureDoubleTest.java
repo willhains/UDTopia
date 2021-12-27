@@ -767,4 +767,37 @@ public class PureDoubleTest
 	{
 		assertThat(new Height(POSITIVE_INFINITY).invert(), is(new Height(0)));
 	}
+
+	@Test public void shouldRoundHalfUp()
+	{
+		final Height x = new Height(12.0);
+		assertThat(x.round(), is(sameInstance(x)));
+
+		final Height y = new Height(12.4999);
+		assertThat(y.round(), is(equalTo(x)));
+
+		final Height z = new Height(12.5);
+		assertThat(z.round(), is(new Height(13.0)));
+	}
+
+	@Test public void shouldRoundDown()
+	{
+		final Height x = new Height(12.0);
+		assertThat(x.roundDown(), is(sameInstance(x)));
+
+		final Height y = new Height(12.4999);
+		assertThat(y.roundDown(), is(equalTo(x)));
+
+		final Height z = new Height(12.9999);
+		assertThat(z.roundDown(), is(equalTo(x)));
+	}
+
+	@Test public void shouldRoundUp()
+	{
+		final Height x = new Height(12.0);
+		assertThat(x.roundUp(), is(sameInstance(x)));
+
+		final Height y = new Height(12.0001);
+		assertThat(y.roundUp(), is(new Height(13.0)));
+	}
 }

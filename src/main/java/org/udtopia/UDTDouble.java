@@ -443,4 +443,25 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 
 	/** @return the inverse value. */
 	public final This invert() { return map(raw -> 1.0 / raw); }
+
+	/**
+	 * Round the raw value to the nearest integer, and wrap the result in the same type.
+	 *
+	 * @return an instance of {@link This}, wrapping the rounded result.
+	 */
+	public final This round() { return map(Math::round); }
+
+	/**
+	 * Round the raw value up to the next integer, and wrap the result in the same type.
+	 *
+	 * @return an instance of {@link This}, wrapping the rounded result.
+	 */
+	public final This roundUp() { return map(Math::ceil); }
+
+	/**
+	 * Round the raw value down to the next integer, and wrap the result in the same type.
+	 *
+	 * @return an instance of {@link This}, wrapping the rounded result.
+	 */
+	public final This roundDown() { return map(Math::floor); }
 }

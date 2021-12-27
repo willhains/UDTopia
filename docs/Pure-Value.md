@@ -315,3 +315,10 @@ final Price unitPrice = new Price(24.95);
 final Price orderTotal = unitPrice.multiplyBy(orderQuantity);
 final Price withTax = orderTotal.multiplyBy(1.15);
 ```
+
+`PureDouble` also supports rounding off the fractional part:
+
+- `round()`  
+  `roundUp()`  
+  `roundDown()`  
+  Return the nearest integer, or the next one above/below the `double` value.
