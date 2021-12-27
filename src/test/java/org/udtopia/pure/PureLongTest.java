@@ -1,5 +1,6 @@
 package org.udtopia.pure;
 
+import java.text.DecimalFormat;
 import org.junit.Test;
 import org.udtopia.Value;
 
@@ -497,5 +498,12 @@ public class PureLongTest
 		assertThat(y.isNonZero(), is(true));
 		assertThat(y.isNegative(), is(true));
 		assertThat(y.isPositive(), is(false));
+	}
+
+	@Test public void shouldFormatPrimitive()
+	{
+		final Count x = new Count(1234);
+		final String s = x.format(new DecimalFormat("#,##0.000 times"));
+		assertThat(s, is("1,234.000 times"));
 	}
 }

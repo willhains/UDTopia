@@ -1,5 +1,6 @@
 package org.udtopia;
 
+import java.text.NumberFormat;
 import java.util.function.LongFunction;
 import java.util.function.LongPredicate;
 import java.util.function.LongSupplier;
@@ -218,4 +219,6 @@ public abstract @Value class UDTLong<This extends UDTLong<This>> implements UDTN
 	@Override public final boolean isPositive() { return getAsLong() > 0L; }
 
 	@Override public final boolean isNegative() { return getAsLong() < 0L; }
+
+	@Override public final String format(final NumberFormat formatter) { return formatter.format(getAsLong()); }
 }

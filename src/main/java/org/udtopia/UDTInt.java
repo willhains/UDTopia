@@ -1,5 +1,6 @@
 package org.udtopia;
 
+import java.text.NumberFormat;
 import java.util.function.IntFunction;
 import java.util.function.IntPredicate;
 import java.util.function.IntSupplier;
@@ -207,4 +208,6 @@ public abstract @Value class UDTInt<This extends UDTInt<This>> implements UDTNum
 	@Override public final boolean isPositive() { return getAsInt() > 0; }
 
 	@Override public final boolean isNegative() { return getAsInt() < 0; }
+
+	@Override public final String format(final NumberFormat formatter) { return formatter.format(getAsInt()); }
 }

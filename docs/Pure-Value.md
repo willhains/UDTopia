@@ -282,3 +282,7 @@ Numeric `Pure*` classes implement the `UDTNumber` interface, which adds some use
 - `isPositive()`  
   `isNegative()`  
   Check the sign of non-zero values.
+
+- `format(NumberFormat formatter)`  
+  `format(String pattern)`  
+  Format the number as a string.

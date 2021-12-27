@@ -1,5 +1,7 @@
 package org.udtopia.pure;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import org.junit.Test;
 import org.udtopia.Value;
 
@@ -535,5 +537,20 @@ public class PureDoubleTest
 		assertThat(y.isNonZero(), is(true));
 		assertThat(y.isNegative(), is(true));
 		assertThat(y.isPositive(), is(false));
+	}
+
+	@Test public void shouldFormatPrimitive()
+	{
+		final Height x = new Height(1234.56789);
+		final String s = x.format(new DecimalFormat("#,##0.000 m"));
+		assertThat(s, is("1,234.568 m"));
+	}
+
+	@Test public void shouldFormatWithCustomPattern()
+	{
+		final String pattern = "#,##0.00";
+		final NumberFormat formatter = new DecimalFormat(pattern);
+		final Height x = new Height(1.4325);
+		assertThat(x.format(pattern), is(equalTo(x.format(formatter))));
 	}
 }

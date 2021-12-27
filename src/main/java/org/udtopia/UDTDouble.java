@@ -1,5 +1,6 @@
 package org.udtopia;
 
+import java.text.NumberFormat;
 import java.util.function.DoubleFunction;
 import java.util.function.DoublePredicate;
 import java.util.function.DoubleSupplier;
@@ -243,4 +244,6 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 	@Override public final boolean isPositive() { return getAsDouble() > 0.0; }
 
 	@Override public final boolean isNegative() { return getAsDouble() < 0.0; }
+
+	@Override public final String format(final NumberFormat formatter) { return formatter.format(getAsDouble()); }
 }
