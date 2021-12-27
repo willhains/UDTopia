@@ -202,4 +202,20 @@ public class PureValueTest
 		final Height2 z = x.getAs(Height2::new);
 		assertThat(z.get(), is(equalTo(new BigDecimal("2.0"))));
 	}
+
+	@Test public void shouldMatchCondition()
+	{
+		final Height x = new Height(new BigDecimal("2.0"));
+		final Height y = new Height(new BigDecimal("5.4"));
+		assertThat(x.is(d -> d.compareTo(new BigDecimal("3.0")) < 0), is(true));
+		assertThat(y.is(d -> d.compareTo(new BigDecimal("3.0")) < 0), is(false));
+	}
+
+	@Test public void shouldNotMatchCondition()
+	{
+		final Height x = new Height(new BigDecimal("2.0"));
+		final Height y = new Height(new BigDecimal("5.4"));
+		assertThat(x.isNot(d -> d.compareTo(new BigDecimal("3.0")) > 0), is(true));
+		assertThat(y.isNot(d -> d.compareTo(new BigDecimal("3.0")) > 0), is(false));
+	}
 }

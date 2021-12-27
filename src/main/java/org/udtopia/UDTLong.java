@@ -1,6 +1,7 @@
 package org.udtopia;
 
 import java.util.function.LongFunction;
+import java.util.function.LongPredicate;
 import java.util.function.LongSupplier;
 import java.util.function.LongUnaryOperator;
 import javax.annotation.Nullable;
@@ -123,6 +124,22 @@ public abstract @Value class UDTLong<This extends UDTLong<This>> implements UDTN
 	{
 		return factory.apply(mapper.applyAsLong(getAsLong()));
 	}
+
+	/**
+	 * Test the raw value with {@code condition}.
+	 *
+	 * @param condition a {@link LongPredicate} that tests the raw value.
+	 * @return {@code true} if the underlying raw value satisfies {@code condition}; {@code false} otherwise.
+	 */
+	public final boolean is(final LongPredicate condition) { return condition.test(getAsLong()); }
+
+	/**
+	 * Reverse of {@link #is(LongPredicate)}.
+	 *
+	 * @param condition a {@link LongPredicate} that tests the raw value.
+	 * @return {@code false} if the underlying raw value satisfies {@code condition}; {@code true} otherwise.
+	 */
+	public final boolean isNot(final LongPredicate condition) { return !is(condition); }
 
 	/** Compare the raw values. */
 	@Override public final int compareTo(final This that)

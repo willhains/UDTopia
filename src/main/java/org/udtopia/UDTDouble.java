@@ -1,6 +1,7 @@
 package org.udtopia;
 
 import java.util.function.DoubleFunction;
+import java.util.function.DoublePredicate;
 import java.util.function.DoubleSupplier;
 import java.util.function.DoubleUnaryOperator;
 import javax.annotation.Nullable;
@@ -145,6 +146,22 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 	{
 		return factory.apply(mapper.applyAsDouble(getAsDouble()));
 	}
+
+	/**
+	 * Test the raw value with {@code condition}.
+	 *
+	 * @param condition a {@link DoublePredicate} that tests the raw value.
+	 * @return {@code true} if the underlying raw value satisfies {@code condition}; {@code false} otherwise.
+	 */
+	public final boolean is(final DoublePredicate condition) { return condition.test(getAsDouble()); }
+
+	/**
+	 * Reverse of {@link #is(DoublePredicate)}.
+	 *
+	 * @param condition a {@link DoublePredicate} that tests the raw value.
+	 * @return {@code false} if the underlying raw value satisfies {@code condition}; {@code true} otherwise.
+	 */
+	public final boolean isNot(final DoublePredicate condition) { return !is(condition); }
 
 	/** Compare the raw values. */
 	@Override public final int compareTo(final This that)

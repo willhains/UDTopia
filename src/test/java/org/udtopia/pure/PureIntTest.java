@@ -452,4 +452,20 @@ public class PureIntTest
 		final Count2 z = x.getAs(Count2::new);
 		assertThat(z.getAsInt(), is(equalTo(2)));
 	}
+
+	@Test public void shouldMatchCondition()
+	{
+		final Count x = new Count(2);
+		final Count y = new Count(5);
+		assertThat(x.is(d -> d < 3), is(true));
+		assertThat(y.is(d -> d < 3), is(false));
+	}
+
+	@Test public void shouldNotMatchCondition()
+	{
+		final Count x = new Count(2);
+		final Count y = new Count(5);
+		assertThat(x.isNot(d -> d > 3), is(true));
+		assertThat(y.isNot(d -> d > 3), is(false));
+	}
 }

@@ -308,4 +308,20 @@ public class PureStringTest
 		final UserId2 z = x.getAs(UserId2::new);
 		assertThat(z.get(), is(equalTo("x")));
 	}
+
+	@Test public void shouldMatchCondition()
+	{
+		final UserId x = new UserId("");
+		final UserId y = new UserId("v");
+		assertThat(x.is(String::isEmpty), is(true));
+		assertThat(y.is(String::isEmpty), is(false));
+	}
+
+	@Test public void shouldNotMatchCondition()
+	{
+		final UserId x = new UserId("w");
+		final UserId y = new UserId("");
+		assertThat(x.isNot(String::isEmpty), is(true));
+		assertThat(y.isNot(String::isEmpty), is(false));
+	}
 }

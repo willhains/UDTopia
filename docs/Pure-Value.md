@@ -249,3 +249,14 @@ Or, to map the raw value and convert to another UDT, just add a constructor refe
 ```java
 final UrlSlug urlSlug = noDot.map(t -> t.replaceAll("\\s", "-"), UrlSlug::new);
 ```
+
+## Checking Values
+
+We can check the raw value without unwrapping it, using the `is` and `isNot` methods.
+
+```java
+if (title.isNot(String::isEmpty))
+{
+  if (title.is(t -> t.length() > LONG_TITLE_LENGTH))) {...}
+}
+```

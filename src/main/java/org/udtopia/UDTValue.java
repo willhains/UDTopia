@@ -1,6 +1,7 @@
 package org.udtopia;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import javax.annotation.Nullable;
@@ -115,4 +116,20 @@ public abstract @Value class UDTValue<Raw, This extends UDTValue<Raw, This>> imp
 	{
 		return factory.apply(mapper.apply(get()));
 	}
+
+	/**
+	 * Test the raw value with {@code condition}.
+	 *
+	 * @param condition a {@link Predicate} that tests the raw value.
+	 * @return {@code true} if the underlying {@link Raw} value satisfies {@code condition}; {@code false} otherwise.
+	 */
+	public final boolean is(final Predicate<? super Raw> condition) { return condition.test(get()); }
+
+	/**
+	 * Reverse of {@link #is(Predicate)}.
+	 *
+	 * @param condition a {@link Predicate} that tests the raw value.
+	 * @return {@code false} if the underlying {@link Raw} value satisfies {@code condition}; {@code true} otherwise.
+	 */
+	public final boolean isNot(final Predicate<? super Raw> condition) { return !is(condition); }
 }

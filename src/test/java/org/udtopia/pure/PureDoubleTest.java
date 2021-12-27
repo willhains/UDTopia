@@ -490,4 +490,20 @@ public class PureDoubleTest
 		final Height2 z = x.getAs(Height2::new);
 		assertThat(z.getAsDouble(), is(equalTo(2.0)));
 	}
+
+	@Test public void shouldMatchCondition()
+	{
+		final Height x = new Height(2.0);
+		final Height y = new Height(5.4);
+		assertThat(x.is(d -> d < 3.0), is(true));
+		assertThat(y.is(d -> d < 3.0), is(false));
+	}
+
+	@Test public void shouldNotMatchCondition()
+	{
+		final Height x = new Height(2.0);
+		final Height y = new Height(5.4);
+		assertThat(x.isNot(d -> d > 3.0), is(true));
+		assertThat(y.isNot(d -> d > 3.0), is(false));
+	}
 }
