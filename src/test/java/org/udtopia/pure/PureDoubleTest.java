@@ -741,4 +741,30 @@ public class PureDoubleTest
 		assertThat(x.divide(new PureIntTest.Count(12)).getAsDouble(), is(2.4));
 		assertThat(x.divide(new Height(12.0), Height2::new), is(new Height2(2.4)));
 	}
+
+	@Test public void shouldInvertGreaterThanOne()
+	{
+		assertThat(new Height(2.0).invert(), is(new Height(0.5)));
+	}
+
+	@Test public void shouldInvertLessThanOne()
+	{
+		assertThat(new Height(0.5).invert(), is(new Height(2.0)));
+	}
+
+	@Test public void shouldInvertNegatives()
+	{
+		assertThat(new Height(-2).invert(), is(new Height(-0.5)));
+		assertThat(new Height(-0.5).invert(), is(new Height(-2.0)));
+	}
+
+	@Test public void shouldInvertZero()
+	{
+		assertThat(new Height(0).invert(), is(new Height(POSITIVE_INFINITY)));
+	}
+
+	@Test public void shouldInvertInfinity()
+	{
+		assertThat(new Height(POSITIVE_INFINITY).invert(), is(new Height(0)));
+	}
 }

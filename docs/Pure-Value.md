@@ -294,6 +294,9 @@ The numeric `Pure*` classes (`PureDouble`, `PureLong`, `PureInt`) provide some u
 - `negate()`  
   Flip the sign of non-zero values.
 
+- `invert()`  
+  Get the inverse of non-zero values.
+
 - `format(NumberFormat formatter)`  
   `format(String pattern)`  
   Format the number as a string.

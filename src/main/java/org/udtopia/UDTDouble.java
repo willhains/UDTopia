@@ -440,4 +440,7 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 	{
 		return factory.apply(that.getAsDouble() / this.getAsDouble());
 	}
+
+	/** @return the inverse value. */
+	public final This invert() { return map(raw -> 1.0 / raw); }
 }
