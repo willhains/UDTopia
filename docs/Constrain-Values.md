@@ -136,3 +136,17 @@ public @interface PowerOf
   }
 }
 ```
+
+## Use Rules in Custom Classes
+
+UDTopia's `Pure*` classes have built-in support for rule annotations, but you can use them in your own classes, too!
+
+Rules are associated with the annotated class.
+To apply the rules to a value, use the `applyRulesFor(annotatedClass, value)` static method on the applicable `*Rule` interface.
+
+```java
+int constrainedValue = IntRule.applyRulesFor(getClass(), value);
+```
+
+UDTopia maintains a lazy cache of rules for each class.
+On first use, it chains together all the rules declared by the class's annotations, and caches the chain for future uses.
