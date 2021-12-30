@@ -417,4 +417,16 @@ public abstract @Value class UDTLong<This extends UDTLong<This>> implements UDTN
 	{
 		return factory.apply(that.getAsLong() / this.getAsLong());
 	}
+
+	/**
+	 * @return the raw value plus one.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This increment() { return map(Math::incrementExact); }
+
+	/**
+	 * @return the raw value minus one.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This decrement() { return map(Math::decrementExact); }
 }

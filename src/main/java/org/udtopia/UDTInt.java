@@ -406,4 +406,16 @@ public abstract @Value class UDTInt<This extends UDTInt<This>> implements UDTNum
 	{
 		return factory.apply(that.getAsInt() / this.getAsInt());
 	}
+
+	/**
+	 * @return the raw value plus one.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This increment() { return map(Math::incrementExact); }
+
+	/**
+	 * @return the raw value minus one.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This decrement() { return map(Math::decrementExact); }
 }

@@ -283,6 +283,10 @@ The numeric `Pure*` classes (`PureDouble`, `PureLong`, `PureInt`) provide some u
   *(multiple signatures)*  
   Division with rounding.
 
+- `increment()`  
+  `decrement()`  
+  Add or subtract one with overflow protection.
+
 - `isZero()`  
   `isNonZero()`  
   Check if the raw value is zero.

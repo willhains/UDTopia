@@ -677,4 +677,38 @@ public class PureLongTest
 		assertThat(x.divide(new Count(12)), is(new Count(2)));
 		assertThat(x.divide(new Count(12), Count2::new), is(new Count2(2)));
 	}
+
+	@Test public void shouldIncrementAwayFromZero()
+	{
+		assertThat(new Count(1).increment(), is(new Count(2)));
+		assertThat(new Count(0).increment(), is(new Count(1)));
+	}
+
+	@Test public void shouldIncrementTowardZero()
+	{
+		assertThat(new Count(-2).increment(), is(new Count(-1)));
+		assertThat(new Count(-1).increment(), is(new Count(0)));
+	}
+
+	@Test public void shouldDecrementAwayFromZero()
+	{
+		assertThat(new Count(-1).decrement(), is(new Count(-2)));
+		assertThat(new Count(0).decrement(), is(new Count(-1)));
+	}
+
+	@Test public void shouldDecrementTowardZero()
+	{
+		assertThat(new Count(2).decrement(), is(new Count(1)));
+		assertThat(new Count(1).decrement(), is(new Count(0)));
+	}
+
+	@Test(expected = ArithmeticException.class) public void shouldTrapIncrementOverflow()
+	{
+		new Count(MAX_VALUE).increment();
+	}
+
+	@Test(expected = ArithmeticException.class) public void shouldTrapDecrementOverflow()
+	{
+		new Count(MIN_VALUE).decrement();
+	}
 }
