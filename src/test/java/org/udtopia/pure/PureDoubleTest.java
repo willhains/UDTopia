@@ -539,6 +539,24 @@ public class PureDoubleTest
 		assertThat(y.isPositive(), is(false));
 	}
 
+	@Test public void shouldFlipPositiveToNegative()
+	{
+		final Height x = new Height(1);
+		assertThat(x.negate(), is(new Height(-1)));
+	}
+
+	@Test public void shouldFlipNegativeToPositive()
+	{
+		final Height x = new Height(-1);
+		assertThat(x.negate(), is(new Height(1)));
+	}
+
+	@Test public void shouldNotNegateZero()
+	{
+		final Height x = new Height(0);
+		assertThat(x.negate(), is(sameInstance(x)));
+	}
+
 	@Test public void shouldFormatPrimitive()
 	{
 		final Height x = new Height(1234.56789);

@@ -494,6 +494,24 @@ public class PureIntTest
 		assertThat(y.isPositive(), is(false));
 	}
 
+	@Test public void shouldFlipPositiveToNegative()
+	{
+		final Count x = new Count(1);
+		assertThat(x.negate(), is(new Count(-1)));
+	}
+
+	@Test public void shouldFlipNegativeToPositive()
+	{
+		final Count x = new Count(-1);
+		assertThat(x.negate(), is(new Count(1)));
+	}
+
+	@Test public void shouldNotNegateZero()
+	{
+		final Count x = new Count(0);
+		assertThat(x.negate(), is(sameInstance(x)));
+	}
+
 	@Test public void shouldFormatPrimitive()
 	{
 		final Count x = new Count(1234);

@@ -291,6 +291,9 @@ The numeric `Pure*` classes (`PureDouble`, `PureLong`, `PureInt`) provide some u
   `isNegative()`  
   Check the sign of non-zero values.
 
+- `negate()`  
+  Flip the sign of non-zero values.
+
 - `format(NumberFormat formatter)`  
   `format(String pattern)`  
   Format the number as a string.

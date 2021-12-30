@@ -211,6 +211,8 @@ public abstract @Value class UDTInt<This extends UDTInt<This>> implements UDTNum
 
 	@Override public final boolean isNegative() { return getAsInt() < 0; }
 
+	@Override public final This negate() { return map(Math::negateExact); }
+
 	@Override public final String format(final NumberFormat formatter) { return formatter.format(getAsInt()); }
 
 	/**

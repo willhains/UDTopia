@@ -245,6 +245,8 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 
 	@Override public final boolean isNegative() { return getAsDouble() < 0.0; }
 
+	@Override public final This negate() { return map(raw -> -raw); }
+
 	@Override public final String format(final NumberFormat formatter) { return formatter.format(getAsDouble()); }
 
 	/**

@@ -26,6 +26,9 @@ public @Value interface UDTNumber<This extends UDTNumber<This>>
 	/** @return {@code true} if the raw value is non-zero negative. */
 	boolean isNegative();
 
+	/** @return a value with the sign flipped. */
+	This negate();
+
 	/**
 	 * @param formatter the desired format.
 	 * @return a string representation of the raw value, with the specified formatter.

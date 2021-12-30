@@ -222,6 +222,8 @@ public abstract @Value class UDTLong<This extends UDTLong<This>> implements UDTN
 
 	@Override public final boolean isNegative() { return getAsLong() < 0L; }
 
+	@Override public final This negate() { return map(Math::negateExact); }
+
 	@Override public final String format(final NumberFormat formatter) { return formatter.format(getAsLong()); }
 
 	/**
