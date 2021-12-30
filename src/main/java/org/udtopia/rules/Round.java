@@ -4,9 +4,12 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import org.udtopia.Value;
 
+import static java.lang.String.*;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
+import static org.udtopia.pure.PureInt.*;
 
 /**
  * Round numeric values to an increment (multiple).
@@ -23,4 +26,32 @@ public @interface Round
 
 	/** @return the rounding increment ({@value DEFAULT_INCREMENT} if omitted). */
 	double toNearest() default DEFAULT_INCREMENT;
+
+	/** Rule to apply {@link Round} to int, long, and double values. */
+	final @Value class Rule implements IntNormalizer, LongNormalizer, DoubleNormalizer
+	{
+		private final double _increment;
+
+		Rule(final double increment) { this._increment = increment; }
+
+		@Override public int normalize(final int value)
+		{
+			return nearestInt(Math.round(Math.round(value / _increment) * _increment));
+		}
+
+		@Override public long normalize(final long value)
+		{
+			return Math.round(Math.round(value / _increment) * _increment);
+		}
+
+		@Override public double normalize(final double value)
+		{
+			return Math.round(value / _increment) * _increment;
+		}
+
+		@Override public String toString()
+		{
+			return format("@%s(toNearest = %s)", Round.class.getSimpleName(), _increment);
+		}
+	}
 }

@@ -4,6 +4,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import org.udtopia.Value;
 
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
@@ -23,4 +24,30 @@ public @interface MultipleOf
 
 	/** @return when to apply this rule. */
 	ApplyRuleWhen when() default ALWAYS;
+
+	/** Rule to apply {@link MultipleOf} to int, long, and double values. */
+	final @Value class Rule implements IntValidator, LongValidator
+	{
+		private final long _increment;
+
+		Rule(final long increment)
+		{
+			if (increment <= 0L) { throw new IllegalArgumentException("Increment must be greater than zero"); }
+			_increment = increment;
+		}
+
+		@Override public void validate(final Class<?> target, final int value) { _check(target, value); }
+
+		@Override public void validate(final Class<?> target, final long value) { _check(target, value); }
+
+		private void _check(final Class<?> target, final long value)
+		{
+			if (value % _increment != 0.0)
+			{
+				throw new ValidationException(target, value + " is not a multiple of " + _increment);
+			}
+		}
+
+		@Override public String toString() { return "@" + MultipleOf.class.getSimpleName() + "(" + _increment + ")"; }
+	}
 }
