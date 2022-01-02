@@ -1,9 +1,14 @@
 package org.udtopia.recycle;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.udtopia.Value;
 import org.udtopia.assertion.Assert;
+import org.udtopia.assertion.AssertControl;
 
+import static java.lang.Integer.*;
+import static java.lang.String.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
@@ -114,5 +119,54 @@ public class RingBufferRecycleBinTest
 	{
 		RingBufferRecycleBin.DUMMY.discard();
 		assertThat(RingBufferRecycleBin.DUMMY.isDiscarded(), is(false));
+	}
+
+	@Test public void shouldCollectRecycleStats()
+	{
+		final RecycleBin<Phone> recycleBin = new RingBufferRecycleBin<>(new RingBufferSize(1));
+		assertThat(recycleBin.toString(), containsString("recycled"));
+
+		final Phone instance1 = recycleBin.recycle(
+			phone ->
+			{
+				phone._areaCode = "000";
+				phone._number = 123;
+			},
+			() -> new Phone("000", 123));
+		instance1.discard();
+		assertThat(recycleBin.toString(), containsString("0.0%"));
+
+		final Phone instance2 = recycleBin.recycle(
+			phone ->
+			{
+				phone._areaCode = "000";
+				phone._number = 123;
+			},
+			() -> new Phone("000", 123));
+		instance2.discard();
+		assertThat(instance1, is(sameInstance(instance2)));
+		assertThat(recycleBin.toString(), containsString("50.0%"));
+	}
+
+	@Test public void shouldIncrementCountUntilMaxIntThenResetCountAndMisses()
+	{
+		final RingBufferRecycleBin<Dummy> bin = new RingBufferRecycleBin<>(new RingBufferSize(4), MAX_VALUE - 1);
+		assertThat(bin.toString(), containsString(format("%,d / %,d", MAX_VALUE - 1, MAX_VALUE - 1)));
+
+		bin.recycle(dummy -> { }, Dummy::new);
+		assertThat(bin.toString(), containsString(format("%,d / %,d", MAX_VALUE - 1, MAX_VALUE)));
+
+		bin.recycle(dummy -> { }, Dummy::new);
+		assertThat(bin.toString(), not(containsString("-")));
+	}
+
+	@Before @After public void resetAssertions() { AssertControl.ENABLE.forClass(Assert.class); }
+
+	@Test public void shouldNotCollectStatsWhenAssertionsDisabled()
+	{
+		final RecycleBin<Phone> bin = new RingBufferRecycleBin<>(new RingBufferSize(1));
+		assertThat(bin.toString(), containsString(format("%.1f%%", 0.0)));
+		AssertControl.DISABLE.forClass(Assert.class);
+		assertThat(bin.toString(), containsString("assertions"));
 	}
 }

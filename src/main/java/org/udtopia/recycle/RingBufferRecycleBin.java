@@ -3,6 +3,7 @@ package org.udtopia.recycle;
 import java.util.function.Supplier;
 import org.udtopia.Mutable;
 import org.udtopia.Value;
+import org.udtopia.assertion.Assert;
 
 import static java.lang.String.*;
 
@@ -22,11 +23,21 @@ public final @Mutable class RingBufferRecycleBin<R extends Recyclable> implement
 	// Total count of recycle attempts
 	private int _count;
 
+	// Count of allocations due to failure to recycle
+	private int _misses;
+
 	@SuppressWarnings({"unchecked", "SuspiciousArrayCast"}) RingBufferRecycleBin(final RingBufferSize size)
 	{
 		// Fill array with a null object that is unavailable for recycling
 		_bin = (R[]) size.createRingBuffer(Recyclable[]::new, () -> DUMMY);
 		_binSize = size;
+	}
+
+	// For JUnit
+	RingBufferRecycleBin(final RingBufferSize size, final int startingHead)
+	{
+		this(size);
+		_count = startingHead;
 	}
 
 	static final Recyclable DUMMY = new @Value Recyclable()
@@ -52,6 +63,7 @@ public final @Mutable class RingBufferRecycleBin<R extends Recyclable> implement
 		{
 			// No instances available for recycling; replace head instance with a new one
 			// The replaced instance will go to GC eventually
+			Assert.debug(() -> _misses++);
 			instance = generator.get();
 			bin[head] = instance;
 		}
@@ -64,14 +76,23 @@ public final @Mutable class RingBufferRecycleBin<R extends Recyclable> implement
 		final int head = _binSize.wrap(_count);
 		if (_count == Integer.MAX_VALUE)
 		{
-			_count = 0;
+			_count = head;
+			_misses = 0;
 		}
-		else { _count++; }
+		_count++;
 		return head;
 	}
 
 	@Override public String toString()
 	{
-		return format("RecycleBin[%,d]", _binSize.getAsInt());
+		final int binSize = _binSize.getAsInt();
+		if (Assert.isEnabled())
+		{
+			final int count = _count;
+			final int hits = count - _misses;
+			final double hitRate = count == 0 ? 0.0 : hits * 100.0 / count;
+			return format("RecycleBin[%,d]: %,d / %,d (%.1f%%) recycled", binSize, hits, count, hitRate);
+		}
+		return format("RecycleBin[%,d]: Enable assertions (-ea) to see recycle stats", binSize);
 	}
 }
