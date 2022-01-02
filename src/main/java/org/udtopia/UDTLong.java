@@ -212,4 +212,10 @@ public abstract @Value class UDTLong<This extends UDTLong<This>> implements UDTN
 	 * @return {@code true} if the raw value is less than or equal to the value supplied by {@code that}.
 	 */
 	public final boolean isLessThanOrEqualTo(final LongSupplier that) { return this.getAsLong() <= that.getAsLong(); }
+
+	@Override public final boolean isZero() { return getAsLong() == 0L; }
+
+	@Override public final boolean isPositive() { return getAsLong() > 0L; }
+
+	@Override public final boolean isNegative() { return getAsLong() < 0L; }
 }

@@ -237,4 +237,10 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 	{
 		return this.getAsDouble() <= that.getAsDouble();
 	}
+
+	@Override public final boolean isZero() { return getAsDouble() == 0.0; }
+
+	@Override public final boolean isPositive() { return getAsDouble() > 0.0; }
+
+	@Override public final boolean isNegative() { return getAsDouble() < 0.0; }
 }

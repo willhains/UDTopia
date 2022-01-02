@@ -506,4 +506,34 @@ public class PureDoubleTest
 		assertThat(x.isNot(d -> d > 3.0), is(true));
 		assertThat(y.isNot(d -> d > 3.0), is(false));
 	}
+
+	@Test public void shouldBeZero()
+	{
+		final Height x = new Height(0.0);
+		assertThat(x.isZero(), is(true));
+		assertThat(x.isNonZero(), is(false));
+		assertThat(x.isPositive(), is(false));
+		assertThat(x.isNegative(), is(false));
+
+		final Height y = new Height(-0.0);
+		assertThat(y.isZero(), is(true));
+		assertThat(y.isNonZero(), is(false));
+		assertThat(y.isPositive(), is(false));
+		assertThat(y.isNegative(), is(false));
+	}
+
+	@Test public void shouldNotBeZero()
+	{
+		final Height x = new Height(1);
+		assertThat(x.isZero(), is(false));
+		assertThat(x.isNonZero(), is(true));
+		assertThat(x.isNegative(), is(false));
+		assertThat(x.isPositive(), is(true));
+
+		final Height y = new Height(-1);
+		assertThat(y.isZero(), is(false));
+		assertThat(y.isNonZero(), is(true));
+		assertThat(y.isNegative(), is(true));
+		assertThat(y.isPositive(), is(false));
+	}
 }

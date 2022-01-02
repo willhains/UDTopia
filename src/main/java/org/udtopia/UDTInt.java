@@ -201,4 +201,10 @@ public abstract @Value class UDTInt<This extends UDTInt<This>> implements UDTNum
 	 * @return {@code true} if the raw value is less than or equal to the value supplied by {@code that}.
 	 */
 	public final boolean isLessThanOrEqualTo(final IntSupplier that) { return this.getAsInt() <= that.getAsInt(); }
+
+	@Override public final boolean isZero() { return getAsInt() == 0; }
+
+	@Override public final boolean isPositive() { return getAsInt() > 0; }
+
+	@Override public final boolean isNegative() { return getAsInt() < 0; }
 }

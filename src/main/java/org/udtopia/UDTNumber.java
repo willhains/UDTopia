@@ -12,4 +12,15 @@ import java.util.function.LongSupplier;
 public @Value interface UDTNumber<This extends UDTNumber<This>>
 	extends UDTComparable<This>, IntSupplier, LongSupplier, DoubleSupplier
 {
+	/** @return {@code true} if the raw value is zero. */
+	boolean isZero();
+
+	/** @return {@code false} if the raw value is zero. */
+	default boolean isNonZero() { return !isZero(); }
+
+	/** @return {@code true} if the raw value is non-zero positive. */
+	boolean isPositive();
+
+	/** @return {@code true} if the raw value is non-zero negative. */
+	boolean isNegative();
 }

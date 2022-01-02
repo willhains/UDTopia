@@ -468,4 +468,28 @@ public class PureIntTest
 		assertThat(x.isNot(d -> d > 3), is(true));
 		assertThat(y.isNot(d -> d > 3), is(false));
 	}
+
+	@Test public void shouldBeZero()
+	{
+		final Count x = new Count(0);
+		assertThat(x.isZero(), is(true));
+		assertThat(x.isNonZero(), is(false));
+		assertThat(x.isPositive(), is(false));
+		assertThat(x.isNegative(), is(false));
+	}
+
+	@Test public void shouldNotBeZero()
+	{
+		final Count x = new Count(1);
+		assertThat(x.isZero(), is(false));
+		assertThat(x.isNonZero(), is(true));
+		assertThat(x.isNegative(), is(false));
+		assertThat(x.isPositive(), is(true));
+
+		final Count y = new Count(-1);
+		assertThat(y.isZero(), is(false));
+		assertThat(y.isNonZero(), is(true));
+		assertThat(y.isNegative(), is(true));
+		assertThat(y.isPositive(), is(false));
+	}
 }

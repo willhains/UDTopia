@@ -22,4 +22,6 @@ public class DocSamplesTest
 		final UrlSlug urlSlug = noDot.map(t -> t.replaceAll("\\s", "-"), UrlSlug::new);
 		assertThat(urlSlug.get(), is("Test-Article-Title"));
 	}
+
+	public static boolean isFirstDay(final DayCount dayCount) { return dayCount.isZero(); }
 }

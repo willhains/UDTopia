@@ -260,3 +260,25 @@ if (title.isNot(String::isEmpty))
   if (title.is(t -> t.length() > LONG_TITLE_LENGTH))) {...}
 }
 ```
+
+## Numeric Operations
+
+Numeric `Pure*` classes implement the `UDTNumber` interface, which adds some useful numeric operations.
+
+| Pure Class   | Numeric Operations             |
+|--------------|--------------------------------|
+| `PureDouble` | yes                            |
+| `PureLong`   | yes                            |
+| `PureInt`    | yes                            |
+| `PureString` | no                             |
+| `PureValue`  | yes, if `implements UDTNumber` |
+
+`UDTNumber` classes expose more useful methods:
+
+- `isZero()`  
+  `isNonZero()`  
+  Check if the raw value is zero.
+
+- `isPositive()`  
+  `isNegative()`  
+  Check the sign of non-zero values.
