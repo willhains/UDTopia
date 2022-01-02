@@ -17,3 +17,10 @@ bt.discard();
 
 The `discard()` method tells the instance it is safe to recycle.
 Implicitly, we **must not access** the instance after calling `discard()`.
+
+> :warning:
+> Recycling is an **advanced feature**, which requires extra care by the developer.
+> - **Do not** access the instance after calling `discard()`.
+>   *Bad things will happen.*
+> - It's OK to not call `discard()`.
+>   The instance will just go to GC like a `Pure*`-based UDT.
