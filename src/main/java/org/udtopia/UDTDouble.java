@@ -246,4 +246,196 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 	@Override public final boolean isNegative() { return getAsDouble() < 0.0; }
 
 	@Override public final String format(final NumberFormat formatter) { return formatter.format(getAsDouble()); }
+
+	/**
+	 * Add a number to the raw value, and wrap the result in the same type.
+	 *
+	 * @param that the number to add.
+	 * @return an instance of {@link This}, wrapping the addition result.
+	 */
+	public final This add(final double that) { return map(raw -> raw + that); }
+
+	/**
+	 * Add a number to the raw value, and wrap the result in the same type.
+	 *
+	 * @param that the number to add.
+	 * @return an instance of {@link This}, wrapping the addition result.
+	 */
+	public final This add(final DoubleSupplier that) { return add(that.getAsDouble()); }
+
+	/**
+	 * Add a number to the raw value, and wrap the result in another type.
+	 *
+	 * @param that the number to add.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the addition result.
+	 */
+	public final <Result> Result add(final DoubleSupplier that, final DoubleFunction<Result> factory)
+	{
+		return factory.apply(this.getAsDouble() + that.getAsDouble());
+	}
+
+	/**
+	 * Subtract a number from the raw value, and wrap the result in the same type.
+	 * Note: This is the reverse of {@link #subtractFrom(double)}.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @see #subtractFrom(double)
+	 */
+	public final This subtract(final double that) { return map(raw -> raw - that); }
+
+	/**
+	 * Subtract a number from the raw value, and wrap the result in the same type.
+	 * Note: This is the reverse of {@link #subtractFrom(DoubleSupplier)}.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @see #subtractFrom(DoubleSupplier)
+	 */
+	public final This subtract(final DoubleSupplier that) { return subtract(that.getAsDouble()); }
+
+	/**
+	 * Subtract a number from the raw value, and wrap the result in another type.
+	 * Note: This is the reverse of {@link #subtractFrom(DoubleSupplier, DoubleFunction)}.
+	 *
+	 * @param that the number to subtract.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the subtraction result.
+	 * @see #subtractFrom(DoubleSupplier, DoubleFunction)
+	 */
+	public final <Result> Result subtract(final DoubleSupplier that, final DoubleFunction<Result> factory)
+	{
+		return factory.apply(this.getAsDouble() - that.getAsDouble());
+	}
+
+	/**
+	 * Subtract the raw value from a number, and wrap the result in the same type.
+	 * Note: This is the reverse of {@link #subtract(double)}.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @see #subtract(double)
+	 */
+	public final This subtractFrom(final double that) { return map(raw -> that - raw); }
+
+	/**
+	 * Subtract the raw value from a number, and wrap the result in the same type.
+	 * Note: This is the reverse of {@link #subtract(DoubleSupplier)}.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @see #subtract(DoubleSupplier)
+	 */
+	public final This subtractFrom(final DoubleSupplier that) { return subtractFrom(that.getAsDouble()); }
+
+	/**
+	 * Subtract the raw value from a number, and wrap the result in another type.
+	 * Note: This is the reverse of {@link #subtract(DoubleSupplier, DoubleFunction)}.
+	 *
+	 * @param that the number to subtract.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the subtraction result.
+	 * @see #subtract(DoubleSupplier, DoubleFunction)
+	 */
+	public final <Result> Result subtractFrom(final DoubleSupplier that, final DoubleFunction<Result> factory)
+	{
+		return factory.apply(that.getAsDouble() - this.getAsDouble());
+	}
+
+	/**
+	 * Multiply the raw value by a number, and wrap the result in the same type.
+	 *
+	 * @param that the number to multiply by.
+	 * @return an instance of {@link This}, wrapping the multiplication result.
+	 */
+	public final This multiplyBy(final double that) { return map(raw -> raw * that); }
+
+	/**
+	 * Multiply the raw value by a number, and wrap the result in the same type.
+	 *
+	 * @param that the number to multiply by.
+	 * @return an instance of {@link This}, wrapping the multiplication result.
+	 */
+	public final This multiplyBy(final DoubleSupplier that) { return multiplyBy(that.getAsDouble()); }
+
+	/**
+	 * Multiply the raw value by a number, and wrap the result in another type.
+	 *
+	 * @param that the number to multiply by.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the multiplication result.
+	 */
+	public final <Result> Result multiplyBy(final DoubleSupplier that, final DoubleFunction<Result> factory)
+	{
+		return factory.apply(this.getAsDouble() * that.getAsDouble());
+	}
+
+	/**
+	 * Divide the raw value by a number, and wrap the result in the same type.
+	 * Note: This is the inverse of {@link #divide(double)}.
+	 *
+	 * @param that the number to divide by.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divideBy(final double that) { return map(raw -> raw / that); }
+
+	/**
+	 * Divide the raw value by a number, and wrap the result in the same type.
+	 * Note: This is the inverse of {@link #divide(DoubleSupplier)}.
+	 *
+	 * @param that the number to divide by.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divideBy(final DoubleSupplier that) { return divideBy(that.getAsDouble()); }
+
+	/**
+	 * Divide the raw value by a number, and wrap the result in another type.
+	 * Note: This is the inverse of {@link #divide(DoubleSupplier, DoubleFunction)}.
+	 *
+	 * @param that the number to divide by.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the multiplication result.
+	 */
+	public final <Result> Result divideBy(final DoubleSupplier that, final DoubleFunction<Result> factory)
+	{
+		return factory.apply(this.getAsDouble() / that.getAsDouble());
+	}
+
+	/**
+	 * Divide a number by the raw value, and wrap the result in the same type.
+	 * Note: This is the inverse of {@link #divideBy(double)}.
+	 *
+	 * @param that the number to divide.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divide(final double that) { return map(raw -> that / raw); }
+
+	/**
+	 * Divide a number by the raw value, and wrap the result in the same type.
+	 * Note: This is the inverse of {@link #divideBy(DoubleSupplier)}.
+	 *
+	 * @param that the number to divide.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divide(final DoubleSupplier that) { return divide(that.getAsDouble()); }
+
+	/**
+	 * Divide a number by the raw value, and wrap the result in another type.
+	 * Note: This is the inverse of {@link #divideBy(DoubleSupplier, DoubleFunction)}.
+	 *
+	 * @param that the number to divide.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the multiplication result.
+	 */
+	public final <Result> Result divide(final DoubleSupplier that, final DoubleFunction<Result> factory)
+	{
+		return factory.apply(that.getAsDouble() / this.getAsDouble());
+	}
 }

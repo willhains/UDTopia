@@ -553,4 +553,174 @@ public class PureDoubleTest
 		final Height x = new Height(1.4325);
 		assertThat(x.format(pattern), is(equalTo(x.format(formatter))));
 	}
+
+	@Test public void shouldAddZeroAndReturnSame()
+	{
+		final Height x = new Height(2.0);
+		assertThat(x.add(0.0), is(sameInstance(x)));
+		assertThat(x.add(new Height2(0.0)), is(sameInstance(x)));
+		assertThat(x.add(new PureLongTest.Count(0)), is(sameInstance(x)));
+		assertThat(x.add(new PureIntTest.Count(0)), is(sameInstance(x)));
+		assertThat(x.add(new Height(0.0), Height2::new), is(new Height2(2.0)));
+	}
+
+	@Test public void shouldAddNonZero()
+	{
+		final Height x = new Height(2.0);
+		assertThat(x.add(3.5).getAsDouble(), is(5.5));
+		assertThat(x.add(new Height2(3.5)).getAsDouble(), is(5.5));
+		assertThat(x.add(new PureLongTest.Count(3)).getAsDouble(), is(5.0));
+		assertThat(x.add(new PureIntTest.Count(3)).getAsDouble(), is(5.0));
+		assertThat(x.add(new Height(3.5), Height2::new), is(new Height2(5.5)));
+	}
+
+	@Test public void shouldAddNegative()
+	{
+		final Height x = new Height(2.0);
+		assertThat(x.add(-3.5).getAsDouble(), is(-1.5));
+		assertThat(x.add(new Height2(-3.5)).getAsDouble(), is(-1.5));
+		assertThat(x.add(new PureLongTest.Count(-3)).getAsDouble(), is(-1.0));
+		assertThat(x.add(new PureIntTest.Count(-3)).getAsDouble(), is(-1.0));
+		assertThat(x.add(new Height(-3.5), Height2::new), is(new Height2(-1.5)));
+	}
+
+	@Test public void shouldSubtractZeroAndReturnSame()
+	{
+		final Height x = new Height(2.0);
+		assertThat(x.subtract(0.0), is(sameInstance(x)));
+		assertThat(x.subtract(new Height2(0.0)), is(sameInstance(x)));
+		assertThat(x.subtract(new PureLongTest.Count(0)), is(sameInstance(x)));
+		assertThat(x.subtract(new PureIntTest.Count(0)), is(sameInstance(x)));
+		assertThat(x.subtract(new Height(0.0), Height2::new), is(new Height2(2.0)));
+	}
+
+	@Test public void shouldSubtractNonZero()
+	{
+		final Height x = new Height(5.5);
+		assertThat(x.subtract(3.5).getAsDouble(), is(2.0));
+		assertThat(x.subtract(new Height2(3.5)).getAsDouble(), is(2.0));
+		assertThat(x.subtract(new PureLongTest.Count(3)).getAsDouble(), is(2.5));
+		assertThat(x.subtract(new PureIntTest.Count(3)).getAsDouble(), is(2.5));
+		assertThat(x.subtract(new Height(3.5), Height2::new), is(new Height2(2.0)));
+	}
+
+	@Test public void shouldSubtractNegative()
+	{
+		final Height x = new Height(-3.5);
+		assertThat(x.subtract(-5.5).getAsDouble(), is(2.0));
+		assertThat(x.subtract(new Height2(-5.5)).getAsDouble(), is(2.0));
+		assertThat(x.subtract(new PureLongTest.Count(-5)).getAsDouble(), is(1.5));
+		assertThat(x.subtract(new PureIntTest.Count(-5)).getAsDouble(), is(1.5));
+		assertThat(x.subtract(new Height(-5.5), Height2::new), is(new Height2(2.0)));
+	}
+
+	@Test public void shouldSubtractNonZeroFromThis()
+	{
+		final Height x = new Height(5.5);
+		assertThat(x.subtractFrom(3.5).getAsDouble(), is(-2.0));
+		assertThat(x.subtractFrom(new Height2(3.5)).getAsDouble(), is(-2.0));
+		assertThat(x.subtractFrom(new PureLongTest.Count(3)).getAsDouble(), is(-2.5));
+		assertThat(x.subtractFrom(new PureIntTest.Count(3)).getAsDouble(), is(-2.5));
+		assertThat(x.subtractFrom(new Height(3.5), Height2::new), is(new Height2(-2.0)));
+	}
+
+	@Test public void shouldSubtractNegativeFromThis()
+	{
+		final Height x = new Height(-3.5);
+		assertThat(x.subtractFrom(-5.5).getAsDouble(), is(-2.0));
+		assertThat(x.subtractFrom(new Height2(-5.5)).getAsDouble(), is(-2.0));
+		assertThat(x.subtractFrom(new PureLongTest.Count(-5)).getAsDouble(), is(-1.5));
+		assertThat(x.subtractFrom(new PureIntTest.Count(-5)).getAsDouble(), is(-1.5));
+		assertThat(x.subtractFrom(new Height(-5.5), Height2::new), is(new Height2(-2.0)));
+	}
+
+	@Test public void shouldMultiplyByOneAndReturnSame()
+	{
+		final Height x = new Height(3.5);
+		assertThat(x.multiplyBy(1.0), is(sameInstance(x)));
+		assertThat(x.multiplyBy(new Height2(1.0)), is(sameInstance(x)));
+		assertThat(x.multiplyBy(new PureLongTest.Count(1)), is(sameInstance(x)));
+		assertThat(x.multiplyBy(new PureIntTest.Count(1)), is(sameInstance(x)));
+		assertThat(x.multiplyBy(new Height(1.0), Height2::new), is(new Height2(3.5)));
+	}
+
+	@Test public void shouldMultiplyByZero()
+	{
+		final Height x = new Height(2.0);
+		assertThat(x.multiplyBy(0.0).getAsDouble(), is(0.0));
+		assertThat(x.multiplyBy(new Height2(0.0)).getAsDouble(), is(0.0));
+		assertThat(x.multiplyBy(new PureLongTest.Count(0)).getAsDouble(), is(0.0));
+		assertThat(x.multiplyBy(new PureIntTest.Count(0)).getAsDouble(), is(0.0));
+		assertThat(x.multiplyBy(new Height(0.0), Height2::new), is(new Height2(0.0)));
+	}
+
+	@Test public void shouldMultiplyByNonOne()
+	{
+		final Height x = new Height(2.0);
+		assertThat(x.multiplyBy(4.5).getAsDouble(), is(9.0));
+		assertThat(x.multiplyBy(new Height2(4.5)).getAsDouble(), is(9.0));
+		assertThat(x.multiplyBy(new PureLongTest.Count(4)).getAsDouble(), is(8.0));
+		assertThat(x.multiplyBy(new PureIntTest.Count(4)).getAsDouble(), is(8.0));
+		assertThat(x.multiplyBy(new Height(4.5), Height2::new), is(new Height2(9.0)));
+	}
+
+	@Test public void shouldMultiplyByNegative()
+	{
+		final Height x = new Height(2.0);
+		assertThat(x.multiplyBy(-3.25).getAsDouble(), is(-6.5));
+		assertThat(x.multiplyBy(new Height2(-3.25)).getAsDouble(), is(-6.5));
+		assertThat(x.multiplyBy(new PureLongTest.Count(-3)).getAsDouble(), is(-6.0));
+		assertThat(x.multiplyBy(new PureIntTest.Count(-3)).getAsDouble(), is(-6.0));
+		assertThat(x.multiplyBy(new Height(-3.25), Height2::new), is(new Height2(-6.5)));
+	}
+
+	@Test public void shouldDivideByOneAndReturnSame()
+	{
+		final Height x = new Height(4.5);
+		assertThat(x.divideBy(1.0), is(sameInstance(x)));
+		assertThat(x.divideBy(new Height2(1.0)), is(sameInstance(x)));
+		assertThat(x.divideBy(new PureLongTest.Count(1)), is(sameInstance(x)));
+		assertThat(x.divideBy(new PureIntTest.Count(1)), is(sameInstance(x)));
+		assertThat(x.divideBy(new Height(1.0), Height2::new), is(new Height2(4.5)));
+	}
+
+	@Test public void shouldDivideByFactor()
+	{
+		final Height x = new Height(12.0);
+		assertThat(x.divideBy(4.0).getAsDouble(), is(3.0));
+		assertThat(x.divideBy(new Height2(4.0)).getAsDouble(), is(3.0));
+		assertThat(x.divideBy(new PureLongTest.Count(4)).getAsDouble(), is(3.0));
+		assertThat(x.divideBy(new PureIntTest.Count(4)).getAsDouble(), is(3.0));
+		assertThat(x.divideBy(new Height(4.0), Height2::new), is(new Height2(3.0)));
+	}
+
+	@Test public void shouldDivideByNonFactor()
+	{
+		final Height x = new Height(12);
+		assertThat(x.divideBy(5.0).getAsDouble(), is(2.4));
+		assertThat(x.divideBy(new Height2(5.0)).getAsDouble(), is(2.4));
+		assertThat(x.divideBy(new PureLongTest.Count(5)).getAsDouble(), is(2.4));
+		assertThat(x.divideBy(new PureIntTest.Count(5)).getAsDouble(), is(2.4));
+		assertThat(x.divideBy(new Height(5.0), Height2::new), is(new Height2(2.4)));
+	}
+
+	@Test public void shouldDivideMultiple()
+	{
+		final Height x = new Height(4.0);
+		assertThat(x.divide(12.0).getAsDouble(), is(3.0));
+		assertThat(x.divide(new Height2(12.0)).getAsDouble(), is(3.0));
+		assertThat(x.divide(new PureLongTest.Count(12)).getAsDouble(), is(3.0));
+		assertThat(x.divide(new PureIntTest.Count(12)).getAsDouble(), is(3.0));
+		assertThat(x.divide(new Height(12.0), Height2::new), is(new Height2(3.0)));
+	}
+
+	@Test public void shouldDivideNonMultiple()
+	{
+		final Height x = new Height(5);
+		assertThat(x.divide(12.0).getAsDouble(), is(2.4));
+		assertThat(x.divide(new Height2(12.0)).getAsDouble(), is(2.4));
+		assertThat(x.divide(new PureLongTest.Count(12)).getAsDouble(), is(2.4));
+		assertThat(x.divide(new PureIntTest.Count(12)).getAsDouble(), is(2.4));
+		assertThat(x.divide(new Height(12.0), Height2::new), is(new Height2(2.4)));
+	}
 }

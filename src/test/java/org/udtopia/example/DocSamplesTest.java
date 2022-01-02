@@ -23,5 +23,14 @@ public class DocSamplesTest
 		assertThat(urlSlug.get(), is("Test-Article-Title"));
 	}
 
-	public static boolean isFirstDay(final DayCount dayCount) { return dayCount.isZero(); }
+	@Test public void shouldMultiplyTwoDifferentUDTs()
+	{
+		// This is only an illustration
+		// Don't use floating-point values for money!
+		final Quantity orderQuantity = new Quantity(5);
+		final Price unitPrice = new Price(24.95);
+		final Price orderTotal = unitPrice.multiplyBy(orderQuantity);
+		final Price withTax = orderTotal.multiplyBy(1.15);
+		assertThat(withTax.getAsDouble(), is(closeTo(143.4625, 0.0001)));
+	}
 }

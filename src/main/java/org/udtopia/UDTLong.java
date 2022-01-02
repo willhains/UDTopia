@@ -8,6 +8,8 @@ import java.util.function.LongUnaryOperator;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
 
+import static java.lang.Math.*;
+
 /**
  * A value type wrapping a primitive {@code long}.
  *
@@ -221,4 +223,196 @@ public abstract @Value class UDTLong<This extends UDTLong<This>> implements UDTN
 	@Override public final boolean isNegative() { return getAsLong() < 0L; }
 
 	@Override public final String format(final NumberFormat formatter) { return formatter.format(getAsLong()); }
+
+	/**
+	 * Add a number to the raw value, and wrap the result in the same type.
+	 *
+	 * @param that the number to add.
+	 * @return an instance of {@link This}, wrapping the addition result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This add(final long that) { return map(raw -> addExact(raw, that)); }
+
+	/**
+	 * Add a number to the raw value, and wrap the result in the same type.
+	 *
+	 * @param that the number to add.
+	 * @return an instance of {@link This}, wrapping the addition result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This add(final LongSupplier that) { return add(that.getAsLong()); }
+
+	/**
+	 * Add a number to the raw value, and wrap the result in another type.
+	 *
+	 * @param that the number to add.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the addition result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final <Result> Result add(final LongSupplier that, final LongFunction<Result> factory)
+	{
+		return factory.apply(addExact(this.getAsLong(), that.getAsLong()));
+	}
+
+	/**
+	 * Subtract a number from the raw value, and wrap the result in the same type.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This subtract(final long that) { return map(raw -> subtractExact(raw, that)); }
+
+	/**
+	 * Subtract a number from the raw value, and wrap the result in the same type.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This subtract(final LongSupplier that) { return subtract(that.getAsLong()); }
+
+	/**
+	 * Subtract a number from the raw value, and wrap the result in another type.
+	 *
+	 * @param that the number to subtract.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the subtraction result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final <Result> Result subtract(final LongSupplier that, final LongFunction<Result> factory)
+	{
+		return factory.apply(subtractExact(this.getAsLong(), that.getAsLong()));
+	}
+
+	/**
+	 * Subtract the raw value from a number, and wrap the result in the same type.
+	 * Note: This is the reverse of {@link #subtract(long)}.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @see #subtract(long)
+	 */
+	public final This subtractFrom(final long that) { return map(raw -> that - raw); }
+
+	/**
+	 * Subtract the raw value from a number, and wrap the result in the same type.
+	 * Note: This is the reverse of {@link #subtract(LongSupplier)}.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @see #subtract(LongSupplier)
+	 */
+	public final This subtractFrom(final LongSupplier that) { return subtractFrom(that.getAsLong()); }
+
+	/**
+	 * Subtract the raw value from a number, and wrap the result in another type.
+	 * Note: This is the reverse of {@link #subtract(LongSupplier, LongFunction)}.
+	 *
+	 * @param that the number to subtract.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the subtraction result.
+	 * @see #subtract(LongSupplier, LongFunction)
+	 */
+	public final <Result> Result subtractFrom(final LongSupplier that, final LongFunction<Result> factory)
+	{
+		return factory.apply(that.getAsLong() - this.getAsLong());
+	}
+
+	/**
+	 * Multiply the raw value by a number, and wrap the result in the same type.
+	 *
+	 * @param that the number to multiply by.
+	 * @return an instance of {@link This}, wrapping the multiplication result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This multiplyBy(final long that) { return map(raw -> multiplyExact(raw, that)); }
+
+	/**
+	 * Multiply the raw value by a number, and wrap the result in the same type.
+	 *
+	 * @param that the number to multiply by.
+	 * @return an instance of {@link This}, wrapping the multiplication result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This multiplyBy(final LongSupplier that) { return multiplyBy(that.getAsLong()); }
+
+	/**
+	 * Multiply the raw value by a number, and wrap the result in another type.
+	 *
+	 * @param that the number to multiply by.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the multiplication result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final <Result> Result multiplyBy(final LongSupplier that, final LongFunction<Result> factory)
+	{
+		return factory.apply(multiplyExact(this.getAsLong(), that.getAsLong()));
+	}
+
+	/**
+	 * Divide the raw value by a number, and wrap the result in the same type.
+	 *
+	 * @param that the number to divide by.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divideBy(final long that) { return map(raw -> raw / that); }
+
+	/**
+	 * Divide the raw value by a number, and wrap the result in the same type.
+	 *
+	 * @param that the number to divide by.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divideBy(final LongSupplier that) { return divideBy(that.getAsLong()); }
+
+	/**
+	 * Divide the raw value by a number, and wrap the result in another type.
+	 *
+	 * @param that the number to divide by.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the multiplication result.
+	 */
+	public final <Result> Result divideBy(final LongSupplier that, final LongFunction<Result> factory)
+	{
+		return factory.apply(this.getAsLong() / that.getAsLong());
+	}
+
+	/**
+	 * Divide a number by the raw value, and wrap the result in the same type.
+	 * Note: This is the inverse of {@link #divideBy(long)}.
+	 *
+	 * @param that the number to divide.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divide(final long that) { return map(raw -> that / raw); }
+
+	/**
+	 * Divide a number by the raw value, and wrap the result in the same type.
+	 * Note: This is the inverse of {@link #divideBy(LongSupplier)}.
+	 *
+	 * @param that the number to divide.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divide(final LongSupplier that) { return divide(that.getAsLong()); }
+
+	/**
+	 * Divide a number by the raw value, and wrap the result in another type.
+	 * Note: This is the inverse of {@link #divideBy(LongSupplier, LongFunction)}.
+	 *
+	 * @param that the number to divide.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the multiplication result.
+	 */
+	public final <Result> Result divide(final LongSupplier that, final LongFunction<Result> factory)
+	{
+		return factory.apply(that.getAsLong() / this.getAsLong());
+	}
 }

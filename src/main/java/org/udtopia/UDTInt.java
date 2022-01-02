@@ -8,6 +8,8 @@ import java.util.function.IntUnaryOperator;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
 
+import static java.lang.Math.*;
+
 /**
  * A value type wrapping a primitive {@code int}.
  *
@@ -210,4 +212,196 @@ public abstract @Value class UDTInt<This extends UDTInt<This>> implements UDTNum
 	@Override public final boolean isNegative() { return getAsInt() < 0; }
 
 	@Override public final String format(final NumberFormat formatter) { return formatter.format(getAsInt()); }
+
+	/**
+	 * Add a number to the raw value, and wrap the result in the same type.
+	 *
+	 * @param that the number to add.
+	 * @return an instance of {@link This}, wrapping the addition result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This add(final int that) { return map(raw -> addExact(raw, that)); }
+
+	/**
+	 * Add a number to the raw value, and wrap the result in the same type.
+	 *
+	 * @param that the number to add.
+	 * @return an instance of {@link This}, wrapping the addition result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This add(final IntSupplier that) { return add(that.getAsInt()); }
+
+	/**
+	 * Add a number to the raw value, and wrap the result in another type.
+	 *
+	 * @param that the number to add.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the addition result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final <Result> Result add(final IntSupplier that, final IntFunction<Result> factory)
+	{
+		return factory.apply(addExact(this.getAsInt(), that.getAsInt()));
+	}
+
+	/**
+	 * Subtract a number from the raw value, and wrap the result in the same type.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This subtract(final int that) { return map(raw -> subtractExact(raw, that)); }
+
+	/**
+	 * Subtract a number from the raw value, and wrap the result in the same type.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This subtract(final IntSupplier that) { return subtract(that.getAsInt()); }
+
+	/**
+	 * Subtract a number from the raw value, and wrap the result in another type.
+	 *
+	 * @param that the number to subtract.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the subtraction result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final <Result> Result subtract(final IntSupplier that, final IntFunction<Result> factory)
+	{
+		return factory.apply(subtractExact(this.getAsInt(), that.getAsInt()));
+	}
+
+	/**
+	 * Subtract the raw value from a number, and wrap the result in the same type.
+	 * Note: This is the reverse of {@link #subtract(int)}.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @see #subtract(int)
+	 */
+	public final This subtractFrom(final int that) { return map(raw -> that - raw); }
+
+	/**
+	 * Subtract the raw value from a number, and wrap the result in the same type.
+	 * Note: This is the reverse of {@link #subtract(IntSupplier)}.
+	 *
+	 * @param that the number to subtract.
+	 * @return an instance of {@link This}, wrapping the subtraction result.
+	 * @see #subtract(IntSupplier)
+	 */
+	public final This subtractFrom(final IntSupplier that) { return subtractFrom(that.getAsInt()); }
+
+	/**
+	 * Subtract the raw value from a number, and wrap the result in another type.
+	 * Note: This is the reverse of {@link #subtract(IntSupplier, IntFunction)}.
+	 *
+	 * @param that the number to subtract.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the subtraction result.
+	 * @see #subtract(IntSupplier, IntFunction)
+	 */
+	public final <Result> Result subtractFrom(final IntSupplier that, final IntFunction<Result> factory)
+	{
+		return factory.apply(that.getAsInt() - this.getAsInt());
+	}
+
+	/**
+	 * Multiply the raw value by a number, and wrap the result in the same type.
+	 *
+	 * @param that the number to multiply by.
+	 * @return an instance of {@link This}, wrapping the multiplication result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This multiplyBy(final int that) { return map(raw -> multiplyExact(raw, that)); }
+
+	/**
+	 * Multiply the raw value by a number, and wrap the result in the same type.
+	 *
+	 * @param that the number to multiply by.
+	 * @return an instance of {@link This}, wrapping the multiplication result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final This multiplyBy(final IntSupplier that) { return multiplyBy(that.getAsInt()); }
+
+	/**
+	 * Multiply the raw value by a number, and wrap the result in another type.
+	 *
+	 * @param that the number to multiply by.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the multiplication result.
+	 * @throws ArithmeticException if the value overflows.
+	 */
+	public final <Result> Result multiplyBy(final IntSupplier that, final IntFunction<Result> factory)
+	{
+		return factory.apply(multiplyExact(this.getAsInt(), that.getAsInt()));
+	}
+
+	/**
+	 * Divide the raw value by a number, and wrap the result in the same type.
+	 *
+	 * @param that the number to divide by.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divideBy(final int that) { return map(raw -> raw / that); }
+
+	/**
+	 * Divide the raw value by a number, and wrap the result in the same type.
+	 *
+	 * @param that the number to divide by.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divideBy(final IntSupplier that) { return divideBy(that.getAsInt()); }
+
+	/**
+	 * Divide the raw value by a number, and wrap the result in another type.
+	 *
+	 * @param that the number to divide by.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the multiplication result.
+	 */
+	public final <Result> Result divideBy(final IntSupplier that, final IntFunction<Result> factory)
+	{
+		return factory.apply(this.getAsInt() / that.getAsInt());
+	}
+
+	/**
+	 * Divide a number by the raw value, and wrap the result in the same type.
+	 * Note: This is the inverse of {@link #divideBy(int)}.
+	 *
+	 * @param that the number to divide.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divide(final int that) { return map(raw -> that / raw); }
+
+	/**
+	 * Divide a number by the raw value, and wrap the result in the same type.
+	 * Note: This is the inverse of {@link #divideBy(IntSupplier)}.
+	 *
+	 * @param that the number to divide.
+	 * @return an instance of {@link This}, wrapping the division result.
+	 */
+	public final This divide(final IntSupplier that) { return divide(that.getAsInt()); }
+
+	/**
+	 * Divide a number by the raw value, and wrap the result in another type.
+	 * Note: This is the inverse of {@link #divideBy(IntSupplier, IntFunction)}.
+	 *
+	 * @param that the number to divide.
+	 * @param factory a method reference to the factory/constructor of the return type.
+	 * @param <Result> the return type.
+	 * @return an instance of {@code Result}, wrapping the multiplication result.
+	 */
+	public final <Result> Result divide(final IntSupplier that, final IntFunction<Result> factory)
+	{
+		return factory.apply(that.getAsInt() / this.getAsInt());
+	}
 }

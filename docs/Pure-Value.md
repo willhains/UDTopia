@@ -261,19 +261,27 @@ if (title.isNot(String::isEmpty))
 }
 ```
 
-## Numeric Operations
+## Numeric and Arithmetic Operations
 
-Numeric `Pure*` classes implement the `UDTNumber` interface, which adds some useful numeric operations.
+The numeric `Pure*` classes (`PureDouble`, `PureLong`, `PureInt`) provide some useful numeric operations:
 
-| Pure Class   | Numeric Operations             |
-|--------------|--------------------------------|
-| `PureDouble` | yes                            |
-| `PureLong`   | yes                            |
-| `PureInt`    | yes                            |
-| `PureString` | no                             |
-| `PureValue`  | yes, if `implements UDTNumber` |
+- `add`  
+  *(multiple signatures)*  
+  Addition with overflow protection.
 
-`UDTNumber` classes expose more useful methods:
+- `subtract`  
+  `subtractFrom`  
+  *(multiple signatures)*  
+  Subtraction with overflow protection.
+
+- `multiplyBy`  
+  *(multiple signatures)*  
+  Multiplication with overflow protection.
+
+- `divideBy`  
+  `divide`  
+  *(multiple signatures)*  
+  Division with rounding.
 
 - `isZero()`  
   `isNonZero()`  
@@ -286,3 +294,14 @@ Numeric `Pure*` classes implement the `UDTNumber` interface, which adds some use
 - `format(NumberFormat formatter)`  
   `format(String pattern)`  
   Format the number as a string.
+
+Numeric operations work with primitive values, and UDTs of different classes can work together:
+
+```java
+// This is only an illustration
+// Don't use floating-point values for money!
+final Quantity orderQuantity = new Quantity(5);
+final Price unitPrice = new Price(24.95);
+final Price orderTotal = unitPrice.multiplyBy(orderQuantity);
+final Price withTax = orderTotal.multiplyBy(1.15);
+```

@@ -506,4 +506,157 @@ public class PureLongTest
 		final String s = x.format(new DecimalFormat("#,##0.000 times"));
 		assertThat(s, is("1,234.000 times"));
 	}
+
+	@Test public void shouldAddZeroAndReturnSame()
+	{
+		final Count x = new Count(2);
+		assertThat(x.add(0), is(sameInstance(x)));
+		assertThat(x.add(new Count2(0)), is(sameInstance(x)));
+		assertThat(x.add(new Count(0)), is(sameInstance(x)));
+		assertThat(x.add(new Count(0), Count2::new), is(new Count2(2)));
+	}
+
+	@Test public void shouldAddNonZero()
+	{
+		final Count x = new Count(2);
+		assertThat(x.add(3), is(new Count(5)));
+		assertThat(x.add(new Count2(3)), is(new Count(5)));
+		assertThat(x.add(new Count(3)), is(new Count(5)));
+		assertThat(x.add(new Count(3), Count2::new), is(new Count2(5)));
+	}
+
+	@Test public void shouldAddNegative()
+	{
+		final Count x = new Count(2);
+		assertThat(x.add(-3), is(new Count(-1)));
+		assertThat(x.add(new Count2(-3)), is(new Count(-1)));
+		assertThat(x.add(new Count(-3)), is(new Count(-1)));
+		assertThat(x.add(new Count(-3), Count2::new), is(new Count2(-1)));
+	}
+
+	@Test public void shouldSubtractZeroAndReturnSame()
+	{
+		final Count x = new Count(2);
+		assertThat(x.subtract(0), is(sameInstance(x)));
+		assertThat(x.subtract(new Count2(0)), is(sameInstance(x)));
+		assertThat(x.subtract(new Count(0)), is(sameInstance(x)));
+		assertThat(x.subtract(new Count(0), Count2::new), is(new Count2(2)));
+	}
+
+	@Test public void shouldSubtractNonZero()
+	{
+		final Count x = new Count(5);
+		assertThat(x.subtract(3), is(new Count(2)));
+		assertThat(x.subtract(new Count2(3)), is(new Count(2)));
+		assertThat(x.subtract(new Count(3)), is(new Count(2)));
+		assertThat(x.subtract(new Count(3), Count2::new), is(new Count2(2)));
+	}
+
+	@Test public void shouldSubtractNegative()
+	{
+		final Count x = new Count(-3);
+		assertThat(x.subtract(-5), is(new Count(2)));
+		assertThat(x.subtract(new Count2(-5)), is(new Count(2)));
+		assertThat(x.subtract(new Count(-5)), is(new Count(2)));
+		assertThat(x.subtract(new Count(-5), Count2::new), is(new Count2(2)));
+	}
+
+	@Test public void shouldSubtractNonZeroFromThis()
+	{
+		final Count x = new Count(5);
+		assertThat(x.subtractFrom(3), is(new Count(-2)));
+		assertThat(x.subtractFrom(new Count2(3)), is(new Count(-2)));
+		assertThat(x.subtractFrom(new Count(3)), is(new Count(-2)));
+		assertThat(x.subtractFrom(new Count(3), Count2::new), is(new Count2(-2)));
+	}
+
+	@Test public void shouldSubtractNegativeFromThis()
+	{
+		final Count x = new Count(-3);
+		assertThat(x.subtractFrom(-5), is(new Count(-2)));
+		assertThat(x.subtractFrom(new Count2(-5)), is(new Count(-2)));
+		assertThat(x.subtractFrom(new Count(-5)), is(new Count(-2)));
+		assertThat(x.subtractFrom(new Count(-5), Count2::new), is(new Count2(-2)));
+	}
+
+	@Test public void shouldMultiplyByOneAndReturnSame()
+	{
+		final Count x = new Count(3);
+		assertThat(x.multiplyBy(1), is(sameInstance(x)));
+		assertThat(x.multiplyBy(new Count2(1)), is(sameInstance(x)));
+		assertThat(x.multiplyBy(new Count(1)), is(sameInstance(x)));
+		assertThat(x.multiplyBy(new Count(1), Count2::new), is(new Count2(3)));
+	}
+
+	@Test public void shouldMultiplyByZero()
+	{
+		final Count x = new Count(2);
+		assertThat(x.multiplyBy(0), is(new Count(0)));
+		assertThat(x.multiplyBy(new Count2(0)), is(new Count(0)));
+		assertThat(x.multiplyBy(new Count(0)), is(new Count(0)));
+		assertThat(x.multiplyBy(new Count(0), Count2::new), is(new Count2(0)));
+	}
+
+	@Test public void shouldMultiplyByNonOne()
+	{
+		final Count x = new Count(2);
+		assertThat(x.multiplyBy(4), is(new Count(8)));
+		assertThat(x.multiplyBy(new Count2(4)), is(new Count(8)));
+		assertThat(x.multiplyBy(new Count(4)), is(new Count(8)));
+		assertThat(x.multiplyBy(new Count(4), Count2::new), is(new Count2(8)));
+	}
+
+	@Test public void shouldMultiplyByNegative()
+	{
+		final Count x = new Count(2);
+		assertThat(x.multiplyBy(-3), is(new Count(-6)));
+		assertThat(x.multiplyBy(new Count2(-3)), is(new Count(-6)));
+		assertThat(x.multiplyBy(new Count(-3)), is(new Count(-6)));
+		assertThat(x.multiplyBy(new Count(-3), Count2::new), is(new Count2(-6)));
+	}
+
+	@Test public void shouldDivideByOneAndReturnSame()
+	{
+		final Count x = new Count(4);
+		assertThat(x.divideBy(1), is(sameInstance(x)));
+		assertThat(x.divideBy(new Count2(1)), is(sameInstance(x)));
+		assertThat(x.divideBy(new Count(1)), is(sameInstance(x)));
+		assertThat(x.divideBy(new Count(1), Count2::new), is(new Count2(4)));
+	}
+
+	@Test public void shouldDivideByFactor()
+	{
+		final Count x = new Count(12);
+		assertThat(x.divideBy(4), is(new Count(3)));
+		assertThat(x.divideBy(new Count2(4)), is(new Count(3)));
+		assertThat(x.divideBy(new Count(4)), is(new Count(3)));
+		assertThat(x.divideBy(new Count(4), Count2::new), is(new Count2(3)));
+	}
+
+	@Test public void shouldDivideByNonFactorAndRoundDown()
+	{
+		final Count x = new Count(12);
+		assertThat(x.divideBy(5), is(new Count(2)));
+		assertThat(x.divideBy(new Count2(5)), is(new Count(2)));
+		assertThat(x.divideBy(new Count(5)), is(new Count(2)));
+		assertThat(x.divideBy(new Count(5), Count2::new), is(new Count2(2)));
+	}
+
+	@Test public void shouldDivideMultiple()
+	{
+		final Count x = new Count(4);
+		assertThat(x.divide(12), is(new Count(3)));
+		assertThat(x.divide(new Count2(12)), is(new Count(3)));
+		assertThat(x.divide(new Count(12)), is(new Count(3)));
+		assertThat(x.divide(new Count(12), Count2::new), is(new Count2(3)));
+	}
+
+	@Test public void shouldDivideNonMultipleAndRoundDown()
+	{
+		final Count x = new Count(5);
+		assertThat(x.divide(12), is(new Count(2)));
+		assertThat(x.divide(new Count2(12)), is(new Count(2)));
+		assertThat(x.divide(new Count(12)), is(new Count(2)));
+		assertThat(x.divide(new Count(12), Count2::new), is(new Count2(2)));
+	}
 }
