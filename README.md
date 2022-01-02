@@ -1,7 +1,11 @@
 ![Zero Runtime Dependencies][badge-dependencies]
+[![Javadoc][badge-javadoc]][javadoc]
 [![Latest Release][badge-release]][releases]
 
 [badge-dependencies]: https://shields.io/badge/dependencies-none-informational "Zero Runtime Dependencies"
+
+[badge-javadoc]: https://javadoc.io/badge2/org.udtopia/udtopia/javadoc.svg
+[javadoc]: https://javadoc.io/doc/org.udtopia/udtopia "Javadoc API Documentation"
 
 [badge-release]: https://shields.io/github/v/release/willhains/udtopia?display_name=tag&include_prereleases
 [releases]: https://github.com/willhains/equality/releases "UDTopia Release History"

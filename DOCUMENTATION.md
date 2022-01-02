@@ -3,9 +3,11 @@
 Documentation for UDTopia can be found in:
 
 - The **[README](README.md)**, a high-level overview of UDTopia, with some simple usage examples.
+- The **[Javadocs][javadoc]**, formal API specifications.
 - Policy statements (all-caps `.md` files in the repo root, like this one) define project policies.
 
 [readme]: README.md
+[javadoc]: https://javadoc.io/doc/org.udtopia/udtopia/latest/index.html
 
 Documentation is hard.
 If you notice something missing or wrong, please create an issue, and/or submit a PR to fix it!
