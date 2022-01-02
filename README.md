@@ -84,6 +84,19 @@ UDTopia comes with several [built-in rules][rule-list], and you can [create your
 [rule-list]: docs/Constrain-Values.md#built-in-rules
 [custom-rules]: docs/Constrain-Values.md#custom-rules
 
+### Recycle UDT Objects
+
+GC pressure is rarely a problem with UDT objects.
+But, for when profiling reveals excessive GC activity, UDTopia has an advanced [object recycling][recycle] feature.
+
+[recycle]: docs/Recycle-Bin.md
+
+```java
+UserId userId = UserId.parse(input);
+// process the value...
+userId.discard();
+```
+
 ## :wave: Get in Touch
 
 Have questions?

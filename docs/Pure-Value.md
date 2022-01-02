@@ -159,6 +159,10 @@ However, the GC algorithms of modern JVMs are extraordinarily sophisticated.
 Java GC is not the performance drag it once was.
 Do not fear the GC Bogeyman!
 
+That said, if GC pressure is a problem for your app, UDTopia has an advanced [instance recycling][recycle] feature.
+
+[recycle]: Recycle-Bin.md
+
 ## How to Use a Wrapped Value
 
 `Pure*` classes implement [Java's supplier interfaces][supplier].
