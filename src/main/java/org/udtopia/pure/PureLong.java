@@ -21,7 +21,7 @@ public abstract @Value class PureLong<This extends PureLong<This>> extends UDTLo
 	protected PureLong(final LongFunction<This> factory, final long rawValue)
 	{
 		super(factory);
-		_raw = rawValue;
+		_raw = applyRules(getClass(), rawValue);
 	}
 
 	/**

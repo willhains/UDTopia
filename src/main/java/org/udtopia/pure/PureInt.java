@@ -21,7 +21,7 @@ public abstract @Value class PureInt<This extends PureInt<This>> extends UDTInt<
 	protected PureInt(final IntFunction<This> factory, final int rawValue)
 	{
 		super(factory);
-		_raw = rawValue;
+		_raw = applyRules(getClass(), rawValue);
 	}
 
 	/**

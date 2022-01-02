@@ -92,15 +92,11 @@ Each is constrained to a set of valid values, with a specific purpose.
 Clearly, our `BodyTemp` class should not allow the full range of `double` values.
 We should trap values outside the valid range.
 
+UDTopia can normalize and validate values automatically with [Rule Annotations](Constrain-Values.md):
+
 ```java
-public BodyTemp(double reading)
-{
-  super(BodyTemp::new, reading);
-  if (reading < MIN_BODY_TEMP || reading > MAX_BODY_TEMP)
-  {
-    throw new IllegalArgumentException("Invalid body temp: " + reading);
-  }
-}
+@Min(MIN_BODY_TEMP) @Max(MAX_BODY_TEMP)
+public final @Value class BodyTemp extends PureDouble<BodyTemp>
 ```
 
 Raw values enter our app from the outside world: user input, files, databases, network services, and so on.
@@ -122,16 +118,10 @@ When we wrap values in UDTs, we give them *names*, so they never get mixed up.
 Even better, the compiler won't let us accidentally substitute one for another.
 
 ```java
+@Min(MIN_BLOOD_O2) @Max(MAX_BLOOD_O2)
 public final @Value class BloodOxygen extends PureDouble<BloodOxygen>
 {
-  public BloodOxygen(double reading)
-  {
-    super(BloodOxygen::new, reading);
-    if (reading < MIN_BLOOD_O2 || reading > MAX_BLOOD_O2)
-    {
-      throw new IllegalArgumentException("Invalid blood oxygen: " + reading);
-    }
-  }
+  public BloodOxygen(double reading) { super(BloodOxygen::new, reading); }
 }
 ```
 

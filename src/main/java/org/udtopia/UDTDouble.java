@@ -7,6 +7,7 @@ import java.util.function.DoubleSupplier;
 import java.util.function.DoubleUnaryOperator;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
+import org.udtopia.rules.DoubleRule;
 
 /**
  * A value type wrapping a primitive {@code double}.
@@ -20,6 +21,18 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 
 	/** @param factory a method reference to the factory of the implementing subclass. */
 	protected UDTDouble(final DoubleFunction<This> factory) { _factory = factory; }
+
+	/**
+	 * Apply the {@link DoubleRule}s annotated on the specified class.
+	 *
+	 * @param type the subclass.
+	 * @param rawValue the raw value to apply the rules on.
+	 * @return the resulting raw value to use.
+	 */
+	protected static double applyRules(final Class<?> type, final double rawValue)
+	{
+		return DoubleRule.applyRulesFor(type, rawValue);
+	}
 
 	/**
 	 * If the raw value can be exactly represented by an {@code int}, convert it.

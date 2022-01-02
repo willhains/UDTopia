@@ -7,6 +7,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.IntStream;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
+import org.udtopia.rules.StringRule;
 
 /**
  * A value type wrapping a {@link String}.
@@ -21,6 +22,19 @@ public abstract @Value class UDTString<This extends UDTString<This>>
 
 	/** @param factory a method reference to the factory of the implementing subclass. */
 	protected UDTString(final Function<? super String, This> factory) { _factory = factory; }
+
+	/**
+	 * Apply the {@link StringRule}s annotated on the specified class.
+	 *
+	 * @param type the subclass.
+	 * @param rawValue the raw value to apply the rules on.
+	 * @return the resulting raw value to use.
+	 */
+	protected static String applyRules(final Class<?> type, final String rawValue)
+	{
+		Assert.notNull(() -> rawValue, "Raw value must not be null");
+		return StringRule.applyRulesFor(type, rawValue);
+	}
 
 	/** @return the raw value. */
 	@Override public abstract String get();

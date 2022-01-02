@@ -20,7 +20,7 @@ public class DocSamplesTest
 		assertThat(noDot.get(), is("Test Article Title"));
 
 		final UrlSlug urlSlug = noDot.map(t -> t.replaceAll("\\s", "-"), UrlSlug::new);
-		assertThat(urlSlug.get(), is("Test-Article-Title"));
+		assertThat(urlSlug.get(), is("test-article-title"));
 	}
 
 	@Test public void shouldMultiplyTwoDifferentUDTs()

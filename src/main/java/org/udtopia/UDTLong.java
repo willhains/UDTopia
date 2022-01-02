@@ -7,6 +7,7 @@ import java.util.function.LongSupplier;
 import java.util.function.LongUnaryOperator;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
+import org.udtopia.rules.LongRule;
 
 import static java.lang.Math.*;
 
@@ -22,6 +23,18 @@ public abstract @Value class UDTLong<This extends UDTLong<This>> implements UDTN
 
 	/** @param factory a method reference to the factory of the implementing subclass. */
 	protected UDTLong(final LongFunction<This> factory) { _factory = factory; }
+
+	/**
+	 * Apply the {@link LongRule}s annotated on the specified class.
+	 *
+	 * @param type the subclass.
+	 * @param rawValue the raw value to apply the rules on.
+	 * @return the resulting raw value to use.
+	 */
+	protected static long applyRules(final Class<?> type, final long rawValue)
+	{
+		return LongRule.applyRulesFor(type, rawValue);
+	}
 
 	/**
 	 * If the raw value can be exactly represented by an {@code int}, convert it.

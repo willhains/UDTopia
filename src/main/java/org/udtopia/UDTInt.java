@@ -7,6 +7,7 @@ import java.util.function.IntSupplier;
 import java.util.function.IntUnaryOperator;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
+import org.udtopia.rules.IntRule;
 
 import static java.lang.Math.*;
 
@@ -22,6 +23,18 @@ public abstract @Value class UDTInt<This extends UDTInt<This>> implements UDTNum
 
 	/** @param factory a method reference to the factory of the implementing subclass. */
 	protected UDTInt(final IntFunction<This> factory) { _factory = factory; }
+
+	/**
+	 * Apply the {@link IntRule}s annotated on the specified class.
+	 *
+	 * @param type the subclass.
+	 * @param rawValue the raw value to apply the rules on.
+	 * @return the resulting raw value to use.
+	 */
+	protected static int applyRules(final Class<?> type, final int rawValue)
+	{
+		return IntRule.applyRulesFor(type, rawValue);
+	}
 
 	/**
 	 * Convert a {@code long} to an {@code int} without throwing.

@@ -21,7 +21,7 @@ public abstract @Value class PureDouble<This extends PureDouble<This>> extends U
 	protected PureDouble(final DoubleFunction<This> factory, final double rawValue)
 	{
 		super(factory);
-		_raw = rawValue;
+		_raw = applyRules(getClass(), rawValue);
 	}
 
 	/**
