@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg
+	xmlns="http://www.w3.org/2000/svg" version="1.1"
+	width="1024px" height="1024px" viewBox="0 0 1024 1024"
+	style="background-color: black">
+	<circle
+		cx="512" cy="512" r="448"
+		fill="cyan" fill-opacity="15%" stroke="black" stroke-width="16" />
+	<g transform="translate(-24, 0) rotate(-120,512,512)">
+		<circle
+			cx="512" cy="512" r="384"
+			fill="cyan" fill-opacity="15%" stroke="black" stroke-width="16" />
+		<g transform="translate(-24, 0) rotate(-120,512,512)">
+			<circle
+				cx="512" cy="512" r="320"
+				fill="cyan" fill-opacity="15%" stroke="black" stroke-width="16" />
+			<g transform="translate(-24, 0) rotate(-120,512,512)">
+				<circle
+					cx="512" cy="512" r="256"
+					fill="cyan" fill-opacity="15%" stroke="black" stroke-width="16" />
+				<g transform="translate(-24, 0) rotate(-120,512,512)">
+					<circle
+						cx="512" cy="512" r="192"
+						fill="cyan" fill-opacity="15%" stroke="black" stroke-width="16" />
+					<g transform="translate(-24, 0) rotate(-120,512,512)">
+						<circle
+							cx="512" cy="512" r="128"
+							fill="cyan" fill-opacity="15%" stroke="black" stroke-width="16" />
+						<g transform="translate(-24, 0) rotate(-120,512,512)">
+							<circle
+								cx="512" cy="512" r="72"
+								fill="cyan" fill-opacity="15%" stroke="black" stroke-width="16" />
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</svg>
