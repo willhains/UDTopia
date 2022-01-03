@@ -1,0 +1,60 @@
+# Build a beta branch, and deploy a snapshot to Central.
+name: Beta Snapshot Build
+
+on:
+  push:
+    branches: [ beta/* ] # Multiple beta branches for each version, e.g. "beta/1.0.0"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build Beta Snapshot on Java 8 (Zulu)
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 8
+          distribution: zulu
+          cache: maven
+          server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml
+          server-username: MAVEN_USERNAME # env variable for username in deploy
+          server-password: MAVEN_CENTRAL_TOKEN # env variable for token in deploy
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
+
+      # Derive the version number to set in pom.xml from the branch name
+      - name: Derive Beta Version Number
+        run: echo "DERIVED_VERSION=${GITHUB_REF_NAME##*/}-SNAPSHOT" >> $GITHUB_ENV
+
+      # Update the project version in pom.xml
+      - name: Update Version
+        run: mvn -B versions:set -DnewVersion=${{ env.DERIVED_VERSION }}
+
+      - name: Build & Publish to Apache Maven Central
+        run: mvn -B deploy
+        env:
+          MAVEN_USERNAME: willhains
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+
+      # Copy the JaCoCo results XML file to a Gist, as the data source of the "coverage" badge in README.md
+      - name: Publish JaCoCo Results
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: 2ce85915e469a4357c87467a748ae665
+          gist_description: "UDTopia JaCoCo Results"
+          file_path: ./target/site/jacoco/jacoco.xml
+
+      # Copy the PIT results XML file to a Gist, as the data source of the "test strength" badge in README.md
+      - name: Publish PIT Results
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: 403cd889045c89c1026d40e6b635d421
+          gist_description: "UDTopia PIT Results"
+          file_path: ./target/pit-reports/mutations.xml

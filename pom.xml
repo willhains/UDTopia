@@ -160,6 +160,10 @@
 							<coverageThreshold>100</coverageThreshold>
 							<timestampedReports>false</timestampedReports>
 							<jvmArgs>-ea</jvmArgs>
+							<outputFormats>
+								<outputFormat>HTML</outputFormat>
+								<outputFormat>XML</outputFormat>
+							</outputFormats>
 						</configuration>
 					</execution>
 				</executions>
