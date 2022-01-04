@@ -41,6 +41,27 @@ You can [download][releases] and use the `.jar` file directly, or [add `org.udto
 </dependency>
 ```
 
+## Features
+
+UDTopia makes it trivial to wrap a raw value in a custom class (UDT).
+For example, instead of using `String` to represent user IDs, wrap them in a `UserId` UDT:
+
+```java
+public final @Value class UserId extends PureString<UserId>
+{
+  public UserId(String id) { super(id); }
+}
+```
+
+Why do this?
+
+- A well-named UDT makes code clearer and less error-prone.
+- We can add methods to `UserId` for logic related to user IDs.
+- UDTopia's `Pure*` classes take care of the usual Java class boilerplate, like `equals`, `hashCode`, and `Comparable`.
+  More info in the [docs][pure].
+
+[pure]: docs/Pure-Value.md
+
 ## :wave: Get in Touch
 
 Have questions?
