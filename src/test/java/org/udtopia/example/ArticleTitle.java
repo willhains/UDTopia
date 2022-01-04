@@ -5,5 +5,5 @@ import org.udtopia.pure.PureString;
 
 public final @Value class ArticleTitle extends PureString<ArticleTitle>
 {
-	public ArticleTitle(final String title) { super(title); }
+	public ArticleTitle(final String title) { super(ArticleTitle::new, title); }
 }

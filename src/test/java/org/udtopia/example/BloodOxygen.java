@@ -9,7 +9,7 @@ public final @Value class BloodOxygen extends PureDouble<BloodOxygen>
 
 	public BloodOxygen(final double reading)
 	{
-		super(reading);
+		super(BloodOxygen::new, reading);
 		if (reading < MIN_BLOOD_O2 || reading > MAX_BLOOD_O2)
 		{
 			throw new IllegalArgumentException("Invalid blood oxygen: " + reading);

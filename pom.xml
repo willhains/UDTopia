@@ -332,5 +332,13 @@
 			</scope>
 		</dependency>
 
+		<!-- Apache Commons for some test cases -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.9</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 </project>

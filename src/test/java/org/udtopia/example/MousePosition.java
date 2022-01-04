@@ -8,6 +8,6 @@ public final @Value class MousePosition extends PureValue<Point, MousePosition>
 {
 	public MousePosition(final Point point)
 	{
-		super(point, p -> new Point(p.x, p.y));
+		super(MousePosition::new, point, p -> new Point(p.x, p.y));
 	}
 }

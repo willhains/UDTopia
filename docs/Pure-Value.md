@@ -21,7 +21,7 @@ UDTopia's `Pure*` base classes make it easy to wrap basic values in rich, well-n
 ```java
 public final @Value class BodyTemp extends PureDouble<BodyTemp>
 {
-  public BodyTemp(double reading) { super(reading); }
+  public BodyTemp(double reading) { super(BodyTemp::new, reading); }
 }
 ```
 
@@ -30,9 +30,25 @@ public final @Value class BodyTemp extends PureDouble<BodyTemp>
 2. Make the class `final`.
    You can also add the `@Value` annotation to document that it's a pure value.
    (Read more about that [here][roles].)
-3. Declare a constructor that takes a single argument (the raw value), and passes it to the superclass constructor.
+3. Declare a constructor that takes a single argument (the raw value); and passes a method reference to itself, and the raw value, to the superclass constructor.
 
 [roles]: Role-Annotations.md
+
+If you prefer to [expose static factory methods instead of the constructor][effective-java-1], declare it like this:
+
+```java
+public final @Value class BodyTemp extends PureDouble<BodyTemp>
+{
+  private BodyTemp(double reading) { super(BodyTemp::inCelsius, reading); }
+  public static BodyTemp inCelsius(double reading) { return new BodyTemp(reading); }
+  public static BodyTemp inFahrenheit(double reading) { return inCelsius((reading - 32.0) / 1.8); }
+}
+```
+
+The constructor/factory method reference allows methods like `map` to return new instances of your subclass.
+More about that [below](#mapping-values).
+
+[effective-java-1]: http://index-of.es/Java/Effective%20Java.pdf#page=28
 
 ### Pure Values are Immutable
 
@@ -48,7 +64,7 @@ public final @Value class MousePosition extends PureValue<Point, MousePosition>
 {
   public MousePosition(Point point)
   {
-    super(point, p -> new Point(p.x, p.y));
+    super(MousePosition::new, point, p -> new Point(p.x, p.y));
   }
 }
 ```
@@ -79,7 +95,7 @@ We should trap values outside the valid range.
 ```java
 public BodyTemp(double reading)
 {
-  super(reading);
+  super(BodyTemp::new, reading);
   if (reading < MIN_BODY_TEMP || reading > MAX_BODY_TEMP)
   {
     throw new IllegalArgumentException("Invalid body temp: " + reading);
@@ -110,7 +126,7 @@ public final @Value class BloodOxygen extends PureDouble<BloodOxygen>
 {
   public BloodOxygen(double reading)
   {
-    super(reading);
+    super(BloodOxygen::new, reading);
     if (reading < MIN_BLOOD_O2 || reading > MAX_BLOOD_O2)
     {
       throw new IllegalArgumentException("Invalid blood oxygen: " + reading);
@@ -214,3 +230,22 @@ We can use `compareTo(This)` to compare with other values of the same class.
   `isGreaterThanOrEqualTo(This)`  
   `isLessThanOrEqualTo(This)`  
   Compare two values.
+
+## Mapping Values
+
+We can operate on the raw value, producing new UDT values, without unwrapping and re-wrapping them.[^new-instance]
+
+[^new-instance]: Note: Since pure values are immutable, each `map` produces a new instance with the mapped value.
+
+```java
+final ArticleTitle title = new ArticleTitle(formInput.get("title"));
+final ArticleTitle trimmed = title.map(String::trim);
+final ArticleTitle capitalized = trimmed.map(WordUtils::capitalizeFully);
+final ArticleTitle noDot = capitalized.map(t -> t.replaceAll("\\.$", ""));
+```
+
+Or, to map the raw value and convert to another UDT, just add a constructor reference for the destination type.
+
+```java
+final UrlSlug urlSlug = noDot.map(t -> t.replaceAll("\\s", "-"), UrlSlug::new);
+```

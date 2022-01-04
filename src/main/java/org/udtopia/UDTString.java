@@ -1,6 +1,8 @@
 package org.udtopia;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 import java.util.stream.IntStream;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
@@ -13,8 +15,26 @@ import org.udtopia.assertion.Assert;
 public abstract @Value class UDTString<This extends UDTString<This>>
 	implements UDTComparable<This>, CharSequence, Supplier<String>
 {
+	// The single-argument factory of the subclass
+	private final Function<? super String, This> _factory;
+
+	/** @param factory a method reference to the factory of the implementing subclass. */
+	protected UDTString(final Function<? super String, This> factory) { _factory = factory; }
+
 	/** @return the raw value. */
 	@Override public abstract String get();
+
+	/**
+	 * Wrap the raw value in another type.
+	 *
+	 * @param factory a constructor or factory method reference for the desired type.
+	 * @param <Result> the return type.
+	 * @return the output of the factory.
+	 */
+	public final <Result> Result getAs(final Function<? super String, Result> factory)
+	{
+		return map(raw -> raw, factory);
+	}
 
 	/** @return the hash code of the raw value. */
 	@Override public final int hashCode() { return get().hashCode(); }
@@ -61,6 +81,38 @@ public abstract @Value class UDTString<This extends UDTString<This>>
 	@Override public final This subSequence(final int start, final int end)
 	{
 		return map(raw -> raw.subSequence(start, end).toString());
+	}
+
+	/**
+	 * Build a new value of this type with the raw underlying value converted by {@code mapper}.
+	 *
+	 * @param mapper the mapping function to apply to the raw underlying value.
+	 * @return a new instance of this type.
+	 */
+	public final This map(final UnaryOperator<String> mapper)
+	{
+		final String mapped = mapper.apply(get());
+		if (mapped.equals(get()))
+		{
+			@SuppressWarnings("unchecked") final This self = (This) this;
+			return self;
+		}
+		return _factory.apply(mapped);
+	}
+
+	/**
+	 * Convert to another type by applying a mapping function to the raw value and passing to a {@code factory}.
+	 *
+	 * @param mapper the mapping function to apply to the raw underlying value.
+	 * @param factory a constructor/factory of the desired result type.
+	 * @param <Result> the resulting type.
+	 * @return the result of the {@code factory} function.
+	 */
+	public final <Result> Result map(
+		final UnaryOperator<String> mapper,
+		final Function<? super String, ? extends Result> factory)
+	{
+		return factory.apply(mapper.apply(get()));
 	}
 
 	/** Compare the raw values. */

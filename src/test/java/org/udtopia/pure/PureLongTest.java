@@ -13,7 +13,9 @@ public class PureLongTest
 
 	static final @Value class Count extends PureLong<Count>
 	{
-		Count(final long rawValue) { super(rawValue); }
+		Count(final long rawValue) { super(Count::new, rawValue); }
+
+		static Count parse(final String str) { return parse(Count::new, str); }
 	}
 
 	@Test public void shouldReturnRawValue()
@@ -66,7 +68,7 @@ public class PureLongTest
 
 	static final @Value class Count2 extends PureLong<Count2>
 	{
-		Count2(final long x) { super(x); }
+		Count2(final long x) { super(Count2::new, x); }
 	}
 
 	@Test public void shouldAlwaysBeUnequalToDifferentClass()
@@ -207,6 +209,16 @@ public class PureLongTest
 		{
 			final Count x = new Count(n);
 			assertThat(x.toString(), equalTo(Long.toString(x.getAsLong())));
+		}
+	}
+
+	@Test public void shouldParseOwnToStringOutput()
+	{
+		for (final long n: _VALUES)
+		{
+			final Count x = new Count(n);
+			final String s = x.toString();
+			assertThat(Count.parse(s), is(x));
 		}
 	}
 
@@ -422,5 +434,28 @@ public class PureLongTest
 		assertThat(x.isLessThanOrEqualTo(new Count2(3)), is(false));
 		assertThat(x.isLessThanOrEqualTo(new Count2(5)), is(true));
 		assertThat(x.isLessThanOrEqualTo(new Count2(6)), is(true));
+	}
+
+	@Test public void shouldMapRawValue()
+	{
+		final Count x = new Count(2);
+		final Count y = x.map(v -> v * 3);
+		assertThat(y.getAsLong(), is(6L));
+	}
+
+	@Test public void shouldMapToIdenticalInstance()
+	{
+		final Count x = new Count(2);
+		@SuppressWarnings("PointlessArithmeticExpression") final Count y = x.map(v -> v * 1);
+		assertThat(y, is(sameInstance(x)));
+	}
+
+	@Test public void shouldConvertToAnotherPure()
+	{
+		final Count x = new Count(2);
+		final Count2 y = x.map(c -> c + 1, Count2::new);
+
+		final Count2 z = x.getAs(Count2::new);
+		assertThat(z.getAsLong(), is(equalTo(2L)));
 	}
 }

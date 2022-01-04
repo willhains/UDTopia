@@ -6,5 +6,5 @@ import org.udtopia.pure.PureValue;
 
 public final @Value class ExpiryDate extends PureValue<LocalDate, ExpiryDate>
 {
-	public ExpiryDate(final LocalDate expiry) { super(expiry); }
+	public ExpiryDate(final LocalDate expiry) { super(ExpiryDate::new, expiry); }
 }

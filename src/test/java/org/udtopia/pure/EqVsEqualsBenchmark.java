@@ -12,7 +12,7 @@ public class EqVsEqualsBenchmark extends BaseBenchmark
 
 	static final @Value class Quantity extends PureLong<Quantity>
 	{
-		Quantity(final long raw) { super(raw); }
+		Quantity(final long raw) { super(Quantity::new, raw); }
 	}
 
 	@Setup(Level.Iteration) public void generateRandomValues()

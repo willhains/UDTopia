@@ -2,6 +2,7 @@ package org.udtopia;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
 
@@ -16,12 +17,18 @@ public abstract @Value class UDTValue<Raw, This extends UDTValue<Raw, This>> imp
 	// A function to make defensive copies of the raw value
 	private final Function<? super Raw, ? extends Raw> _defensiveCopier;
 
+	// The single-argument factory of the subclass
+	private final Function<? super Raw, This> _factory;
+
 	/**
+	 * @param factory a method reference to the factory of the implementing subclass.
 	 * @param defensiveCopier a function to make deep, defensive copies of the raw value.
 	 */
 	protected UDTValue(
+		final Function<? super Raw, This> factory,
 		final Function<? super Raw, ? extends Raw> defensiveCopier)
 	{
+		_factory = factory;
 		_defensiveCopier = defensiveCopier;
 	}
 
@@ -30,6 +37,18 @@ public abstract @Value class UDTValue<Raw, This extends UDTValue<Raw, This>> imp
 
 	/** @return the raw value. */
 	@Override public final Raw get() { return _defensiveCopier.apply(rawWithoutDefensiveCopy()); }
+
+	/**
+	 * Wrap the raw value in another type.
+	 *
+	 * @param factory a constructor or factory method reference for the desired type.
+	 * @param <Result> the return type.
+	 * @return the output of the factory.
+	 */
+	public final <Result> Result getAs(final Function<? super Raw, Result> factory)
+	{
+		return map(raw -> raw, factory);
+	}
 
 	/** @return the hash code of the raw value. */
 	@Override public final int hashCode() { return rawWithoutDefensiveCopy().hashCode(); }
@@ -63,5 +82,37 @@ public abstract @Value class UDTValue<Raw, This extends UDTValue<Raw, This>> imp
 	@Override public String toString()
 	{
 		return rawWithoutDefensiveCopy().toString();
+	}
+
+	/**
+	 * Build a new value of this type with the raw underlying value converted by {@code mapper}.
+	 *
+	 * @param mapper the mapping function to apply to the raw underlying value.
+	 * @return a new instance of this type.
+	 */
+	public final This map(final Function<? super Raw, ? extends Raw> mapper)
+	{
+		final Raw mapped = mapper.apply(get());
+		if (mapped.equals(get()))
+		{
+			@SuppressWarnings("unchecked") final This self = (This) this;
+			return self;
+		}
+		return _factory.apply(mapped);
+	}
+
+	/**
+	 * Convert to another type by applying a mapping function to the raw value and passing to a {@code factory}.
+	 *
+	 * @param mapper the mapping function to apply to the raw underlying value.
+	 * @param factory a constructor/factory of the desired result type.
+	 * @param <Result> the resulting type.
+	 * @return the result of the {@code factory} function.
+	 */
+	public final <Result> Result map(
+		final UnaryOperator<Raw> mapper,
+		final Function<? super Raw, ? extends Result> factory)
+	{
+		return factory.apply(mapper.apply(get()));
 	}
 }

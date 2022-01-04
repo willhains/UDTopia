@@ -16,7 +16,7 @@ public class RawVsUDTBenchmark extends BaseBenchmark
 
 	static final @Value class Count extends PureLong<Count>
 	{
-		Count(final long raw) { super(raw); }
+		Count(final long raw) { super(Count::new, raw); }
 	}
 
 	private static final int _ZERO_RAW = 0;

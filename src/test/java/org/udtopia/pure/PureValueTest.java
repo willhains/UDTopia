@@ -5,14 +5,17 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.udtopia.Value;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 public class PureValueTest
 {
 	static final @Value class Height extends PureValue<BigDecimal, Height>
 	{
-		Height(final BigDecimal rawValue) { super(rawValue); }
+		Height(final BigDecimal rawValue) { super(Height::new, rawValue); }
 	}
 
 	@Test(expected = AssertionError.class) public void shouldTrapNullUnderlyingValue()
@@ -36,7 +39,7 @@ public class PureValueTest
 
 	static final @Value class Height2 extends PureValue<BigDecimal, Height2>
 	{
-		Height2(final BigDecimal x) { super(x); }
+		Height2(final BigDecimal x) { super(Height2::new, x); }
 	}
 
 	@Test public void shouldAlwaysBeUnequalToDifferentClass()
@@ -153,7 +156,7 @@ public class PureValueTest
 
 	static final @Value class A extends PureValue<int[], A>
 	{
-		A(final int[] a) { super(a); }
+		A(final int[] a) { super(A::new, a); }
 	}
 
 	@Test(expected = AssertionError.class) public void shouldTrapArrayAsRawValue()
@@ -161,9 +164,26 @@ public class PureValueTest
 		new A(new int[] {1});
 	}
 
+	@Test public void shouldMapRawValue()
+	{
+		final Height x = new Height(new BigDecimal("2.0"));
+		final Height y = x.map(v -> v.multiply(new BigDecimal("3.5")));
+		assertThat(y.get(), is(new BigDecimal("7.00")));
+	}
+
+	@Test public void shouldMapToIdenticalInstance()
+	{
+		final Height x = new Height(new BigDecimal("2.0"));
+		final Height y = x.map(BigDecimal.ONE::multiply);
+		assertThat(y, is(sameInstance(x)));
+	}
+
 	static final @Value class MutableWrapper extends PureValue<Point, MutableWrapper>
 	{
-		MutableWrapper(final Point rawValue) { super(rawValue, original -> new Point(original.x, original.y)); }
+		MutableWrapper(final Point rawValue)
+		{
+			super(MutableWrapper::new, rawValue, original -> new Point(original.x, original.y));
+		}
 	}
 
 	@Test public void shouldNotMutateOriginal()
@@ -171,5 +191,15 @@ public class PureValueTest
 		final Point point = new Point(3, 4);
 		new MutableWrapper(point).get().x = 5;
 		assertThat(point.x, is(3));
+	}
+
+	@Test public void shouldConvertToAnotherPure()
+	{
+		final Height x = new Height(new BigDecimal("2.0"));
+		final Height2 y = x.map(h -> h.multiply(new BigDecimal("100.0")), Height2::new);
+		assertThat(y.get(), is(equalTo(new BigDecimal("200.00"))));
+
+		final Height2 z = x.getAs(Height2::new);
+		assertThat(z.get(), is(equalTo(new BigDecimal("2.0"))));
 	}
 }

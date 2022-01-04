@@ -19,14 +19,16 @@ public abstract @Value class PureValue<Raw, This extends PureValue<Raw, This>> e
 	/**
 	 * Use this constructor when {@code Raw} is mutable.
 	 *
+	 * @param factory a method reference to the factory of the implementing subclass.
 	 * @param rawValue the raw value this object will represent.
 	 * @param defensiveCopier a function to make deep, defensive copies of the raw value.
 	 */
 	protected PureValue(
+		final Function<? super Raw, This> factory,
 		final Raw rawValue,
 		final Function<? super Raw, ? extends Raw> defensiveCopier)
 	{
-		super(defensiveCopier);
+		super(factory, defensiveCopier);
 		Assert.notNull(() -> rawValue, "Raw value must not be null");
 		Assert.not(() -> rawValue.getClass().isArray(), "Raw value must not be an array");
 		_raw = defensiveCopier.apply(rawValue);
@@ -35,11 +37,12 @@ public abstract @Value class PureValue<Raw, This extends PureValue<Raw, This>> e
 	/**
 	 * Use this constructor when {@code Raw} is immutable.
 	 *
+	 * @param factory a method reference to the factory of the implementing subclass.
 	 * @param rawValue the raw value this object will represent.
 	 */
-	protected PureValue(final Raw rawValue)
+	protected PureValue(final Function<? super Raw, This> factory, final Raw rawValue)
 	{
-		this(rawValue, Function.identity());
+		this(factory, rawValue, Function.identity());
 	}
 
 	// Internal accessor of _raw without defensive copy

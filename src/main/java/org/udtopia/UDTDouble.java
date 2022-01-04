@@ -1,6 +1,8 @@
 package org.udtopia;
 
+import java.util.function.DoubleFunction;
 import java.util.function.DoubleSupplier;
+import java.util.function.DoubleUnaryOperator;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
 
@@ -11,6 +13,12 @@ import org.udtopia.assertion.Assert;
  */
 public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements UDTNumber<This>
 {
+	// The single-argument factory of the subclass
+	private final DoubleFunction<This> _factory;
+
+	/** @param factory a method reference to the factory of the implementing subclass. */
+	protected UDTDouble(final DoubleFunction<This> factory) { _factory = factory; }
+
 	/**
 	 * If the raw value can be exactly represented by an {@code int}, convert it.
 	 *
@@ -41,6 +49,18 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 
 	/** @return the raw value. */
 	@Override public abstract double getAsDouble();
+
+	/**
+	 * Wrap the raw value in another type.
+	 *
+	 * @param factory a constructor or factory method reference for the desired type.
+	 * @param <Result> the return type.
+	 * @return the output of the factory.
+	 */
+	public final <Result> Result getAs(final DoubleFunction<Result> factory)
+	{
+		return map(raw -> raw, factory);
+	}
 
 	/**
 	 * Convert the raw value to an {@code int} without throwing.
@@ -94,6 +114,36 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 	@Override public String toString()
 	{
 		return Double.toString(getAsDouble());
+	}
+
+	/**
+	 * Build a new value of this type with the raw underlying value converted by {@code mapper}.
+	 *
+	 * @param mapper the mapping function to apply to the raw underlying value.
+	 * @return a new instance of this type.
+	 */
+	public final This map(final DoubleUnaryOperator mapper)
+	{
+		final double mapped = mapper.applyAsDouble(getAsDouble());
+		if (mapped == getAsDouble())
+		{
+			@SuppressWarnings("unchecked") final This self = (This) this;
+			return self;
+		}
+		return _factory.apply(mapped);
+	}
+
+	/**
+	 * Convert to another type by applying a mapping function to the raw value and passing to a {@code factory}.
+	 *
+	 * @param mapper the mapping function to apply to the raw underlying value.
+	 * @param factory a constructor/factory of the desired result type.
+	 * @param <Result> the resulting type.
+	 * @return the result of the {@code factory} function.
+	 */
+	public final <Result> Result map(final DoubleUnaryOperator mapper, final DoubleFunction<? extends Result> factory)
+	{
+		return factory.apply(mapper.applyAsDouble(getAsDouble()));
 	}
 
 	/** Compare the raw values. */

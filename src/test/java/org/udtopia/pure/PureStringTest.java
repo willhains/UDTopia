@@ -12,7 +12,7 @@ public class PureStringTest
 {
 	static final @Value class UserId extends PureString<UserId>
 	{
-		UserId(final String rawValue) { super(rawValue); }
+		UserId(final String rawValue) { super(UserId::new, rawValue); }
 	}
 
 	@Test(expected = AssertionError.class) public void shouldTrapNullUnderlyingValue()
@@ -41,7 +41,7 @@ public class PureStringTest
 
 	static final @Value class UserId2 extends PureString<UserId2>
 	{
-		UserId2(final String x) { super(x); }
+		UserId2(final String x) { super(UserId2::new, x); }
 	}
 
 	@Test public void shouldAlwaysBeUnequalToDifferentClass()
@@ -160,7 +160,7 @@ public class PureStringTest
 
 	static class FlagTest extends PureString<FlagTest>
 	{
-		FlagTest(final String s) { super(s); }
+		FlagTest(final String s) { super(FlagTest::new, s); }
 	}
 
 	@Test public void shouldBeSameCharSequenceAsRaw()
@@ -283,5 +283,29 @@ public class PureStringTest
 		final UserId x = new UserId("banana");
 		assertThat(x.isLessThanOrEqualTo("apple"), is(false));
 		assertThat(x.isLessThanOrEqualTo(new UserId2("apple")), is(false));
+	}
+
+	@Test public void shouldMapRawValue()
+	{
+		final UserId x = new UserId("s");
+		final UserId y = x.map(String::toUpperCase);
+		assertThat(y.get(), is("S"));
+	}
+
+	@Test public void shouldMapToIdenticalInstance()
+	{
+		final UserId x = new UserId("t");
+		final UserId y = x.map(String::toLowerCase);
+		assertThat(y, is(sameInstance(x)));
+	}
+
+	@Test public void shouldConvertToAnotherPure()
+	{
+		final UserId x = new UserId("x");
+		final UserId2 y = x.map(String::toUpperCase, UserId2::new);
+		assertThat(y.get(), is(equalTo("X")));
+
+		final UserId2 z = x.getAs(UserId2::new);
+		assertThat(z.get(), is(equalTo("x")));
 	}
 }

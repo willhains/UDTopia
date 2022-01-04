@@ -1,6 +1,8 @@
 package org.udtopia;
 
+import java.util.function.LongFunction;
 import java.util.function.LongSupplier;
+import java.util.function.LongUnaryOperator;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
 
@@ -11,6 +13,12 @@ import org.udtopia.assertion.Assert;
  */
 public abstract @Value class UDTLong<This extends UDTLong<This>> implements UDTNumber<This>
 {
+	// The single-argument factory of the subclass
+	private final LongFunction<This> _factory;
+
+	/** @param factory a method reference to the factory of the implementing subclass. */
+	protected UDTLong(final LongFunction<This> factory) { _factory = factory; }
+
 	/**
 	 * If the raw value can be exactly represented by an {@code int}, convert it.
 	 *
@@ -30,6 +38,18 @@ public abstract @Value class UDTLong<This extends UDTLong<This>> implements UDTN
 
 	/** @return the raw value as a {@code double} value. */
 	@Override public final double getAsDouble() { return getAsLong(); }
+
+	/**
+	 * Wrap the raw value in another type.
+	 *
+	 * @param factory a constructor or factory method reference for the desired type.
+	 * @param <Result> the return type.
+	 * @return the output of the factory.
+	 */
+	public final <Result> Result getAs(final LongFunction<Result> factory)
+	{
+		return map(raw -> raw, factory);
+	}
 
 	/**
 	 * Convert the raw value to an {@code int} without throwing.
@@ -72,6 +92,36 @@ public abstract @Value class UDTLong<This extends UDTLong<This>> implements UDTN
 	@Override public String toString()
 	{
 		return Long.toString(getAsLong());
+	}
+
+	/**
+	 * Build a new value of this type with the raw underlying value converted by {@code mapper}.
+	 *
+	 * @param mapper the mapping function to apply to the raw underlying value.
+	 * @return a new instance of this type.
+	 */
+	public final This map(final LongUnaryOperator mapper)
+	{
+		final long mapped = mapper.applyAsLong(getAsLong());
+		if (mapped == getAsLong())
+		{
+			@SuppressWarnings("unchecked") final This self = (This) this;
+			return self;
+		}
+		return _factory.apply(mapped);
+	}
+
+	/**
+	 * Convert to another type by applying a mapping function to the raw value and passing to a {@code factory}.
+	 *
+	 * @param mapper the mapping function to apply to the raw underlying value.
+	 * @param factory a constructor/factory of the desired result type.
+	 * @param <Result> the resulting type.
+	 * @return the result of the {@code factory} function.
+	 */
+	public final <Result> Result map(final LongUnaryOperator mapper, final LongFunction<? extends Result> factory)
+	{
+		return factory.apply(mapper.applyAsLong(getAsLong()));
 	}
 
 	/** Compare the raw values. */

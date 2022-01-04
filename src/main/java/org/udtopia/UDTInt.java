@@ -1,6 +1,8 @@
 package org.udtopia;
 
+import java.util.function.IntFunction;
 import java.util.function.IntSupplier;
+import java.util.function.IntUnaryOperator;
 import javax.annotation.Nullable;
 import org.udtopia.assertion.Assert;
 
@@ -11,6 +13,12 @@ import org.udtopia.assertion.Assert;
  */
 public abstract @Value class UDTInt<This extends UDTInt<This>> implements UDTNumber<This>
 {
+	// The single-argument factory of the subclass
+	private final IntFunction<This> _factory;
+
+	/** @param factory a method reference to the factory of the implementing subclass. */
+	protected UDTInt(final IntFunction<This> factory) { _factory = factory; }
+
 	/**
 	 * Convert a {@code long} to an {@code int} without throwing.
 	 * This method will <b>change the value</b> to fit within the range of {@code int}, without changing the sign.
@@ -31,6 +39,18 @@ public abstract @Value class UDTInt<This extends UDTInt<This>> implements UDTNum
 
 	/** @return the raw value as a {@code double} value. */
 	@Override public final double getAsDouble() { return getAsInt(); }
+
+	/**
+	 * Wrap the raw value in another type.
+	 *
+	 * @param factory a constructor or factory method reference for the desired type.
+	 * @param <Result> the return type.
+	 * @return the output of the factory.
+	 */
+	public final <Result> Result getAs(final IntFunction<Result> factory)
+	{
+		return map(raw -> raw, factory);
+	}
 
 	/** @return the hash code of the raw value. */
 	@Override public final int hashCode() { return Integer.hashCode(getAsInt()); }
@@ -64,6 +84,36 @@ public abstract @Value class UDTInt<This extends UDTInt<This>> implements UDTNum
 	@Override public String toString()
 	{
 		return Integer.toString(getAsInt());
+	}
+
+	/**
+	 * Build a new value of this type with the raw underlying value converted by {@code mapper}.
+	 *
+	 * @param mapper the mapping function to apply to the raw underlying value.
+	 * @return a new instance of this type.
+	 */
+	public final This map(final IntUnaryOperator mapper)
+	{
+		final int mapped = mapper.applyAsInt(getAsInt());
+		if (mapped == getAsInt())
+		{
+			@SuppressWarnings("unchecked") final This self = (This) this;
+			return self;
+		}
+		return _factory.apply(mapped);
+	}
+
+	/**
+	 * Convert to another type by applying a mapping function to the raw value and passing to a {@code factory}.
+	 *
+	 * @param mapper the mapping function to apply to the raw underlying value.
+	 * @param factory a constructor/factory of the desired result type.
+	 * @param <Result> the resulting type.
+	 * @return the result of the {@code factory} function.
+	 */
+	public final <Result> Result map(final IntUnaryOperator mapper, final IntFunction<? extends Result> factory)
+	{
+		return factory.apply(mapper.applyAsInt(getAsInt()));
 	}
 
 	/** Compare the raw values. */

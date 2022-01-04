@@ -49,7 +49,7 @@ For example, instead of using `String` to represent user IDs, wrap them in a `Us
 ```java
 public final @Value class UserId extends PureString<UserId>
 {
-  public UserId(String id) { super(id); }
+  public UserId(String id) { super(UserId::new, id); }
 }
 ```
 

@@ -15,7 +15,9 @@ public class PureDoubleTest
 
 	static final @Value class Height extends PureDouble<Height>
 	{
-		Height(final double rawValue) { super(rawValue); }
+		Height(final double rawValue) { super(Height::new, rawValue); }
+
+		static Height parse(final String str) { return parse(Height::new, str); }
 	}
 
 	@Test public void shouldReturnRawValue()
@@ -97,7 +99,7 @@ public class PureDoubleTest
 
 	static final @Value class Height2 extends PureDouble<Height2>
 	{
-		Height2(final double x) { super(x); }
+		Height2(final double x) { super(Height2::new, x); }
 	}
 
 	@Test public void shouldAlwaysBeUnequalToDifferentClass()
@@ -238,6 +240,16 @@ public class PureDoubleTest
 		{
 			final Height x = new Height(d);
 			assertThat(x.toString(), equalTo(Double.toString(x.getAsDouble())));
+		}
+	}
+
+	@Test public void shouldParseOwnToStringOutput()
+	{
+		for (final double d: _VALUES)
+		{
+			final Height x = new Height(d);
+			final String s = x.toString();
+			assertThat(Height.parse(s), is(x));
 		}
 	}
 
@@ -453,5 +465,29 @@ public class PureDoubleTest
 		assertThat(x.isLessThanOrEqualTo(new Height2(3.0)), is(false));
 		assertThat(x.isLessThanOrEqualTo(new Height2(5.0)), is(true));
 		assertThat(x.isLessThanOrEqualTo(new Height2(5.1)), is(true));
+	}
+
+	@Test public void shouldMapRawValue()
+	{
+		final Height x = new Height(2.0);
+		final Height y = x.map(v -> v * 3.5);
+		assertThat(y.getAsDouble(), is(7.0));
+	}
+
+	@Test public void shouldMapToIdenticalInstance()
+	{
+		final Height x = new Height(2.0);
+		@SuppressWarnings("PointlessArithmeticExpression") final Height y = x.map(v -> v * 1.0);
+		assertThat(y, is(sameInstance(x)));
+	}
+
+	@Test public void shouldConvertToAnotherPure()
+	{
+		final Height x = new Height(2.0);
+		final Height2 y = x.map(h -> h * 100.0, Height2::new);
+		assertThat(y.getAsDouble(), is(equalTo(200.0)));
+
+		final Height2 z = x.getAs(Height2::new);
+		assertThat(z.getAsDouble(), is(equalTo(2.0)));
 	}
 }
