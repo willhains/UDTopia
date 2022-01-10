@@ -3,6 +3,53 @@
 `RecycleBin` is an advanced feature to minimise GC pressure, by reusing UDT instances.
 Use it when profiling shows your app is suffering from excessive GC activity.
 
+## How to Convert a `Pure*` UDT to `Recyclable*`
+
+Let's upgrade our [`BodyTemp`][BodyTemp] UDT class to enable recycling.
+
+1. Instead of extending a `Pure*` base class, extend the equivalent `Recyclable*` base class.
+   ```diff
+   - public final @Value class BodyTemp extends PureDouble<BodyTemp>
+   + public final @Value class BodyTemp extends RecyclableDouble<BodyTemp>
+   ```
+
+2. Make the constructor private, and add a public static factory method.
+   ```diff
+   - public BodyTemp(double reading) { super(BodyTemp::new, reading); }
+   + private BodyTemp(double reading) { super(BodyTemp::new, reading); }
+   + public static BodyTemp inCelsius(double reading)
+   + {
+   +   return new BodyTemp(reading);
+   + }
+   ```
+
+3. In the constructor, change the constructor reference to a factory method reference.
+   ```diff
+   - private BodyTemp(double reading) { super(BodyTemp::new, reading); }
+   + private BodyTemp(double reading) { super(BodyTemp::inCelsius, reading); }
+   ```
+
+4. In the factory method, call `recycle(class, constructor, value)`.
+   ```diff
+   -   return new BodyTemp(reading);
+   +   return recycle(BodyTemp.class, BodyTemp::new, reading);
+   ```
+
+[BodyTemp]: Pure-Value.md#how-to-wrap-a-value
+
+Here is the result:
+
+```java
+public final @Value class BodyTemp extends RecyclableDouble<BodyTemp>
+{
+  private BodyTemp(double reading) { super(BodyTemp::inCelsius, reading); }
+  public static BodyTemp inCelsius(double reading)
+  {
+    return recycle(BodyTemp.class, BodyTemp::new, reading);
+  }
+}
+```
+
 ## How to Use a Recyclable UDT
 
 ```java
@@ -24,6 +71,11 @@ Implicitly, we **must not access** the instance after calling `discard()`.
 >   *Bad things will happen.*
 > - It's OK to not call `discard()`.
 >   The instance will just go to GC like a `Pure*`-based UDT.
+> - `Recyclable*` classes reserve a special value for the discarded state:
+>   `NaN` for double, `MIN_VALUE` for integers, and `null` for objects.
+>   These values may not be wrapped in recyclable UDTs.
+> - When assertions are enabled, UDTopia will trap incorrect `discard()` usage.
+>   Enable assertions in Dev and Test environments to catch mistakes.
 
 ## Thread Safety
 
