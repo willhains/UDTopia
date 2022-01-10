@@ -8,6 +8,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class UpperCaseTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@UpperCase class Test { }
+		final UpperCase annotation = Test.class.getAnnotation(UpperCase.class);
+		assertThat(new UpperCase.Rule(annotation), is(not(nullValue())));
+	}
+
 	final UpperCase.Rule ruleDefault = new UpperCase.Rule("");
 	final UpperCase.Rule ruleEN = new UpperCase.Rule("en");
 	final UpperCase.Rule ruleTR = new UpperCase.Rule("tr");

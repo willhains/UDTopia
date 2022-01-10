@@ -29,6 +29,13 @@ public @interface Replace
 	/** Rule to apply {@link Replace} to string values. */
 	final @Value class Rule implements StringNormalizer
 	{
+		/**
+		 * Build a {@link Replace} rule from an annotation.
+		 *
+		 * @param annotation a {@link Replace} annotation.
+		 */
+		public Rule(final Replace annotation) { this(annotation.pattern(), annotation.with()); }
+
 		private final Pattern _pattern;
 		private final String _replacement;
 

@@ -8,6 +8,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class LowerCaseTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@LowerCase class Test { }
+		final LowerCase annotation = Test.class.getAnnotation(LowerCase.class);
+		assertThat(new LowerCase.Rule(annotation), is(not(nullValue())));
+	}
+
 	final LowerCase.Rule ruleDefault = new LowerCase.Rule("");
 	final LowerCase.Rule ruleEN = new LowerCase.Rule("en");
 	final LowerCase.Rule ruleTR = new LowerCase.Rule("tr");

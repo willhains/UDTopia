@@ -7,6 +7,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class MinTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@Min(1) class Test { }
+		final Min annotation = Test.class.getAnnotation(Min.class);
+		assertThat(new Min.Rule(annotation), is(not(nullValue())));
+	}
+
 	final Min.Rule assertRule = new Min.Rule(5);
 	final Min.Rule rule = new Min.Rule(5);
 

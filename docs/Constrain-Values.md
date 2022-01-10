@@ -33,6 +33,8 @@ They push the concern of invalid data to the edges of the app, where it has to i
 
 ## Built-In Rules
 
+UDTopia includes the following built-in rules, and you can [create your own](#custom-rules).
+
 | Rule Annotation | What it Does                                                                   |
 |-----------------|--------------------------------------------------------------------------------|
 | `@Floor`        | Normalize numeric values to a minimum value.                                   |
@@ -72,3 +74,65 @@ Some rule annotations include a `when` parameter, to apply them conditionally.
   UDTopia will check the assertion status of the annotated class.
 
 [ea]: https://docs.oracle.com/cd/E19683-01/806-7930/6jgp65ikq/index.html
+
+## Custom Rules
+
+You can easily create your own rules.
+Just define an annotation, and inside it, declare a nested class implementing one or more of the rule interfaces:
+
+| Raw Type | Normalize          | Validate          |
+|----------|--------------------|-------------------|
+| `double` | `DoubleNormalizer` | `DoubleValidator` |
+| `long`   | `LongNormalizer`   | `LongValidator`   |
+| `int`    | `IntNormalizer`    | `IntValidator`    |
+| `String` | `StringNormalizer` | `StringValidator` |
+
+The nested class must have a constructor that takes an instance of the annotation.
+
+### Example 1: A Simple Normalization Rule
+
+```java
+/** Rule to replace "cool" with "kewl". */
+@Documented @Inherited @Target(TYPE) @Retention(RUNTIME)
+public @interface Kewl
+{
+  final @Value class Rule implements StringNormalizer
+  {
+    public Rule(Kewl annotation) { }
+
+    @Override public String normalize(String value)
+    {
+      return value.replace("cool", "kewl");
+    }
+  }
+}
+```
+
+### Example 2: A Validation Rule with Parameters
+
+```java
+/** Rule to validate that the value is a power of a specified base. */
+@Documented @Inherited @Target(TYPE) @Retention(RUNTIME)
+public @interface PowerOf
+{
+  double value();
+  ApplyRuleWhen when() default ALWAYS;
+
+  final @Value class Rule implements DoubleValidator, LongValidator
+  {
+    private final double _base;
+    public Rule(PowerOf ann) { _base = ann.value(); }
+
+    @Override public void validate(Class<?> c, double val) { check(c, val); }
+    @Override public void validate(Class<?> c,   long val) { check(c, val); }
+
+    void check(Class<?> target, double value)
+    {
+      if (Math.abs(Math.log(value) / Math.log(_base)) % 1.0 != 0.0)
+      {
+        throw new ValidationException(target, value + " is not a power of " + _base);
+      }
+    }
+  }
+}
+```

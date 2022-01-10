@@ -36,6 +36,13 @@ public @interface Chars
 	/** Rule to apply {@link Chars} to string values. */
 	final @Value class Rule implements StringValidator
 	{
+		/**
+		 * Build a Chars rule from an annotation.
+		 *
+		 * @param annotation a {@link Chars} annotation.
+		 */
+		public Rule(final Chars annotation) { this(annotation.value()); }
+
 		private final boolean[] _validCharMap;
 		private final String _allowedCharacters;
 

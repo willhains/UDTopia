@@ -31,6 +31,13 @@ public @interface NotMatching
 	/** Rule to apply {@link NotMatching} to string values. */
 	final @Value class Rule implements StringValidator
 	{
+		/**
+		 * Build a NotMatching rule from an annotation.
+		 *
+		 * @param annotation a {@link NotMatching} annotation.
+		 */
+		public Rule(final NotMatching annotation) { this(annotation.value()); }
+
 		private final Pattern _pattern;
 
 		Rule(final String regex) { _pattern = Pattern.compile(regex); }

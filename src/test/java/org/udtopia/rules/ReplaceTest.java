@@ -8,6 +8,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class ReplaceTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@Replace(pattern = "abc", with = "ABC") class Test { }
+		final Replace annotation = Test.class.getAnnotation(Replace.class);
+		assertThat(new Replace.Rule(annotation), is(not(nullValue())));
+	}
+
 	final Replace.Rule rule1 = new Replace.Rule("abc", "ABC");
 	final Replace.Rule rule2 = new Replace.Rule("[0-9]", "");
 	final Replace.Rule rule3 = new Replace.Rule("(\\w+)_(\\w+)", "$2 $2 $1");

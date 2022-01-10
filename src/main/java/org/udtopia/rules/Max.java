@@ -32,6 +32,13 @@ public @interface Max
 	{
 		static final int STRING_LENGTH_THRESHOLD = 16;
 
+		/**
+		 * Build a Max rule from an annotation.
+		 *
+		 * @param annotation a {@link Max} annotation.
+		 */
+		public Rule(final Max annotation) { this(annotation.value()); }
+
 		private final double _max;
 
 		Rule(final double max) { _max = max; }

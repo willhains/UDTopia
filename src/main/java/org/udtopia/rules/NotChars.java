@@ -30,6 +30,13 @@ public @interface NotChars
 	/** Rule to apply {@link NotChars} to string values. */
 	final @Value class Rule implements StringValidator
 	{
+		/**
+		 * Build a NotChars rule from an annotation.
+		 *
+		 * @param annotation a {@link NotChars} annotation.
+		 */
+		public Rule(final NotChars annotation) { this(annotation.value()); }
+
 		private final boolean[] _invalidCharMap;
 		private final String _disallowedCharacters;
 

@@ -7,6 +7,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class FloorTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@Floor(1) class Test { }
+		final Floor annotation = Test.class.getAnnotation(Floor.class);
+		assertThat(new Floor.Rule(annotation), is(not(nullValue())));
+	}
+
 	final Floor.Rule rule = new Floor.Rule(5);
 
 	@Test public void shouldAdjustIntValueBelowFloor()

@@ -26,6 +26,13 @@ public @interface Ceiling
 	/** Rule to apply {@link Ceiling} to int, long, and double values. */
 	final @Value class Rule implements IntNormalizer, LongNormalizer, DoubleNormalizer
 	{
+		/**
+		 * Build a Ceiling rule from an annotation.
+		 *
+		 * @param annotation a {@link Ceiling} annotation.
+		 */
+		public Rule(final Ceiling annotation) { this(annotation.value()); }
+
 		private final int _intCeiling;
 		private final long _longCeiling;
 		private final double _doubleCeiling;

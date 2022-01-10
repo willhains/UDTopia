@@ -30,6 +30,13 @@ public @interface LessThan
 	/** Rule to apply {@link LessThan} to int, long, and double values. */
 	final @Value class Rule implements IntValidator, LongValidator, DoubleValidator
 	{
+		/**
+		 * Build a LessThan rule from an annotation.
+		 *
+		 * @param annotation a {@link LessThan} annotation.
+		 */
+		public Rule(final LessThan annotation) { this(annotation.value()); }
+
 		private final double _bound;
 
 		Rule(final double bound) { _bound = bound; }

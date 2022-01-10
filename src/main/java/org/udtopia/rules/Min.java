@@ -30,6 +30,13 @@ public @interface Min
 	/** Rule to apply {@link Min} to int, long, double, and string values. */
 	final @Value class Rule implements IntValidator, LongValidator, DoubleValidator, StringValidator
 	{
+		/**
+		 * Build a Min rule from an annotation.
+		 *
+		 * @param annotation a {@link Min} annotation.
+		 */
+		public Rule(final Min annotation) { this(annotation.value()); }
+
 		private final double _min;
 
 		Rule(final double min) { _min = min; }

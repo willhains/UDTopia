@@ -31,6 +31,13 @@ public @interface Matching
 	/** Rule to apply {@link Matching} to string values. */
 	final @Value class Rule implements StringValidator
 	{
+		/**
+		 * Build a Matching rule from an annotation.
+		 *
+		 * @param annotation a {@link Matching} annotation.
+		 */
+		public Rule(final Matching annotation) { this(annotation.value()); }
+
 		private final Pattern _pattern;
 
 		Rule(final String regex) { _pattern = Pattern.compile(regex); }

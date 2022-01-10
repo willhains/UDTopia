@@ -7,6 +7,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class GreaterThanTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@GreaterThan(1) class Test { }
+		final GreaterThan annotation = Test.class.getAnnotation(GreaterThan.class);
+		assertThat(new GreaterThan.Rule(annotation), is(not(nullValue())));
+	}
+
 	final GreaterThan.Rule rule = new GreaterThan.Rule(5);
 
 	@Test(expected = ValidationException.class) public void shouldFailIntValueBelowMin()

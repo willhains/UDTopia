@@ -7,6 +7,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class CeilingTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@Ceiling(1) class Test { }
+		final Ceiling annotation = Test.class.getAnnotation(Ceiling.class);
+		assertThat(new Ceiling.Rule(annotation), is(not(nullValue())));
+	}
+
 	final Ceiling.Rule rule = new Ceiling.Rule(5);
 
 	@Test public void shouldAdjustIntValueAboveCeiling()

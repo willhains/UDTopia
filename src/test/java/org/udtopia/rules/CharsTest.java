@@ -7,6 +7,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class CharsTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@Chars("abc") class Test { }
+		final Chars annotation = Test.class.getAnnotation(Chars.class);
+		assertThat(new Chars.Rule(annotation), is(not(nullValue())));
+	}
+
 	final Chars.Rule rule = new Chars.Rule("ABC");
 
 	@Test public void shouldPassCompliantString()

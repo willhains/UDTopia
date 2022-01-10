@@ -8,6 +8,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class NotMatchingTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@NotMatching("abc") class Test { }
+		final NotMatching annotation = Test.class.getAnnotation(NotMatching.class);
+		assertThat(new NotMatching.Rule(annotation), is(not(nullValue())));
+	}
+
 	@Test(expected = PatternSyntaxException.class) public void shouldRejectInvalidRegex()
 	{
 		new NotMatching.Rule("(a");

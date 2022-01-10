@@ -22,6 +22,15 @@ public @interface Trim
 	/** Rule to apply {@link Trim} to string values. */
 	final @Value class Rule implements StringNormalizer
 	{
+		/**
+		 * Build a Trim rule from an annotation.
+		 *
+		 * @param annotation a {@link Trim} annotation.
+		 */
+		public Rule(final Trim annotation) { this(); }
+
+		Rule() { }
+
 		@Override public String normalize(final String value)
 		{
 			return value.trim();

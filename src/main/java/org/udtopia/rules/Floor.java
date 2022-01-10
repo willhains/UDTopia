@@ -26,6 +26,13 @@ public @interface Floor
 	/** Rule to apply {@link Floor} to int, long, and double values. */
 	final @Value class Rule implements IntNormalizer, LongNormalizer, DoubleNormalizer
 	{
+		/**
+		 * Build a Floor rule from an annotation.
+		 *
+		 * @param annotation a {@link Floor} annotation.
+		 */
+		public Rule(final Floor annotation) { this(annotation.value()); }
+
 		private final int _intFloor;
 		private final long _longFloor;
 		private final double _doubleFloor;

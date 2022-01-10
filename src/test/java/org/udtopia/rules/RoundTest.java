@@ -7,6 +7,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class RoundTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@Round class Test { }
+		final Round annotation = Test.class.getAnnotation(Round.class);
+		assertThat(new Round.Rule(annotation), is(not(nullValue())));
+	}
+
 	final Round.Rule ruleDefault = new Round.Rule(Round.DEFAULT_INCREMENT);
 	final Round.Rule ruleFraction = new Round.Rule(0.25);
 	final Round.Rule ruleMultiple = new Round.Rule(10);

@@ -7,6 +7,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class LessThanTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@LessThan(1) class Test { }
+		final LessThan annotation = Test.class.getAnnotation(LessThan.class);
+		assertThat(new LessThan.Rule(annotation), is(not(nullValue())));
+	}
+
 	final LessThan.Rule rule = new LessThan.Rule(5);
 
 	@Test(expected = ValidationException.class) public void shouldFailIntValueAboveMax()

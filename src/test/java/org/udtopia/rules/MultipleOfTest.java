@@ -7,6 +7,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class MultipleOfTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@MultipleOf(1) class Test { }
+		final MultipleOf annotation = Test.class.getAnnotation(MultipleOf.class);
+		assertThat(new MultipleOf.Rule(annotation), is(not(nullValue())));
+	}
+
 	@Test(expected = IllegalArgumentException.class) public void shouldRejectNegativeIncrement()
 	{
 		new MultipleOf.Rule(-1);

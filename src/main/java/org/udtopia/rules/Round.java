@@ -30,6 +30,13 @@ public @interface Round
 	/** Rule to apply {@link Round} to int, long, and double values. */
 	final @Value class Rule implements IntNormalizer, LongNormalizer, DoubleNormalizer
 	{
+		/**
+		 * Build a Round rule from an annotation.
+		 *
+		 * @param annotation a {@link Round} annotation.
+		 */
+		public Rule(final Round annotation) { this(annotation.toNearest()); }
+
 		private final double _increment;
 
 		Rule(final double increment) { this._increment = increment; }

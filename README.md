@@ -79,9 +79,10 @@ UDTopia's [Rule Annotations][rules] make it easy:
 public final @Value class UserId extends PureString<UserId>
 ```
 
-UDTopia comes with several [built-in rules][rule-list].
+UDTopia comes with several [built-in rules][rule-list], and you can [create your own][custom-rules].
 
 [rule-list]: docs/Constrain-Values.md#built-in-rules
+[custom-rules]: docs/Constrain-Values.md#custom-rules
 
 ## :wave: Get in Touch
 

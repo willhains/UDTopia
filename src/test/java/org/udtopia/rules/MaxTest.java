@@ -8,6 +8,13 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class MaxTest
 {
+	@Test public void shouldBuildFromAnnotation()
+	{
+		@Max(1) class Test { }
+		final Max annotation = Test.class.getAnnotation(Max.class);
+		assertThat(new Max.Rule(annotation), is(not(nullValue())));
+	}
+
 	final Max.Rule assertRule = new Max.Rule(5);
 	final Max.Rule rule = new Max.Rule(5);
 

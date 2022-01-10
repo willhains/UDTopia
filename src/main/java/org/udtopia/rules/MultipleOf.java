@@ -28,6 +28,13 @@ public @interface MultipleOf
 	/** Rule to apply {@link MultipleOf} to int, long, and double values. */
 	final @Value class Rule implements IntValidator, LongValidator
 	{
+		/**
+		 * Build a MultipleOf rule from an annotation.
+		 *
+		 * @param annotation a {@link MultipleOf} annotation.
+		 */
+		public Rule(final MultipleOf annotation) { this(annotation.value()); }
+
 		private final long _increment;
 
 		Rule(final long increment)

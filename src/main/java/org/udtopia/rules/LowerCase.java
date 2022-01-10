@@ -26,6 +26,13 @@ public @interface LowerCase
 	/** Rule to apply {@link LowerCase} to string values. */
 	final @Value class Rule implements StringNormalizer
 	{
+		/**
+		 * Build a LowerCase rule from an annotation.
+		 *
+		 * @param annotation a {@link LowerCase} annotation.
+		 */
+		public Rule(final LowerCase annotation) { this(annotation.locale()); }
+
 		private final Locale _locale;
 
 		Rule(final String locale)

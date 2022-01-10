@@ -26,6 +26,13 @@ public @interface UpperCase
 	/** Rule to apply {@link UpperCase} to string values. */
 	final @Value class Rule implements StringNormalizer
 	{
+		/**
+		 * Build a UpperCase rule from an annotation.
+		 *
+		 * @param annotation an {@link UpperCase} annotation.
+		 */
+		public Rule(final UpperCase annotation) { this(annotation.locale()); }
+
 		private final Locale _locale;
 
 		Rule(final String locale)
