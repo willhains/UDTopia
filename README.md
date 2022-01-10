@@ -18,7 +18,7 @@
 [javadoc]: https://javadoc.io/doc/org.udtopia/udtopia "Javadoc API Documentation"
 
 [badge-release]: https://shields.io/github/v/release/willhains/udtopia?display_name=tag&include_prereleases
-[releases]: https://github.com/willhains/equality/releases "UDTopia Release History"
+[releases]: https://github.com/willhains/udtopia/releases "UDTopia Release History"
 
 # UDTopia
 
