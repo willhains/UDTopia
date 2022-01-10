@@ -1,0 +1,73 @@
+# Run JMH performance micro-benchmarks and publish results to Gists
+name: Benchmark Tests
+
+on:
+  push:
+    branches:
+      - alpha
+      - beta/*
+
+jobs:
+  benchmark:
+    name: Benchmark on Java 8 (Zulu)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 8
+          distribution: zulu
+
+      - name: Build Test Classes
+        run: mvn -B dependency:build-classpath -Dmdep.outputFile=cp.txt test-compile
+
+      - name: Run Benchmarks
+        id: run-benchmark
+        run: |
+          echo "results" |
+          java -cp ./target/classes:./target/test-classes:$(cat cp.txt) org.udtopia.BaseBenchmark
+          echo "::set-output name=RESULTS_JSON::$(echo $(cat ./results/benchmarks/results.json))"
+
+      # Gists don't like slashes
+      - name: Clean Ref Name
+        id: clean-ref
+        run: echo "::set-output name=CLEAN_REF::${GITHUB_REF_NAME////-}"
+
+      # Copy the JMH results JSON file to update a Gist, as the data source of jmh.morethan.io charts
+      - name: Publish JMH Results to Permanent Gist
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: a1c976a7a3fedd8f0314ed295f5209a0
+          gist_description: "UDTopia Benchmarks ${{ github.ref_name }} #${{ github.run_number }}"
+          gist_file_name: "${{ steps.clean-ref.outputs.CLEAN_REF }} (latest).json"
+          file_path: "./results/benchmarks/results.json"
+
+      # Copy the JMH results JSON file to a new Gist, as the data source of jmh.morethan.io charts
+      - name: Publish JMH Results to Per-Run Gist
+        id: new-gist
+        run: |
+          echo "::set-output name=GIST_RESPONSE::$(echo $(
+            curl -X POST \
+              -H "Accept: applicaton/vnd.github.v3+json" \
+              -H "Authorization: bearer ${{ secrets.GIST_TOKEN }}" \
+              https://api.github.com/gists \
+              -d '{
+                "description": "UDTopia Benchmarks ${{ github.ref_name }} #${{ github.run_number }}",
+                "files": {
+                  "${{ steps.clean-ref.outputs.CLEAN_REF }} #${{ github.run_number }}.json": {
+                    "content": ${{ toJson(steps.run-benchmark.outputs.RESULTS_JSON) }}
+                  }
+                }' \
+            ))"
+
+      - name: Generate Results Links
+        run: |
+          echo "Updated latest benchmark result:"
+          echo "  https://jmh.morethan.io/?gist=a1c976a7a3fedd8f0314ed295f5209a0"
+          echo "Permalink to this run:"
+          echo "  https://jmh.morethan.io/?gist=${{ fromJson(steps.new-gist.outputs.GIST_RESPONSE).id }}"
