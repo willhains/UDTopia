@@ -3,9 +3,7 @@ name: Benchmark Tests
 
 on:
   push:
-    branches:
-      - alpha
-      - beta/*
+    branches: [ alpha, beta/* ]
 
 jobs:
   benchmark:
@@ -47,27 +45,7 @@ jobs:
           gist_file_name: "${{ steps.clean-ref.outputs.CLEAN_REF }} (latest).json"
           file_path: "./results/benchmarks/results.json"
 
-      # Copy the JMH results JSON file to a new Gist, as the data source of jmh.morethan.io charts
-      - name: Publish JMH Results to Per-Run Gist
-        id: new-gist
-        run: |
-          echo "::set-output name=GIST_RESPONSE::$(echo $(
-            curl -X POST \
-              -H "Accept: applicaton/vnd.github.v3+json" \
-              -H "Authorization: bearer ${{ secrets.GIST_TOKEN }}" \
-              https://api.github.com/gists \
-              -d '{
-                "description": "UDTopia Benchmarks ${{ github.ref_name }} #${{ github.run_number }}",
-                "files": {
-                  "${{ steps.clean-ref.outputs.CLEAN_REF }} #${{ github.run_number }}.json": {
-                    "content": ${{ toJson(steps.run-benchmark.outputs.RESULTS_JSON) }}
-                  }
-                }' \
-            ))"
-
-      - name: Generate Results Links
+      - name: Generate Results Link
         run: |
           echo "Updated latest benchmark result:"
           echo "  https://jmh.morethan.io/?gist=a1c976a7a3fedd8f0314ed295f5209a0"
-          echo "Permalink to this run:"
-          echo "  https://jmh.morethan.io/?gist=${{ fromJson(steps.new-gist.outputs.GIST_RESPONSE).id }}"

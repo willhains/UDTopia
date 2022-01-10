@@ -98,9 +98,11 @@ userId.discard();
 ```
 
 Recycling is [fast][recycle-perf] and [thread-safe][recycle-threads].
+It's built into UDTopia's `Recyclable*` base classes, and you can [use it in your own classes][custom-recycle], too.
 
 [recycle-perf]: https://jmh.morethan.io/?gist=31deb26fe4b80c5afbd24df8e9ed90f0
 [recycle-threads]: docs/Recycle-Bin.md#thread-safety
+[custom-recycle]: docs/Recycle-Bin.md#advanced-use-the-recycle-bin-directly-in-a-custom-class
 
 ## :wave: Get in Touch
 

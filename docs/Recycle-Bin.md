@@ -92,6 +92,71 @@ This will remove thread safety protection from the `recycle` method, improving p
 
 [JavaAllocBenchmark]: https://jmh.morethan.io/?gist=31deb26fe4b80c5afbd24df8e9ed90f0
 
+## Advanced: Use the Recycle Bin Directly in a Custom Class
+
+`Recyclable*` base classes provide built-in support for the recycle bin.
+You can also use the recycle bin directly to recycle instances of your own custom classes.
+
+```java
+public final @Value class Vitals implements Recyclable
+{
+  private @Nullable BodyTemp _bbt;
+  private @Nullable BloodOxygen _saO2;
+
+  private Vitals(final @Nonnull BodyTemp bbt, final @Nonnull BloodOxygen saO2)
+  {
+    Assert.notNull(() -> bbt);
+    Assert.notNull(() -> saO2);
+    _bbt = bbt;
+    _saO2 = saO2;
+  }
+
+  public static Vitals readings(final BodyTemp bbt, final BloodOxygen saO2)
+  {
+    return RecycleBin.forClass(Vitals.class).recycle(
+      discarded ->
+      {
+        discarded._bbt = bbt;
+        discarded._saO2 = saO2;
+      },
+      () -> new Vitals(bbt, saO2));
+  }
+
+  @Override public boolean isDiscarded()
+  {
+    return _bbt == null && _saO2 == null;
+  }
+
+  @Override public void discard()
+  {
+    Assert.not(this::isDiscarded, "Attempted to discard twice!");
+    _bbt = null;
+    _saO2 = null;
+  }
+
+  public BodyTemp getBodyTemp()
+  {
+    Assert.not(this::isDiscarded, "Attempted to access discarded instance!");
+    return _bbt;
+  }
+
+  public BloodOxygen getOxygenSat()
+  {
+    Assert.not(this::isDiscarded, "Attempted to access discarded instance!");
+    return _saO2;
+  }
+}
+```
+
+**Key Point:** Decide a *discard value* for each field.
+(In this example, we are using `null`, since the fields are object types.)
+The instance is available for recycling when all the fields are their discard values.
+
+> :memo:
+> We don't need to use `volatile` for these fields, since all fields contribute to determining the discarded state.
+> If we have many fields, we may prefer to use a single `volatile boolean _discarded` flag to hold the discarded state.
+> Note, however, that performance may be slower with `volatile`.
+
 ## Tuning
 
 `RecycleBin` is a leaky instance pool, by design.

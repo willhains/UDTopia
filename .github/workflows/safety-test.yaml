@@ -1,0 +1,44 @@
+# Run a test to check the safety of Recyclable.discard()
+name: Discard Safety Tests
+
+on:
+  push:
+    branches: [ alpha, beta/* ]
+
+jobs:
+  single-field:
+    name: Discard Safety Test
+    strategy:
+      fail-fast: false
+      matrix:
+        test-class:
+          - SingleField
+          - MultiField
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        jdk: [ 8, 11 ]
+        distro: [ zulu, temurin ]
+        include:
+          - os: ubuntu-latest
+            sep: ":"
+          - os: macos-latest
+            sep: ":"
+          - os: windows-latest
+            sep: ";"
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: ${{ matrix.distro }}
+
+      - name: Build Test Classes
+        run: mvn -B test-compile
+
+      - name: ${{ matrix.test-class }}
+        run: |
+          java -cp "./target/classes${{ matrix.sep }}./target/test-classes" org.udtopia.recycle.${{ matrix.test-class }}DiscardSafetyTest
