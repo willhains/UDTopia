@@ -46,6 +46,6 @@ The JMH output files are in JSON format, saved under the `results/benchmarks` di
 
 ## Measurements
 
-`BaseBenchmark` runs JMH in Throughput mode, measuring operations per microsecond.
-It uses JMH parameter defaults tuned to give reasonably consistent results in about 1.5 minutes per test method.
+`BaseBenchmark` runs JMH in Throughput mode, measuring operations per millisecond.
+It uses JMH parameter defaults tuned to give reasonably consistent results in about 1.5 minutes per `@Benchmark` method.
 You can customize any of the JMH options by adding annotations to your `*Benchmark` subclass.
