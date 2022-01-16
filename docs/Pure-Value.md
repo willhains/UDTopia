@@ -167,22 +167,24 @@ That said, if GC pressure is a problem for your app, UDTopia has an advanced [in
 
 `Pure*` classes implement [Java's supplier interfaces][supplier].
 To get the raw value, call one of the `get*` methods.
+When the conversion would change the value or overflow, the `get*` methods throw `ArithmeticException`.
+To round to the closest value, call one of the `roundTo*` methods.
 
 [supplier]: https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html#package.description
 
-| Pure Class       | Supplier Interface | Getter Method   | Type Conversion                       |
-|------------------|--------------------|-----------------|---------------------------------------|
-| `PureDouble`     | `DoubleSupplier`   | `getAsDouble()` |                                       |
-|                  | `LongSupplier`     | `getAsLong()`   | Rounds to the closest `long` value.   |
-|                  | `IntSupplier`      | `getAsInt()`    | Rounds to the closest `int` value.    |
-| `PureLong`       | `DoubleSupplier`   | `getAsDouble()` | Primitive cast (widening conversion). |
-|                  | `LongSupplier`     | `getAsLong()`   |                                       |
-|                  | `IntSupplier`      | `getAsInt()`    | Rounds to the closest `int` value.    |
-| `PureInt`        | `DoubleSupplier`   | `getAsDouble()` | Primitive cast (widening conversion). |
-|                  | `LongSupplier`     | `getAsLong()`   | Primitive cast (widening conversion). |
-|                  | `IntSupplier`      | `getAsInt()`    |                                       |
-| `PureString`     | `Supplier<String>` | `get()`         |                                       |
-| `PureValue<Raw>` | `Supplier<Raw>`    | `get()`         |                                       |
+| Pure Class       | Supplier Interface | Getter Method   | Rounding Method |
+|------------------|--------------------|-----------------|-----------------|
+| `PureDouble`     | `DoubleSupplier`   | `getAsDouble()` | -               |
+|                  | `LongSupplier`     | `getAsLong()`   | `roundToLong()` |
+|                  | `IntSupplier`      | `getAsInt()`    | `roundToInt()`  |
+| `PureLong`       | `DoubleSupplier`   | `getAsDouble()` | -               |
+|                  | `LongSupplier`     | `getAsLong()`   | -               |
+|                  | `IntSupplier`      | `getAsInt()`    | `roundToInt()`  |
+| `PureInt`        | `DoubleSupplier`   | `getAsDouble()` | -               |
+|                  | `LongSupplier`     | `getAsLong()`   | -               |
+|                  | `IntSupplier`      | `getAsInt()`    | -               |
+| `PureString`     | `Supplier<String>` | `get()`         | -               |
+| `PureValue<Raw>` | `Supplier<Raw>`    | `get()`         | -               |
 
 ### `hashCode`, `equals`, and `toString`
 
