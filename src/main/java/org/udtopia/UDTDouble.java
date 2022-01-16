@@ -29,6 +29,7 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 	 * @param string a string representation of the value.
 	 * @param <This> the UDT type to return.
 	 * @return a UDT value derived from the string value.
+	 * @throws NumberFormatException if the string does not contain a valid {@code double}.
 	 */
 	protected static <This extends UDTDouble<This>> This parse(
 		final DoubleFunction<This> factory,

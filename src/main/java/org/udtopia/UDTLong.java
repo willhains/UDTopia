@@ -31,6 +31,7 @@ public abstract @Value class UDTLong<This extends UDTLong<This>> implements UDTN
 	 * @param string a string representation of the value.
 	 * @param <This> the UDT type to return.
 	 * @return a UDT value derived from the string value.
+	 * @throws NumberFormatException if the string does not contain a valid {@code long}.
 	 */
 	protected static <This extends UDTLong<This>> This parse(
 		final LongFunction<This> factory,

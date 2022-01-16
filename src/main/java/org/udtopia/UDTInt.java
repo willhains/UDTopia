@@ -31,6 +31,7 @@ public abstract @Value class UDTInt<This extends UDTInt<This>> implements UDTNum
 	 * @param string a string representation of the value.
 	 * @param <This> the UDT type to return.
 	 * @return a UDT value derived from the string value.
+	 * @throws NumberFormatException if the string does not contain a valid {@code int}.
 	 */
 	protected static <This extends UDTInt<This>> This parse(
 		final IntFunction<This> factory,
