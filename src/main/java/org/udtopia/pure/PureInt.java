@@ -24,20 +24,5 @@ public abstract @Value class PureInt<This extends PureInt<This>> extends UDTInt<
 		_raw = applyRules(getClass(), rawValue);
 	}
 
-	/**
-	 * Parse a string value to build a UDT value.
-	 *
-	 * @param factory a method reference to the factory of the implementing subclass.
-	 * @param string a string representation of the value.
-	 * @param <This> the UDT type to return.
-	 * @return a UDT value derived from the string value.
-	 */
-	protected static <This extends PureInt<This>> This parse(
-		final IntFunction<This> factory,
-		final String string)
-	{
-		return factory.apply(Integer.parseInt(string));
-	}
-
 	@Override public final int getAsInt() { return _raw; }
 }

@@ -23,6 +23,21 @@ public abstract @Value class UDTDouble<This extends UDTDouble<This>> implements 
 	protected UDTDouble(final DoubleFunction<This> factory) { _factory = factory; }
 
 	/**
+	 * Parse a string value to build a UDT value.
+	 *
+	 * @param factory a method reference to the factory of the implementing subclass.
+	 * @param string a string representation of the value.
+	 * @param <This> the UDT type to return.
+	 * @return a UDT value derived from the string value.
+	 */
+	protected static <This extends UDTDouble<This>> This parse(
+		final DoubleFunction<This> factory,
+		final String string)
+	{
+		return factory.apply(Double.parseDouble(string));
+	}
+
+	/**
 	 * Apply the {@link DoubleRule}s annotated on the specified class.
 	 *
 	 * @param type the subclass.

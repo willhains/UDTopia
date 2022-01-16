@@ -28,21 +28,6 @@ public abstract @Value class RecyclableDouble<This extends RecyclableDouble<This
 		_raw = applyRules(getClass(), rawValue);
 	}
 
-	/**
-	 * Parse a string value to build a UDT value.
-	 *
-	 * @param factory a method reference to the factory of the implementing subclass.
-	 * @param string a string representation of the value.
-	 * @param <This> the UDT type to return.
-	 * @return a UDT value derived from the string value.
-	 */
-	protected static <This extends RecyclableDouble<This>> This parse(
-		final DoubleFunction<This> factory,
-		final String string)
-	{
-		return factory.apply(Double.parseDouble(string));
-	}
-
 	@Override public final double getAsDouble()
 	{
 		Assert.not(this::isDiscarded, "Attempted to access raw value of discarded instance!");

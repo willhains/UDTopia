@@ -24,20 +24,5 @@ public abstract @Value class PureLong<This extends PureLong<This>> extends UDTLo
 		_raw = applyRules(getClass(), rawValue);
 	}
 
-	/**
-	 * Parse a string value to build a UDT value.
-	 *
-	 * @param factory a method reference to the factory of the implementing subclass.
-	 * @param string a string representation of the value.
-	 * @param <This> the UDT type to return.
-	 * @return a UDT value derived from the string value.
-	 */
-	protected static <This extends PureLong<This>> This parse(
-		final LongFunction<This> factory,
-		final String string)
-	{
-		return factory.apply(Long.parseLong(string));
-	}
-
 	@Override public final long getAsLong() { return _raw; }
 }

@@ -25,6 +25,21 @@ public abstract @Value class UDTInt<This extends UDTInt<This>> implements UDTNum
 	protected UDTInt(final IntFunction<This> factory) { _factory = factory; }
 
 	/**
+	 * Parse a string value to build a UDT value.
+	 *
+	 * @param factory a method reference to the factory of the implementing subclass.
+	 * @param string a string representation of the value.
+	 * @param <This> the UDT type to return.
+	 * @return a UDT value derived from the string value.
+	 */
+	protected static <This extends UDTInt<This>> This parse(
+		final IntFunction<This> factory,
+		final String string)
+	{
+		return factory.apply(Integer.parseInt(string));
+	}
+
+	/**
 	 * Apply the {@link IntRule}s annotated on the specified class.
 	 *
 	 * @param type the subclass.
