@@ -206,13 +206,13 @@ We can use `compareTo(This)` to compare with other values of the same class.
 
 [Comparable]: https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html
 
-| Pure Class   | Comparable                         |
-|--------------|------------------------------------|
-| `PureDouble` | yes                                |
-| `PureLong`   | yes                                |
-| `PureInt`    | yes                                |
-| `PureString` | yes                                |
-| `PureValue`  | yes, if `implements UDTComparable` |
+| Pure Class   | implements `UDTComparable` |
+|--------------|----------------------------|
+| `PureDouble` | yes                        |
+| `PureLong`   | yes                        |
+| `PureInt`    | yes                        |
+| `PureString` | yes                        |
+| `PureValue`  | no                         |
 
 `UDTComparable` classes expose more useful methods:
 
