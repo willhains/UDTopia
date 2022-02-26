@@ -14,6 +14,16 @@ public class RoundTest
 		assertThat(new Round.Rule(annotation), is(not(nullValue())));
 	}
 
+	@Test(expected = IllegalArgumentException.class) public void shouldRejectNegativeIncrement()
+	{
+		new Round.Rule(-1);
+	}
+
+	@Test(expected = IllegalArgumentException.class) public void shouldRejectZeroIncrement()
+	{
+		new Round.Rule(0);
+	}
+
 	final Round.Rule ruleDefault = new Round.Rule(Round.DEFAULT_INCREMENT);
 	final Round.Rule ruleFraction = new Round.Rule(0.25);
 	final Round.Rule ruleMultiple = new Round.Rule(10);

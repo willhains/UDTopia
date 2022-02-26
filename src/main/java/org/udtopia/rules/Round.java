@@ -24,7 +24,10 @@ public @interface Round
 	/** The default rounding increment = {@value DEFAULT_INCREMENT}. */
 	double DEFAULT_INCREMENT = 1.0;
 
-	/** @return the rounding increment ({@value DEFAULT_INCREMENT} if omitted). */
+	/**
+	 * @return the rounding increment ({@value DEFAULT_INCREMENT} if omitted).
+	 * 	The {@link Rule} throws {@link IllegalArgumentException} if less than or equal to zero.
+	 */
 	double toNearest() default DEFAULT_INCREMENT;
 
 	/** Rule to apply {@link Round} to int, long, and double values. */
@@ -34,12 +37,17 @@ public @interface Round
 		 * Build a Round rule from an annotation.
 		 *
 		 * @param annotation a {@link Round} annotation.
+		 * @throws IllegalArgumentException if the provided increment is less than or equal to zero.
 		 */
 		public Rule(final Round annotation) { this(annotation.toNearest()); }
 
 		private final double _increment;
 
-		Rule(final double increment) { this._increment = increment; }
+		Rule(final double increment)
+		{
+			if (increment <= 0L) { throw new IllegalArgumentException("Increment must be greater than zero"); }
+			this._increment = increment;
+		}
 
 		@Override public int normalize(final int value)
 		{
