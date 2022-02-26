@@ -3,8 +3,10 @@ package org.udtopia.recycle;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.udtopia.Value;
@@ -116,7 +118,7 @@ public interface MultiFieldDiscardSafetyTest
 
 		public double finish()
 		{
-			err.println(this);
+			out.println(this);
 			return _total;
 		}
 	}
@@ -142,16 +144,25 @@ public interface MultiFieldDiscardSafetyTest
 		/** @return {@code true} if the consumer's total matches the producer's; {@code false} if there's a diff. */
 		public boolean finish(final double producerTotal)
 		{
-			final boolean totalsMatch = _total == producerTotal;
-			_executor.submit(() -> out.println(totalsMatch ? this : this + " <-- DIFF!"));
+			final Future<Boolean> match = _executor.submit(() ->
+			{
+				final boolean totalsMatch = _total == producerTotal;
+				out.println(totalsMatch ? this : this + " <-- DIFF!");
+				return totalsMatch;
+			});
 			_executor.shutdown();
-			try { if (!_executor.awaitTermination(10, SECONDS)) { err.println("Timed out waiting for termination"); } }
+			try
+			{
+				if (!_executor.awaitTermination(10, SECONDS)) { err.println("Timed out waiting for termination"); }
+				return match.get();
+			}
 			catch (final InterruptedException e)
 			{
 				err.println("Unable to shut down a consumer!");
 				Thread.currentThread().interrupt();
 			}
-			return totalsMatch;
+			catch (final ExecutionException e) { err.println("Unable to check the result: " + e); }
+			return false;
 		}
 
 		@Override public String toString() { return format("consumer: (%d) %s", _count, new BigDecimal(_total)); }
