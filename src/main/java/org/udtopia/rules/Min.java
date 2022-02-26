@@ -51,7 +51,7 @@ public @interface Min
 		{
 			if (value.length() < _min)
 			{
-				throw new ValidationException(target, "length < " + _min + ": \"" + value + "\"");
+				throw new ValidationException(target, "length < " + _min, value);
 			}
 		}
 
