@@ -46,7 +46,7 @@ public @interface NotMatching
 		{
 			if (_pattern.matcher(value).matches())
 			{
-				throw new ValidationException(target, "\"" + value + "\" matches pattern: " + _pattern);
+				throw new ValidationException(target, "matches invalid pattern " + _pattern, value);
 			}
 		}
 
