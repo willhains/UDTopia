@@ -1,7 +1,9 @@
 package org.udtopia.assertion;
 
+import java.util.concurrent.Callable;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
+import javax.annotation.Nullable;
 import org.udtopia.Value;
 
 /**
@@ -74,5 +76,42 @@ public @Value interface Assert
 			task.run();
 			return true;
 		});
+	}
+
+	/**
+	 * Assert that a block of code never throws any exception.
+	 *
+	 * @param thrownBy a lambda or method reference that the compiler thinks will throw an exception.
+	 */
+	static void noException(final ThrowingRunnable thrownBy)
+	{
+		try { thrownBy.run(); }
+		catch (final Exception e) { assert false : e.getMessage(); }
+	}
+
+	/**
+	 * Assert that a block of code never throws any exception.
+	 *
+	 * @param thrownBy a lambda or method reference that the compiler thinks will throw an exception.
+	 * @param <Return> the return value.
+	 * @return the return value of the lambda.
+	 */
+	static <Return> @Nullable Return noException(final Callable<@Nullable Return> thrownBy)
+	{
+		try { return thrownBy.call(); }
+		catch (final Exception e) { assert false : e.getMessage(); }
+		return null;
+	}
+
+	/** A task that may throw an exception. */
+	@FunctionalInterface interface ThrowingRunnable
+	{
+		/**
+		 * Perform the task.
+		 *
+		 * @throws Exception for any reason.
+		 */
+		@SuppressWarnings("RedundantThrows")
+		void run() throws Exception;
 	}
 }

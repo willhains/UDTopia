@@ -201,6 +201,9 @@
 								<outputFormat>HTML</outputFormat>
 								<outputFormat>XML</outputFormat>
 							</outputFormats>
+							<excludedClasses>
+								<excludedClass>org.udtopia.assertion.*</excludedClass>
+							</excludedClasses>
 						</configuration>
 					</execution>
 				</executions>

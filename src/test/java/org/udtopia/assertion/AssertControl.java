@@ -27,10 +27,8 @@ public @Value enum AssertControl
 	 */
 	public void forClass(final Class<?> c)
 	{
-		final boolean enableAssertions = this == ENABLE;
-
 		// Set the assertion status on the class loader, if it hasn't yet been initialized
-		c.getClassLoader().setClassAssertionStatus(c.getName(), enableAssertions);
+		c.getClassLoader().setClassAssertionStatus(c.getName(), this == ENABLE);
 
 		// Set the synthetic static field that controls assertions for the class
 		try
@@ -40,7 +38,7 @@ public @Value enum AssertControl
 			final Field modifiersField = Field.class.getDeclaredField("modifiers");
 			modifiersField.setAccessible(true);
 			modifiersField.setInt(assertionsDisabled, assertionsDisabled.getModifiers() & ~Modifier.FINAL);
-			assertionsDisabled.set(c, !enableAssertions);
+			assertionsDisabled.set(c, this == DISABLE);
 		}
 		catch (final NoSuchFieldException | IllegalAccessException ignored) { }
 	}

@@ -1,5 +1,6 @@
 package org.udtopia.assertion;
 
+import java.util.concurrent.Callable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,5 +62,33 @@ public class AssertTest
 		final Runnable task = mock(Runnable.class);
 		Assert.debug(task);
 		verify(task, times(1)).run();
+	}
+
+	@Test public void shouldNotAssertSuccessfulVoidTask() throws Exception
+	{
+		final Assert.ThrowingRunnable task = mock(Assert.ThrowingRunnable.class);
+		Assert.noException(task);
+		verify(task, times(1)).run();
+	}
+
+	@Test public void shouldNotAssertSuccessfulReturningTask() throws Exception
+	{
+		@SuppressWarnings("unchecked") final Callable<String> task = mock(Callable.class);
+		when(task.call()).thenReturn("hello");
+		assertThat(Assert.noException(task), is("hello"));
+	}
+
+	@Test(expected = AssertionError.class) public void shouldAssertUnsuccessfulVoidTask() throws Exception
+	{
+		final Assert.ThrowingRunnable task = mock(Assert.ThrowingRunnable.class);
+		doThrow(new IllegalStateException()).when(task).run();
+		Assert.noException(task);
+	}
+
+	@Test(expected = AssertionError.class) public void shouldAssertUnsuccessfulReturningTask() throws Exception
+	{
+		@SuppressWarnings("unchecked") final Callable<String> task = mock(Callable.class);
+		when(task.call()).thenThrow(new IllegalStateException());
+		Assert.noException(task);
 	}
 }
