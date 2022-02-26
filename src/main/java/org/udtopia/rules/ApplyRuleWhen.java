@@ -1,10 +1,10 @@
 package org.udtopia.rules;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
 import org.udtopia.Value;
+import org.udtopia.assertion.Assert;
 
 /**
  * When to apply a given rule.
@@ -36,16 +36,12 @@ public @Value enum ApplyRuleWhen
 		{
 			if (annotationParameter.getReturnType().equals(ApplyRuleWhen.class))
 			{
-				try
+				return Boolean.TRUE.equals(Assert.noException(() ->
 				{
 					// Apply condition
 					final ApplyRuleWhen applyRulesWhen = (ApplyRuleWhen) annotationParameter.invoke(annotation);
 					return applyRulesWhen._condition.test(annotatedClass);
-				}
-				catch (final IllegalAccessException | InvocationTargetException ignored)
-				{
-					// Ignore; this will be caught when reading the annotation parameter anyway
-				}
+				}));
 			}
 		}
 		return true;
