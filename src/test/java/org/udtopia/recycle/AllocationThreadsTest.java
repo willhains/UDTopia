@@ -2,6 +2,7 @@ package org.udtopia.recycle;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -19,6 +20,7 @@ public class AllocationThreadsTest
 		@Override public void discard() { }
 	}
 
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Test public void singleThreadShouldUseOneInstancePool() throws Exception
 	{
 		final RecycleBin<A> bin = SINGLE_THREADED.recycleBin(new RingBufferSize(1));
@@ -31,9 +33,14 @@ public class AllocationThreadsTest
 			final A a2 = thread.submit(() -> bin.recycle(System.err::println, A::new)).get();
 			assertThat(a2, is(sameInstance(a1)));
 		}
-		finally { thread.shutdown(); }
+		finally
+		{
+			thread.shutdown();
+			thread.awaitTermination(2, TimeUnit.SECONDS);
+		}
 	}
 
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Test public void multipleThreadsShouldUseSeparateInstancePools() throws Exception
 	{
 		final RecycleBin<A> bin = THREAD_LOCAL.recycleBin(_BIN_SIZE);
@@ -47,6 +54,10 @@ public class AllocationThreadsTest
 			assertThat(a2, is(not(sameInstance(a1))));
 			assertThat(thread.submit(() -> bin.recycle(System.out::println, A::new)).get(), is(sameInstance(a2)));
 		}
-		finally { thread.shutdown(); }
+		finally
+		{
+			thread.shutdown();
+			thread.awaitTermination(2, TimeUnit.SECONDS);
+		}
 	}
 }
