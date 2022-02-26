@@ -41,4 +41,4 @@ jobs:
 
       - name: ${{ matrix.test-class }}
         run: |
-          java -cp "./target/classes${{ matrix.sep }}./target/test-classes" org.udtopia.recycle.${{ matrix.test-class }}DiscardSafetyTest
+          java -ea -cp "./target/classes${{ matrix.sep }}./target/test-classes" org.udtopia.recycle.${{ matrix.test-class }}DiscardSafetyTest
