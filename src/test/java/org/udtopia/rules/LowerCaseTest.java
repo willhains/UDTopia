@@ -15,6 +15,12 @@ public class LowerCaseTest
 		assertThat(new LowerCase.Rule(annotation), is(not(nullValue())));
 	}
 
+	@Test public void shouldUseDefaultLocaleWhenLocaleInvalid()
+	{
+		final LowerCase.Rule blah = new LowerCase.Rule("blah");
+		assertThat(blah.applyTo(getClass(), "TEST"), is("test"));
+	}
+
 	final LowerCase.Rule ruleDefault = new LowerCase.Rule("");
 	final LowerCase.Rule ruleEN = new LowerCase.Rule("en");
 	final LowerCase.Rule ruleTR = new LowerCase.Rule("tr");

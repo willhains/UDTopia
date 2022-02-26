@@ -15,6 +15,12 @@ public class UpperCaseTest
 		assertThat(new UpperCase.Rule(annotation), is(not(nullValue())));
 	}
 
+	@Test public void shouldUseDefaultLocaleWhenLocaleInvalid()
+	{
+		final UpperCase.Rule blah = new UpperCase.Rule("blah");
+		assertThat(blah.applyTo(getClass(), "test"), is("TEST"));
+	}
+
 	final UpperCase.Rule ruleDefault = new UpperCase.Rule("");
 	final UpperCase.Rule ruleEN = new UpperCase.Rule("en");
 	final UpperCase.Rule ruleTR = new UpperCase.Rule("tr");
