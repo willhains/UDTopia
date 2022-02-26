@@ -1,6 +1,5 @@
 package org.udtopia.rules;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -36,92 +35,6 @@ public class MaxTest
 	@Test(expected = ValidationException.class) public void shouldFailLongString()
 	{
 		assertThat(rule.applyTo(getClass(), "123456"), is("123456"));
-	}
-
-	@Test public void shouldAbbreviateStringWhenMuchBiggerThanLimit()
-	{
-		try
-		{
-			new Max.Rule(1).applyTo(getClass(), "1234567890abcdefgh");
-			Assert.fail("Didn't throw exception");
-		}
-		catch (final ValidationException e)
-		{
-			final String valuePartOfMessage = e.getMessage().split("\"")[1];
-			assertThat(valuePartOfMessage.length(), is(1 + Max.Rule.STRING_LENGTH_THRESHOLD));
-			assertThat(valuePartOfMessage, startsWith("123"));
-			assertThat(valuePartOfMessage, containsString("..."));
-			assertThat(valuePartOfMessage, endsWith("fgh"));
-		}
-
-		try
-		{
-			new Max.Rule(2).applyTo(getClass(), "1234567890abcdefghi");
-			Assert.fail("Didn't throw exception");
-		}
-		catch (final ValidationException e)
-		{
-			final String valuePartOfMessage = e.getMessage().split("\"")[1];
-			assertThat(valuePartOfMessage.length(), is(2 + Max.Rule.STRING_LENGTH_THRESHOLD));
-			assertThat(valuePartOfMessage, startsWith("123"));
-			assertThat(valuePartOfMessage, containsString("..."));
-			assertThat(valuePartOfMessage, endsWith("ghi"));
-		}
-
-		try
-		{
-			new Max.Rule(3).applyTo(getClass(), "1234567890abcdefghij");
-			Assert.fail("Didn't throw exception");
-		}
-		catch (final ValidationException e)
-		{
-			final String valuePartOfMessage = e.getMessage().split("\"")[1];
-			assertThat(valuePartOfMessage.length(), is(3 + Max.Rule.STRING_LENGTH_THRESHOLD));
-			assertThat(valuePartOfMessage, startsWith("123"));
-			assertThat(valuePartOfMessage, containsString("..."));
-			assertThat(valuePartOfMessage, endsWith("hij"));
-		}
-
-		try
-		{
-			new Max.Rule(4).applyTo(getClass(), "1234567890abcdefghijk");
-			Assert.fail("Didn't throw exception");
-		}
-		catch (final ValidationException e)
-		{
-			final String valuePartOfMessage = e.getMessage().split("\"")[1];
-			assertThat(valuePartOfMessage.length(), is(4 + Max.Rule.STRING_LENGTH_THRESHOLD));
-			assertThat(valuePartOfMessage, startsWith("123"));
-			assertThat(valuePartOfMessage, containsString("..."));
-			assertThat(valuePartOfMessage, endsWith("ijk"));
-		}
-	}
-
-	@Test public void shouldNotAbbreviateStringWhenNotMuchBiggerThanLimit()
-	{
-		try
-		{
-			new Max.Rule(1).applyTo(getClass(), "1234567890abcdefg");
-			Assert.fail("Didn't throw exception");
-		}
-		catch (final ValidationException e)
-		{
-			final String valuePartOfMessage = e.getMessage().split("\"")[1];
-			assertThat(valuePartOfMessage.length(), is(1 + Max.Rule.STRING_LENGTH_THRESHOLD));
-			assertThat(valuePartOfMessage, is("1234567890abcdefg"));
-		}
-
-		try
-		{
-			new Max.Rule(2).applyTo(getClass(), "1234567890abcdefgh");
-			Assert.fail("Didn't throw exception");
-		}
-		catch (final ValidationException e)
-		{
-			final String valuePartOfMessage = e.getMessage().split("\"")[1];
-			assertThat(valuePartOfMessage.length(), is(2 + Max.Rule.STRING_LENGTH_THRESHOLD));
-			assertThat(valuePartOfMessage, is("1234567890abcdefgh"));
-		}
 	}
 
 	@Test public void shouldPassIntValueEqualMax()

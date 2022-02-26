@@ -30,7 +30,6 @@ public @interface Max
 	/** Rule to apply {@link Max} to int, long, double, and string values. */
 	final @Value class Rule implements IntValidator, LongValidator, DoubleValidator, StringValidator
 	{
-		static final int STRING_LENGTH_THRESHOLD = 16;
 
 		/**
 		 * Build a Max rule from an annotation.
@@ -54,19 +53,7 @@ public @interface Max
 			final int length = value.length();
 			if (length > _max)
 			{
-				final String valueInError;
-				final int valueInErrorMaxLength = (int) _max + STRING_LENGTH_THRESHOLD;
-				if (length <= valueInErrorMaxLength) { valueInError = value; }
-				else
-				{
-					final int prefixLength = valueInErrorMaxLength / 2 - 1;
-					final int suffixLength = (valueInErrorMaxLength + 1) / 2 - 2;
-					valueInError = String.join(
-						"...",
-						value.substring(0, prefixLength),
-						value.substring(length - suffixLength));
-				}
-				throw new ValidationException(target, "length > " + _max + ": \"" + valueInError + "\"");
+				throw new ValidationException(target, "length > " + _max, value);
 			}
 		}
 
