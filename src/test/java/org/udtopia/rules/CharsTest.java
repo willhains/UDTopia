@@ -1,5 +1,6 @@
 package org.udtopia.rules;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -26,22 +27,22 @@ public class CharsTest
 		assertThat(rule.applyTo(getClass(), ""), is(""));
 	}
 
-	@Test public void shouldFailStringContainingAtLeastOneDisallowedCharacter()
+	@Test(expected = ValidationException.class) public void shouldFailStringContainingDisallowedCharacter()
 	{
-		String errMsg = null;
-		try { rule.applyTo(getClass(), "acdc"); }
-		catch (final ValidationException e) { errMsg = e.getMessage(); }
-		assertThat(errMsg, is("CharsTest: \"acdc\" contains invalid characters (valid = ABC)"));
+		rule.applyTo(getClass(), "CABx");
 	}
 
-	@Test public void shouldIncludeAllowedCharactersInMessage()
+	@Test public void shouldIncludeInvalidCharacterInMessage()
 	{
-		try { rule.validate(getClass(), "bbb"); }
+		try
+		{
+			rule.validate(getClass(), "CABx");
+			Assert.fail("didn't throw exception");
+		}
 		catch (final ValidationException e)
 		{
 			final String message = e.getMessage();
-			assertThat(message, containsString("ABC"));
-			assertThat(message, containsString("bbb"));
+			assertThat(message, containsString("'x'"));
 		}
 	}
 

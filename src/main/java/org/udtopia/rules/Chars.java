@@ -59,8 +59,7 @@ public @interface Chars
 			{
 				if (!_validCharMap[c])
 				{
-					throw new ValidationException(
-						target, "\"" + value + "\" contains invalid characters (valid = " + _allowedCharacters + ")");
+					throw new ValidationException(target, "contains invalid character '" + c + "'", value);
 				}
 			}
 		}
