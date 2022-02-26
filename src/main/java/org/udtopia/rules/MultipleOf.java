@@ -19,7 +19,10 @@ import static org.udtopia.rules.ApplyRuleWhen.*;
 @Retention(RUNTIME)
 public @interface MultipleOf
 {
-	/** @return the increment by which the value must be evenly divisible. */
+	/**
+	 * @return the increment by which the value must be evenly divisible.
+	 * 	The {@link Rule} throws {@link IllegalArgumentException} if less than or equal to zero.
+	 */
 	long value();
 
 	/** @return when to apply this rule. */
@@ -32,6 +35,7 @@ public @interface MultipleOf
 		 * Build a MultipleOf rule from an annotation.
 		 *
 		 * @param annotation a {@link MultipleOf} annotation.
+		 * @throws IllegalArgumentException if the provided increment is less than or equal to zero.
 		 */
 		public Rule(final MultipleOf annotation) { this(annotation.value()); }
 

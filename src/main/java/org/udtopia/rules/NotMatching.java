@@ -5,6 +5,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import org.udtopia.Value;
 
 import static java.lang.annotation.ElementType.*;
@@ -22,7 +23,10 @@ import static org.udtopia.rules.ApplyRuleWhen.*;
 @Retention(RUNTIME)
 public @interface NotMatching
 {
-	/** @return a regular expression pattern that values must not match. */
+	/**
+	 * @return a regular expression pattern that values must not match.
+	 * 	The {@link Matching.Rule} throws {@link PatternSyntaxException} if invalid.
+	 */
 	String value();
 
 	/** @return when to apply this rule. */
@@ -35,6 +39,7 @@ public @interface NotMatching
 		 * Build a NotMatching rule from an annotation.
 		 *
 		 * @param annotation a {@link NotMatching} annotation.
+		 * @throws PatternSyntaxException if the provided regular expression pattern is invalid.
 		 */
 		public Rule(final NotMatching annotation) { this(annotation.value()); }
 

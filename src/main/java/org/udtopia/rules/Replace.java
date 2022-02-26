@@ -5,6 +5,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import org.udtopia.Value;
 
 import static java.lang.String.*;
@@ -20,7 +21,10 @@ import static java.lang.annotation.RetentionPolicy.*;
 @Retention(RUNTIME)
 public @interface Replace
 {
-	/** @return a regular expression to replace. */
+	/**
+	 * @return a regular expression to replace.
+	 * 	The {@link Rule} throws {@link PatternSyntaxException} if invalid
+	 */
 	String pattern();
 
 	/** @return the replacement string. */
@@ -33,6 +37,7 @@ public @interface Replace
 		 * Build a {@link Replace} rule from an annotation.
 		 *
 		 * @param annotation a {@link Replace} annotation.
+		 * @throws PatternSyntaxException if the provided regular expression pattern is invalid.
 		 */
 		public Rule(final Replace annotation) { this(annotation.pattern(), annotation.with()); }
 
