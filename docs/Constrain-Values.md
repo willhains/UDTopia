@@ -55,6 +55,7 @@ UDTopia includes the following built-in rules, and you can [create your own](#cu
 | `@NotChars`     | Validate string values against a set of disallowed characters.                 |
 | `@Matching`     | Validate string values against an allowed regular expression.                  |
 | `@NotMatching`  | Validate string values against a disallowed regular expression.                |
+| `@EncodableAs`  | Validate string values against an encoding character set.                      |
 
 If you have an idea for a rule annotation that would be generally useful, [let's talk](../CONTRIBUTING.md)!
 
