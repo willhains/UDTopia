@@ -50,4 +50,13 @@ public class CharsTest
 	{
 		assertThat(rule.toString(), is("@Chars(ABC)"));
 	}
+
+	@Test public void shouldMatchNonAscii()
+	{
+		final Chars.Rule rule = new Chars.Rule("é東평स");
+		rule.validate(getClass(), "é");
+		rule.validate(getClass(), "東");
+		rule.validate(getClass(), "평");
+		rule.validate(getClass(), "स");
+	}
 }
