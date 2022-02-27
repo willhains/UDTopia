@@ -156,4 +156,12 @@ public class RulesBenchmark extends BaseBenchmark
 	}
 
 	@Benchmark public static NotMatchingUDT notMatchingUDT() { return new NotMatchingUDT(RAND_STR.get()); }
+
+	@EncodableAs("US-ASCII")
+	static final @Value class AsciiUDT extends PureString<AsciiUDT>
+	{
+		AsciiUDT(final String raw) { super(AsciiUDT::new, raw); }
+	}
+
+	@Benchmark public static AsciiUDT asciiUDT() { return new AsciiUDT(RAND_STR.get()); }
 }
