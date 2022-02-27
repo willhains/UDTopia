@@ -90,7 +90,7 @@ This will remove thread safety protection from the `recycle` method, improving p
 | `discard` | thread-safe       | thread-safe                                                              |
 | `recycle` | thread-safe       | :warning: **not** thread-safe, but [slightly faster][JavaAllocBenchmark] |
 
-[JavaAllocBenchmark]: https://jmh.morethan.io/?gist=31deb26fe4b80c5afbd24df8e9ed90f0
+[JavaAllocBenchmark]: https://jmh.morethan.io/?gist=a1c976a7a3fedd8f0314ed295f5209a0#org.udtopia.recycle.JavaAllocBenchmark
 
 ## Advanced: Use the Recycle Bin Directly in a Custom Class
 

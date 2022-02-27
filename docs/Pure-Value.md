@@ -150,7 +150,7 @@ When we keep the logic close to the data it processes, it's easier to reason abo
 The JVM is excellent at optimizing and inlining at runtime.
 [Benchmarks show][RawVsUDTBenchmark] there's not much difference in throughput or latency performance between a raw value and a UDT.
 
-[RawVsUDTBenchmark]: https://jmh.morethan.io/?gist=029be1e0b0e1bf4118d239ccbdbdd1bd
+[RawVsUDTBenchmark]: https://jmh.morethan.io/?gist=a1c976a7a3fedd8f0314ed295f5209a0#org.udtopia.pure.RawVsUDTBenchmark
 
 ### But What About Garbage Collection?
 
@@ -197,7 +197,7 @@ You can override `toString()` to customize its format.
 To supplement `equals(@Nullable Object)`, there's a shortcut `eq(This)` method.
 It accepts only non-null objects of the same type, and [is faster][EqVsEqualsBenchmark] than `equals`.
 
-[EqVsEqualsBenchmark]: https://jmh.morethan.io/?gist=6178cbfecedc9eae476c524caa440851
+[EqVsEqualsBenchmark]: https://jmh.morethan.io/?gist=a1c976a7a3fedd8f0314ed295f5209a0#org.udtopia.pure.EqVsEqualsBenchmark
 
 ## Comparing Values
 

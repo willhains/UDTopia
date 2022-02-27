@@ -18,7 +18,7 @@ Instead of invoking `assert` directly, use UDTopia’s `Assert` class, like this
 `Assert` uses Java's `assert` statement internally, but it's excluded from coverage analysis.
 [Benchmarks confirm][AssertBenchmark] the performance impact of an `Assert` call is virtually zero when assertions are disabled.
 
-[AssertBenchmark]: https://jmh.morethan.io/?gist=9b439826f9f21d2cac7976a86ecd259e
+[AssertBenchmark]: https://jmh.morethan.io/?gist=a1c976a7a3fedd8f0314ed295f5209a0#org.udtopia.assertion.AssertBenchmark
 
 ## Debug Actions
 
