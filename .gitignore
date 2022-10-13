@@ -29,6 +29,9 @@
 .externalToolBuilders/
 *.launch
 
+# VS Code
+/.vscode/
+
 # Build output
 *.class
 /docs/javadoc/
