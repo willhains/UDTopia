@@ -454,7 +454,7 @@ public class PureLongTest
 	@Test public void shouldConvertToAnotherPure()
 	{
 		final Count x = new Count(2);
-		final Count2 y = x.map(c -> c + 1, Count2::new);
+		x.map(c -> c + 1, Count2::new);
 
 		final Count2 z = x.getAs(Count2::new);
 		assertThat(z.getAsLong(), is(equalTo(2L)));
