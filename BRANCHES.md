@@ -13,13 +13,13 @@ The UDTopia Git repo uses a three-level stability model for branches.
 The target branch for a pull request depends on the milestone of the related issue.
 For example, a PR to fix a bug for upcoming version 1.6.1 would merge into `beta/1.6.1`.
 
-## Bug Fixes
+## Bug Fixes and Security Patches
 
-When there's a bug, the target branch depends on which version introduced the bug.
+When there's a bug or a security vulnerability, the target branch depends on the affected version.
 Users should be able to get the bug fix as a patch version, without having to upgrade to the next major/minor version.
 This means the bug fix may spawn multiple beta versions.
 
-For example, if version 1.6.0 introduced a bug:
+For example, if version 1.6.0 introduced a bug or has a security vulnerability:
 
 | Version      | Bug Fix Version | Remarks                                 |
 |--------------|-----------------|-----------------------------------------|
