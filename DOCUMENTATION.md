@@ -1,3 +1,8 @@
+[![Links][badge-broken-links]][broken-links]
+
+[badge-broken-links]: https://github.com/willhains/udtopia/actions/workflows/broken-links.yaml/badge.svg
+[broken-links]: https://github.com/willhains/udtopia/actions/workflows/broken-links.yaml
+
 # UDTopia Documentation Overview
 
 Documentation for UDTopia can be found in:
