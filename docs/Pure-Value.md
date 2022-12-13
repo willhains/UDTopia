@@ -48,7 +48,7 @@ public final @Value class BodyTemp extends PureDouble<BodyTemp>
 The constructor/factory method reference allows methods like `map` to return new instances of your subclass.
 More about that [below](#mapping-values).
 
-[effective-java-1]: http://index-of.es/Java/Effective%20Java.pdf#page=28
+[effective-java-1]: https://kea.nu/files/textbooks/new/Effective%20Java%20%282017%2C%20Addison-Wesley%29.pdf#page=26
 
 ### Pure Values are Immutable
 
