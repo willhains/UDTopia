@@ -8,7 +8,7 @@
 [badge-dependencies]: https://shields.io/badge/dependencies-none-informational "Zero Runtime Dependencies"
 [dependencies]: #how-to-use
 
-[badge-build-beta]: https://shields.io/github/workflow/status/willhains/udtopia/Beta%20Snapshot%20Build?label=beta+build
+[badge-build-beta]: https://shields.io/github/actions/workflow/status/willhains/udtopia/build-beta.yml?label=beta+build&branch=beta/1.0.0
 [build-beta]: https://github.com/willhains/UDTopia/actions/workflows/build-beta.yml "Beta Build Status"
 
 [badge-coverage]: https://shields.io/badge/dynamic/xml?url=https://gist.githubusercontent.com/willhains/2ce85915e469a4357c87467a748ae665/raw/jacoco.xml&label=coverage&query=round%28%2Freport%2Fcounter%5B%40type%3D%22COMPLEXITY%22%5D%2F%40covered%2A100%20div%20sum%28%2Freport%2Fcounter%5B%40type%3D%22COMPLEXITY%22%5D%2F%40%2A%5Bname%28%29%3D%27covered%27%20or%20name%28%29%3D%27missed%27%5D%29%29&suffix=% "JUnit Test Coverage by JaCoCo"
