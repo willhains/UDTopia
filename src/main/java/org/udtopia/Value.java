@@ -33,8 +33,8 @@ import static java.lang.annotation.RetentionPolicy.*;
 // Allow generic @Value types to require @Value type parameters
 @Target({TYPE, TYPE_PARAMETER, TYPE_USE})
 
-// Allow runtime access for assertions
-@Retention(RUNTIME)
+// Discard at compile time
+@Retention(SOURCE)
 
 // When a supertype is declared @Value, all subtypes must also be @Value
 @Inherited
