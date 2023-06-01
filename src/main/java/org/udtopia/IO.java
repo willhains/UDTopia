@@ -33,8 +33,8 @@ import static java.lang.annotation.RetentionPolicy.*;
 // Only interfaces, enums, and classes
 @Target({TYPE, TYPE_USE})
 
-// Allow runtime access for assertions
-@Retention(RUNTIME)
+// Discard at compile time
+@Retention(SOURCE)
 
 // When a supertype is declared @IO, all subtypes are implicitly also @IO
 @Inherited
