@@ -33,7 +33,7 @@ jobs:
       # Gists don't like slashes
       - name: Clean Ref Name
         id: clean-ref
-        run: echo "::set-output name=CLEAN_REF::${GITHUB_REF_NAME////-}"
+        run: echo "CLEAN_REF=${GITHUB_REF_NAME////-}" >> $GITHUB_ENV
 
       # Copy the JMH results JSON file to update a Gist, as the data source of jmh.morethan.io charts
       - name: Publish JMH Results to Permanent Gist
@@ -42,7 +42,7 @@ jobs:
           token: ${{ secrets.GIST_TOKEN }}
           gist_id: a1c976a7a3fedd8f0314ed295f5209a0
           gist_description: "UDTopia Benchmarks ${{ github.ref_name }} #${{ github.run_number }}"
-          gist_file_name: "${{ steps.clean-ref.outputs.CLEAN_REF }} (latest).json"
+          gist_file_name: "${{ env.CLEAN_REF }} (latest).json"
           file_path: "./results/benchmarks/results.json"
 
       - name: Generate Results Link
