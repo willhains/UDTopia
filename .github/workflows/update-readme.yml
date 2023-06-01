@@ -38,4 +38,4 @@ jobs:
           committer_name: GitHub Actions
           committer_email: actions@github.com
           add: .
-          message: "Update version in README."
+          message: "${{ env.NEW_VERSION }}: Update version in README."
