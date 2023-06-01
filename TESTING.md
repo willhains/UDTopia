@@ -36,10 +36,10 @@ Instead of invoking `assert` directly, use UDTopia’s `Assert` class, like this
 
 | Using `assert`                        | Using `Assert`                              |
 |---------------------------------------|---------------------------------------------|
-| `assert str.startsWith(“A”)`          | `Assert.that(() -> str.startsWith(“A”))`    |
+| `assert str.startsWith("A")`          | `Assert.that(() -> str.startsWith("A"))`    |
 | `assert !str.isEmpty()`               | `Assert.not(str::isEmpty)`                  |
 | `assert str != null`                  | `Assert.notNull(() -> str)`                 |
-| `assert str != null : “str is null!”` | `Assert.notNull(() -> str, “str is null!”)` |
+| `assert str != null : "str is null!"` | `Assert.notNull(() -> str, "str is null!")` |
 
 More details [in the docs](docs/Assert-and-AssertControl.md).
 
@@ -62,7 +62,7 @@ public class StringBenchmark extends BaseBenchmark
 {
   public static void main(String[] args) { runBenchmark(args); }
   @Benchmark public boolean stringEmpty() { return RAND_STR.get().isEmpty(); }
-  @Benchmark public boolean stringPrefix() { return RAND_STR.get().startsWith(“A”); }
+  @Benchmark public boolean stringPrefix() { return RAND_STR.get().startsWith("A"); }
   @Benchmark public boolean numberEven() { return RAND.nextInt() % 2 == 0; }
 }
 ```

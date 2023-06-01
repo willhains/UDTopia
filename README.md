@@ -76,7 +76,7 @@ UDTopia's [Rule Annotations][rules] make it easy:
 
 ```java
 @Trim // trim whitespace from start & end
-@Chars(LETTERS + DIGITS + “_”) // allowed chars
+@Chars(LETTERS + DIGITS + "_") // allowed chars
 @Min(2) @Max(18) // allowed length
 @LowerCase // convert to lowercase
 public final @Value class UserId extends PureString<UserId>
