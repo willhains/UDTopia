@@ -40,7 +40,7 @@ You can [download][releases] and use the `.jar` file directly, or [add `org.udto
 <dependency>
   <groupId>org.udtopia</groupId>
   <artifactId>udtopia</artifactId>
-  <version>RELEASE <!-- sub for real version --></version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
