@@ -28,7 +28,6 @@ jobs:
         run: |
           echo "results" |
           java -cp ./target/classes:./target/test-classes:$(cat cp.txt) org.udtopia.BaseBenchmark
-          echo "::set-output name=RESULTS_JSON::$(echo $(cat ./results/benchmarks/results.json))"
 
       # Gists don't like slashes
       - name: Clean Ref Name
