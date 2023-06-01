@@ -34,7 +34,8 @@ UDTopia includes four annotations to document the roles of each class:
 - `@ThreadSafe`
 
 These annotations don't do anything at runtime.
-They're just a nice way to categorise classes by which of the above roles they perform.
+They are discarded by the compiler.
+They're just a nice way to categorize classes by which of the above roles they perform.
 
 Sometimes, a class may perform more than one of these roles.
 Use multiple annotations to indicate this, and as a reminder to try to separate them.
