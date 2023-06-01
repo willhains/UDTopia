@@ -37,6 +37,7 @@
 			<properties>
 				<picUrl>https://gravatar.com/avatar/b17291c4923439acd2b117a327feb218</picUrl>
 				<twitter>willhains</twitter>
+				<mastodon>willhains@mastodon.social</mastodon>
 			</properties>
 		</developer>
 	</developers>

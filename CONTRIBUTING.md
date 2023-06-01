@@ -27,9 +27,9 @@ In fact, most communication about the project is best done through issues.[^not-
 [^not-issues]: One notable exception where issues are *not* appropriate: abuse reports. 
   Read the [code of conduct](CODE_OF_CONDUCT.md) for how to escalate.
 
-For informal conversations, send a tweet or DM to [@UDTopia_Java][twitter].
+For informal conversations, send a toot or DM to [@udtopia@jvm.social][mastodon].
 
-[twitter]: https://twitter.com/UDTopia_Java
+[mastodon]: https://jvm.social/@udtopia
 
 All discourse, in the issue tracker or elsewhere, is subject to the [code of conduct](CODE_OF_CONDUCT.md).
 
