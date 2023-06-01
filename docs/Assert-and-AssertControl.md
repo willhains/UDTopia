@@ -8,12 +8,12 @@ Instead of invoking `assert` directly, use UDTopia’s `Assert` class, like this
 
 | Using `assert`                                  | Using `Assert`                                             |
 |-------------------------------------------------|------------------------------------------------------------|
-| `assert str.startsWith(“A”)`                    | `Assert.that(() -> str.startsWith(“A”))`                   |
-| `assert str.startsWith(“A”) : "missing prefix"` | `Assert.that(() -> str.startsWith(“A”), "missing prefix")` |
+| `assert str.startsWith("A")`                    | `Assert.that(() -> str.startsWith("A"))`                   |
+| `assert str.startsWith("A") : "missing prefix"` | `Assert.that(() -> str.startsWith("A"), "missing prefix")` |
 | `assert !str.isEmpty()`                         | `Assert.not(str::isEmpty)`                                 |
 | `assert !str.isEmpty() : "empty string"`        | `Assert.not(str::isEmpty, "empty string")`                 |
 | `assert str != null`                            | `Assert.notNull(() -> str)`                                |
-| `assert str != null : “str is null!”`           | `Assert.notNull(() -> str, “str is null!”)`                |
+| `assert str != null : "str is null!"`           | `Assert.notNull(() -> str, "str is null!")`                |
 
 `Assert` uses Java's `assert` statement internally, but it's excluded from coverage analysis.
 [Benchmarks confirm][AssertBenchmark] the performance impact of an `Assert` call is virtually zero when assertions are disabled.

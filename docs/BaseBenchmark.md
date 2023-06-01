@@ -17,7 +17,7 @@ public class StringBenchmark extends BaseBenchmark
 {
   public static void main(String[] args) { runBenchmark(args); }
   @Benchmark public boolean stringEmpty() { return RAND_STR.get().isEmpty(); }
-  @Benchmark public boolean stringPrefix() { return RAND_STR.get().startsWith(“A”); }
+  @Benchmark public boolean stringPrefix() { return RAND_STR.get().startsWith("A"); }
   @Benchmark public boolean numberEven() { return RAND.nextInt() % 2 == 0; }
 }
 ```
