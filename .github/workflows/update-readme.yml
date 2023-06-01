@@ -1,0 +1,30 @@
+# Update the version number in README.md
+name: Update Version in README
+
+on:
+  push:
+    branches: [ beta/* ] # Multiple beta branches for each version, e.g. "beta/1.0.0"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update README
+        uses: MathieuSoysal/file-updater-for-release@v1.0.3
+        with:
+          files: README.md
+          prefix: "<version>"
+
+      - name: Push Changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+          add: .
+          message: "Update version in README."
