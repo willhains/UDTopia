@@ -14,12 +14,23 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.ref }}
+
+      - name: Get Version Numbers
+        id: get-versions
+        run: |
+          echo "OLD_VERSION=$(git tag | tail -1 | sed 's_^v__')" >> $GITHUB_ENV
+          echo "NEW_VERSION=$(git branch --show-current | sed 's_^beta/__')" >> $GITHUB_ENV
 
       - name: Update README
         uses: MathieuSoysal/file-updater-for-release@v1.0.3
         with:
           files: README.md
+          old-version: ${{ env.OLD_VERSION }}
+          version: ${{ env.NEW_VERSION }}
           prefix: "<version>"
+          suffix: "</version>"
+          with-checkout: false
 
       - name: Push Changes
         uses: EndBug/add-and-commit@v9
