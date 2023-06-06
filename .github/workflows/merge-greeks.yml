@@ -1,0 +1,58 @@
+# Merge beta branches from older to newer, and finally into alpha.
+name: Merge Greeks
+
+on:
+  issues:
+    types: [ closed ]
+
+jobs:
+  find-greeks:
+    runs-on: ubuntu-latest
+    name: Find Greek Branches
+
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - id: matrix
+        run: git branch --list 'beta/*' | sort --version-sort
+
+  merge-beta:
+    needs: [ find-greeks ]
+    runs-on: ubuntu-latest
+    name: Merge Beta Branches
+
+    strategy:
+      matrix:
+        value: ${{ fromJson(needs.find-greeks.outputs.matrix) }}
+
+    steps:
+      - name: Merge Beta Pair
+        if: ${{ env.PREV_GREEK }} != ""
+        uses: devmasx/merge-branch@v1.4
+        with:
+          type: now
+          from_branch: ${{ env.PREV_GREEK }}
+          target_branch: ${{ matrix.value }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remember Previous Beta
+        run: echo "PREV_GREEK=${{ matrix.value }}" >> $GITHUB_ENV
+
+  merge-alpha:
+    needs: [ merge-beta ]
+    runs-on: ubuntu-latest
+    name: Merge Beta to Alpha
+
+    steps:
+      - name: Merge Beta-Alpha Pair
+        if: ${{ env.PREV_GREEK }} != ""
+        uses: devmasx/merge-branch@v1.4
+        with:
+          type: now
+          from_branch: ${{ env.PREV_GREEK }}
+          target_branch: alpha
+          github_token: ${{ secrets.GITHUB_TOKEN }}
