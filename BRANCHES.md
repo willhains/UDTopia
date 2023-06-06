@@ -6,7 +6,7 @@ The UDTopia Git repo uses a three-level stability model for branches.
 |--------------|----------------------------------|-----------------------------------------|
 | `alpha`      | Least stable                     | Features for future releases.           |
 | `beta/*.*.*` | Stable, but not production-ready | Stabilize the next release version.     |
-| `released`   | Production-ready                 | Released version, available on Central. |
+| `stable`     | Production-ready                 | Released version, available on Central. |
 
 ## Pull Requests
 
