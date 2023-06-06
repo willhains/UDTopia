@@ -26,13 +26,9 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
           gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
 
-      # Derive the version number to set in pom.xml from the release name
-      - name: Derive Beta Version Number
-        run: echo "DERIVED_VERSION=${{ github.event.release.name }}" >> $GITHUB_ENV
-
       # Update the project version in pom.xml
       - name: Update Version
-        run: mvn -B versions:set -DnewVersion=${{ env.DERIVED_VERSION }}
+        run: mvn -B versions:set -DnewVersion=${{ github.event.release.name }}
 
       - name: Build & Publish to Apache Maven Central
         run: mvn -B deploy
