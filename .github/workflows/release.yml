@@ -6,7 +6,7 @@ on:
     types: [ published ] # Don't publish draft releases
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     name: Build Release Version on Java 8 (Zulu)
 
@@ -42,3 +42,20 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ${{ github.workspace }}/target/*.jar
+
+      # Merge beta into stable
+      - name: Merge beta/${{ github.event.release.name }} → stable
+        uses: devmasx/merge-branch@v1.4
+        with:
+          type: now
+          from_branch: beta/${{ github.event.release.name }}
+          target_branch: stable
+          message: Merge branch 'beta/${{ github.event.release.name }} into stable
+          github_token: ${{　secrets.GITHUB_TOKEN　}}
+
+      # Delete beta branch
+      - name: Delete beta/${{ github.event.release.name }}
+        uses: dawidd6/action-delete-branch@v3
+        with:
+          github_token: ${{　secrets.GITHUB_TOKEN　}}
+          branches: beta/${{ github.event.release.name }}
