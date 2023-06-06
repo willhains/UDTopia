@@ -2,6 +2,7 @@
 name: Merge Greeks
 
 on:
+  workflow_dispatch:
   issues:
     types: [ closed ]
 
