@@ -44,6 +44,7 @@ UDTopia includes the following built-in rules, and you can [create your own](#cu
 | `@UpperCase`    | Normalize string values to upper case.                                         |
 | `@Replace`      | Normalize string values by replacing substrings matching a regular expression. |
 | `@Trim`         | Normalize string values by trimming whitespace from the beginning and end.     |
+| `@Truncate`     | Normalize string values by truncating to a maximum size.                       |
 | `@Min`          | Validate numeric values against a minimum allowed value.                       |
 |                 | Validate string values against a minimum allowed length.                       |
 | `@Max`          | Validate numeric values against a maximum allowed value.                       |
