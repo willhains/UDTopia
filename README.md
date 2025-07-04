@@ -75,8 +75,8 @@ UDTopia's [Rule Annotations][rules] make it easy:
 [rules]: docs/Constrain-Values.md
 
 ```java
-@Trim // trim whitespace from start & end
-@Chars(LETTERS + DIGITS + “_”) // allowed chars
+@Trim // trim whitespace from start and end
+@Chars(LETTERS + DIGITS + "_") // allowed chars
 @Min(2) @Max(18) // allowed length
 @LowerCase // convert to lowercase
 public final @Value class UserId extends PureString<UserId>
