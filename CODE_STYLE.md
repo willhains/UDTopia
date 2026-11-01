@@ -42,6 +42,8 @@ In the meantime, here are some key points:
 - **Private members begin with an underscore.**
   This includes constants, fields, methods, and nested types.
   The JVM-defined `serialVersionUID` field is the only exception.
+  After the underscore, follow the usual Java naming conventions:
+  `_UPPER_SNAKE_CASE` for constants, `_UpperCamelCase` for types, and `_lowerCamelCase` for fields and methods.
 
 [allman]: https://en.wikipedia.org/wiki/Indentation_style#Allman_style
 
