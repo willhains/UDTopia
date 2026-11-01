@@ -40,7 +40,7 @@ public @Mutable interface RecycleBin<R extends Recyclable>
 	 *
 	 * @see #forClass(Class) method to avoid having to cast the return value.
 	 */
-	ClassValue<RecycleBin<?>> FOR_CLASS = new @ThreadSafe @Mutable ClassValue<RecycleBin<?>>()
+	@ThreadSafe @Mutable ClassValue<RecycleBin<?>> FOR_CLASS = new ClassValue<RecycleBin<?>>()
 	{
 		@Override protected RecycleBin<?> computeValue(final Class<?> type)
 		{

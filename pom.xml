@@ -49,6 +49,7 @@
 	</scm>
 
 	<properties>
+		<checkstyle.version>14.4.0</checkstyle.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,6 +57,24 @@
 
 	<build>
 		<plugins>
+
+			<!-- Enforce Java Code Style -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.6.0</version>
+				<configuration>
+					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${checkstyle.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 
 			<!-- Generate package-info.java files -->
 			<!-- https://github.com/willhains/package-info-maven-plugin -->
@@ -267,6 +286,35 @@
 
 		</plugins>
 	</build>
+
+	<profiles>
+
+		<!-- Check code style in every build, where the JDK can run Checkstyle -->
+		<profile>
+			<id>checkstyle</id>
+			<activation>
+				<jdk>[21,)</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>check-code-style</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
 
 	<distributionManagement>
 		<snapshotRepository>

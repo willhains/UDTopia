@@ -9,7 +9,7 @@ public class AssertControlTest
 	@Before @After public void resetAssertions()
 	{
 		AssertControl.ENABLE.forClass(getClass());
-		AssertControl.DISABLE.forClass(NonAssert.class);
+		AssertControl.DISABLE.forClass(_NonAssert.class);
 	}
 
 	@Test(expected = AssertionError.class) public void shouldAssertFromJavaAssertStatement()
@@ -24,20 +24,20 @@ public class AssertControlTest
 		assert false : "Java assert statement - NOT expected";
 	}
 
-	private static final class NonAssert
+	private static final class _NonAssert
 	{
-		NonAssert() { assert false : "NonAssert"; }
+		_NonAssert() { assert false : "NonAssert"; }
 	}
 
 	@SuppressWarnings("JUnitTestMethodWithNoAssertions")
 	@Test public void shouldSkipAssert()
 	{
-		new NonAssert();
+		new _NonAssert();
 	}
 
 	@Test(expected = AssertionError.class) public void shouldEnableAssertionStatus()
 	{
-		AssertControl.ENABLE.forClass(NonAssert.class);
-		new NonAssert();
+		AssertControl.ENABLE.forClass(_NonAssert.class);
+		new _NonAssert();
 	}
 }

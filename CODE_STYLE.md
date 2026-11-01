@@ -8,13 +8,24 @@ These might not be what you're used to.
 Code formatting is a tedious and error-prone job, best left to automation.
 To minimize human effort, the repo includes:
 
+- [Checkstyle][checkstyle] configuration, enforced by continuous integration.
 - Config for [code style][style] and [inspections][inspections], for [IntelliJ IDEA][idea] users.
 - An [EditorConfig file][editorconfig], for other editors and IDEs.
 
+[checkstyle]: config/checkstyle/checkstyle.xml
 [idea]: https://www.jetbrains.com/idea/
 [style]: .idea/codeStyles/codeStyleConfig.xml
 [inspections]: .idea/inspectionProfiles/Project_Default.xml
 [editorconfig]: .editorconfig
+
+Maven builds on JDK 21 or later check code style automatically, before compiling.
+To run only the style check:
+
+```shell
+mvn checkstyle:check
+```
+
+Checkstyle needs JDK 21 or later, but the project's compiled output still targets Java 8.
 
 ## Java Code Style
 
@@ -31,6 +42,9 @@ In the meantime, here are some key points:
 
 - **Private members begin with an underscore.**
   This includes constants, fields, methods, and nested types.
+  The JVM-defined `serialVersionUID` field is the only exception.
+  After the underscore, follow the usual Java naming conventions:
+  `_UPPER_SNAKE_CASE` for constants, `_UpperCamelCase` for types, and `_lowerCamelCase` for fields and methods.
 
 [allman]: https://en.wikipedia.org/wiki/Indentation_style#Allman_style
 

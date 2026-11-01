@@ -1,0 +1,26 @@
+name: Checkstyle
+
+on:
+  pull_request:
+  push:
+    branches: [ alpha, beta/* ]
+  workflow_dispatch:
+
+jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
+    name: Check Java Code Style
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: zulu
+          cache: maven
+
+      - name: Run Checkstyle
+        run: mvn -B checkstyle:check
