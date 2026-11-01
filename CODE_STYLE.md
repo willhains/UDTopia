@@ -8,13 +8,23 @@ These might not be what you're used to.
 Code formatting is a tedious and error-prone job, best left to automation.
 To minimize human effort, the repo includes:
 
+- [Checkstyle][checkstyle] configuration, enforced by continuous integration.
 - Config for [code style][style] and [inspections][inspections], for [IntelliJ IDEA][idea] users.
 - An [EditorConfig file][editorconfig], for other editors and IDEs.
 
+[checkstyle]: config/checkstyle/checkstyle.xml
 [idea]: https://www.jetbrains.com/idea/
 [style]: .idea/codeStyles/codeStyleConfig.xml
 [inspections]: .idea/inspectionProfiles/Project_Default.xml
 [editorconfig]: .editorconfig
+
+Run Checkstyle with JDK 21 or later:
+
+```shell
+mvn checkstyle:check
+```
+
+The project's compiled output still targets Java 8.
 
 ## Java Code Style
 
@@ -31,6 +41,7 @@ In the meantime, here are some key points:
 
 - **Private members begin with an underscore.**
   This includes constants, fields, methods, and nested types.
+  The JVM-defined `serialVersionUID` field is the only exception.
 
 [allman]: https://en.wikipedia.org/wiki/Indentation_style#Allman_style
 
