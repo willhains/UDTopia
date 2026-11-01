@@ -18,13 +18,14 @@ To minimize human effort, the repo includes:
 [inspections]: .idea/inspectionProfiles/Project_Default.xml
 [editorconfig]: .editorconfig
 
-Run Checkstyle with JDK 21 or later:
+Maven builds on JDK 21 or later check code style automatically, before compiling.
+To run only the style check:
 
 ```shell
 mvn checkstyle:check
 ```
 
-The project's compiled output still targets Java 8.
+Checkstyle needs JDK 21 or later, but the project's compiled output still targets Java 8.
 
 ## Java Code Style
 
