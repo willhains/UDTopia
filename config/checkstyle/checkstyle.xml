@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+	"-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+	"https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+	<property name="charset" value="UTF-8"/>
+	<property name="tabWidth" value="4"/>
+
+	<!-- Indentation must start with tabs. A leading space is allowed for top-level block-comment stars. -->
+	<module name="RegexpMultiline">
+		<property name="fileExtensions" value="java"/>
+		<property name="format" value="^ +[^ *]"/>
+		<property name="message" value="Indent with tabs, not spaces."/>
+	</module>
+
+	<module name="TreeWalker">
+		<!-- Allman braces, with compact blocks allowed when the whole block is on one line. -->
+		<module name="LeftCurly">
+			<property name="option" value="nl_or_singleline"/>
+		</module>
+		<module name="RightCurly">
+			<property name="option" value="alone_or_singleline"/>
+			<property name="tokens" value="LITERAL_TRY,LITERAL_CATCH,LITERAL_FINALLY,LITERAL_IF,LITERAL_ELSE,CLASS_DEF,METHOD_DEF,CTOR_DEF,LITERAL_FOR,LITERAL_WHILE,LITERAL_DO,STATIC_INIT,INSTANCE_INIT,ANNOTATION_DEF,ENUM_DEF,INTERFACE_DEF,LITERAL_SWITCH,LITERAL_CASE,LITERAL_DEFAULT"/>
+		</module>
+		<module name="Indentation"/>
+
+		<!-- Private members begin with an underscore. -->
+		<module name="MemberName">
+			<property name="format" value="^_.+$"/>
+			<property name="applyToPublic" value="false"/>
+			<property name="applyToProtected" value="false"/>
+			<property name="applyToPackage" value="false"/>
+		</module>
+		<module name="StaticVariableName">
+			<property name="format" value="^_.+$"/>
+			<property name="applyToPublic" value="false"/>
+			<property name="applyToProtected" value="false"/>
+			<property name="applyToPackage" value="false"/>
+		</module>
+		<module name="ConstantName">
+			<!-- serialVersionUID is a name defined by Java serialization. -->
+			<property name="format" value="^(?:_.+|serialVersionUID)$"/>
+			<property name="applyToPublic" value="false"/>
+			<property name="applyToProtected" value="false"/>
+			<property name="applyToPackage" value="false"/>
+		</module>
+		<module name="MethodName">
+			<property name="format" value="^_.+$"/>
+			<property name="applyToPublic" value="false"/>
+			<property name="applyToProtected" value="false"/>
+			<property name="applyToPackage" value="false"/>
+		</module>
+		<module name="TypeName">
+			<property name="format" value="^_.+$"/>
+			<property name="applyToPublic" value="false"/>
+			<property name="applyToProtected" value="false"/>
+			<property name="applyToPackage" value="false"/>
+		</module>
+	</module>
+</module>
