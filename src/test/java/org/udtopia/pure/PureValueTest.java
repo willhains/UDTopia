@@ -189,7 +189,8 @@ public class PureValueTest
 	@Test public void shouldNotMutateOriginal()
 	{
 		final Point point = new Point(3, 4);
-		new MutableWrapper(point).get().x = 5;
+		final MutableWrapper wrapper = new MutableWrapper(point);
+		wrapper.get().x = 5;
 		assertThat(point.x, is(3));
 	}
 
